@@ -760,4 +760,438 @@
         }
 
         function showView(viewName) {
-            const views = ['homeView', 'customerAuth', 'employeeAuth', '
+            const views = ['homeView', 'customerAuth', 'employeeAuth', 'customerPortal', 'employeePortal', 'infoModal', 'adminAuth', 'adminPortal'];
+            views.forEach(view => {
+                document.getElementById(view).classList.add('hidden');
+            });
+            document.getElementById(viewName).classList.remove('hidden');
+        }
+
+        function openCustomerAuth() {
+            showView('customerAuth');
+        }
+
+        function openEmployeeAuth() {
+            showView('employeeAuth');
+        }
+
+        function showInfo() {
+            showView('infoModal');
+        }
+
+        function openAdminAuth() {
+            showView('adminAuth');
+        }
+
+        async function adminLogin(event) {
+            event.preventDefault();
+            
+            const password = document.getElementById('adminPassword').value;
+            
+            if (password !== 'admin') {
+                document.getElementById('adminLoginError').textContent = 'Falsches Admin-Passwort';
+                document.getElementById('adminLoginError').classList.remove('hidden');
+                return;
+            }
+            
+            currentUser = { name: 'Administrator', role: 'admin' };
+            userType = 'admin';
+            showView('adminPortal');
+            loadAllJobs();
+            showNotification('Admin erfolgreich angemeldet!');
+        }
+
+        async function loadAllJobs() {
+            try {
+                const { data, error } = await supabase
+                    .from('jobs')
+                    .select(`
+                        *,
+                        customers:customer_id (name),
+                        employees:assigned_to (name)
+                    `)
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    console.error('Fehler beim Laden der Aufträge:', error);
+                    return;
+                }
+                
+                const tbody = document.getElementById('adminJobsTableBody');
+                if (data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #718096; padding: 2rem;">Keine Aufträge vorhanden</td></tr>';
+                    return;
+                }
+                
+                tbody.innerHTML = data.map(job => `
+                    <tr>
+                        <td>${job.customers?.name || 'Unbekannt'}</td>
+                        <td>${job.service}</td>
+                        <td><span class="status-badge status-${job.status}">${job.status}</span></td>
+                        <td>${job.employees?.name || 'Nicht zugewiesen'}</td>
+                        <td>
+                            <button class="btn small" onclick="assignEmployee('${job.id}')">Zuweisen</button>
+                            <button class="btn small secondary" onclick="updateJobStatus('${job.id}', 'storniert')">Stornieren</button>
+                        </td>
+                    </tr>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Fehler beim Laden der Aufträge:', error);
+            }
+        }
+
+        async function assignEmployee(jobId) {
+            const employeeName = prompt('Mitarbeiter-Name eingeben:');
+            if (!employeeName) return;
+            
+            try {
+                const { data: employee } = await supabase
+                    .from('employees')
+                    .select('id')
+                    .eq('name', employeeName)
+                    .single();
+                
+                if (!employee) {
+                    showNotification('Mitarbeiter nicht gefunden', 'error');
+                    return;
+                }
+                
+                const { error } = await supabase
+                    .from('jobs')
+                    .update({ 
+                        assigned_to: employee.id, 
+                        status: 'zugewiesen',
+                        updated_at: new Date().toISOString() 
+                    })
+                    .eq('id', jobId);
+                
+                if (error) {
+                    showNotification('Fehler beim Zuweisen', 'error');
+                    return;
+                }
+                
+                showNotification('Auftrag erfolgreich zugewiesen!');
+                loadAllJobs();
+                
+            } catch (error) {
+                console.error('Fehler beim Zuweisen:', error);
+                showNotification('Fehler beim Zuweisen', 'error');
+            }
+        }
+
+        function loadCustomers() {
+            alert('Kunden-Verwaltung: Diese Funktion ist in Entwicklung');
+        }
+
+        function loadEmployees() {
+            alert('Mitarbeiter-Verwaltung: Diese Funktion ist in Entwicklung');
+        }
+
+        function exportData() {
+            alert('Daten-Export: Diese Funktion ist in Entwicklung');
+        }
+
+        function switchTab(tab) {
+            const loginTab = document.querySelector('.tab-button');
+            const registerTab = document.querySelectorAll('.tab-button')[1];
+            const loginForm = document.getElementById('customerLoginForm');
+            const registerForm = document.getElementById('customerRegisterForm');
+            
+            if (tab === 'login') {
+                loginTab.classList.add('active');
+                registerTab.classList.remove('active');
+                loginForm.classList.add('active');
+                registerForm.classList.remove('active');
+            } else {
+                registerTab.classList.add('active');
+                loginTab.classList.remove('active');
+                registerForm.classList.add('active');
+                loginForm.classList.remove('active');
+            }
+        }
+
+        async function customerLogin(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('custLoginName').value;
+            const password = document.getElementById('custLoginPassword').value;
+            
+            try {
+                const { data, error } = await supabase
+                    .from('customers')
+                    .select('*')
+                    .eq('name', name)
+                    .eq('password', password)
+                    .single();
+                
+                if (error || !data) {
+                    document.getElementById('custLoginError').textContent = 'Falsche Anmeldedaten';
+                    document.getElementById('custLoginError').classList.remove('hidden');
+                    return;
+                }
+                
+                currentUser = data;
+                userType = 'customer';
+                document.getElementById('customerName').textContent = data.name;
+                showView('customerPortal');
+                loadCustomerJobs();
+                showNotification('Erfolgreich angemeldet!');
+                
+            } catch (error) {
+                console.error('Login-Fehler:', error);
+                document.getElementById('custLoginError').textContent = 'Fehler beim Anmelden';
+                document.getElementById('custLoginError').classList.remove('hidden');
+            }
+        }
+
+        async function customerRegister(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('custRegName').value;
+            const email = document.getElementById('custRegEmail').value;
+            const phone = document.getElementById('custRegPhone').value;
+            const address = document.getElementById('custRegAddress').value;
+            const password = document.getElementById('custRegPassword').value;
+            const passwordConfirm = document.getElementById('custRegPasswordConfirm').value;
+            
+            if (password !== passwordConfirm) {
+                document.getElementById('custRegError').textContent = 'Passwörter stimmen nicht überein';
+                document.getElementById('custRegError').classList.remove('hidden');
+                return;
+            }
+            
+            try {
+                const { data, error } = await supabase
+                    .from('customers')
+                    .insert([{
+                        name: name,
+                        email: email,
+                        phone: phone,
+                        address: address,
+                        password: password
+                    }]);
+                
+                if (error) {
+                    document.getElementById('custRegError').textContent = 'Fehler bei der Registrierung';
+                    document.getElementById('custRegError').classList.remove('hidden');
+                    return;
+                }
+                
+                document.getElementById('custRegSuccess').textContent = 'Registrierung erfolgreich! Sie können sich jetzt anmelden.';
+                document.getElementById('custRegSuccess').classList.remove('hidden');
+                document.getElementById('custRegError').classList.add('hidden');
+                
+                setTimeout(() => {
+                    switchTab('login');
+                    document.getElementById('custLoginName').value = name;
+                }, 2000);
+                
+            } catch (error) {
+                console.error('Registrierung-Fehler:', error);
+                document.getElementById('custRegError').textContent = 'Fehler bei der Registrierung';
+                document.getElementById('custRegError').classList.remove('hidden');
+            }
+        }
+
+        async function employeeLogin(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('empLoginName').value;
+            const password = document.getElementById('empLoginPassword').value;
+            
+            try {
+                const { data, error } = await supabase
+                    .from('employees')
+                    .select('*')
+                    .eq('name', name)
+                    .eq('password', password)
+                    .single();
+                
+                if (error || !data) {
+                    document.getElementById('empLoginError').textContent = 'Falsche Anmeldedaten';
+                    document.getElementById('empLoginError').classList.remove('hidden');
+                    return;
+                }
+                
+                currentUser = data;
+                userType = 'employee';
+                document.getElementById('employeeName').textContent = data.name;
+                showView('employeePortal');
+                loadEmployeeJobs();
+                showNotification('Erfolgreich angemeldet!');
+                
+            } catch (error) {
+                console.error('Login-Fehler:', error);
+                document.getElementById('empLoginError').textContent = 'Fehler beim Anmelden';
+                document.getElementById('empLoginError').classList.remove('hidden');
+            }
+        }
+
+        async function createJob(event) {
+            event.preventDefault();
+            
+            const service = document.getElementById('jobService').value;
+            const address = document.getElementById('jobAddress').value;
+            const priority = document.getElementById('jobPriority').value;
+            const description = document.getElementById('jobDescription').value;
+            
+            try {
+                const { data, error } = await supabase
+                    .from('jobs')
+                    .insert([{
+                        customer_id: currentUser.id,
+                        service: service,
+                        address: address,
+                        priority: priority,
+                        description: description,
+                        status: 'offen'
+                    }]);
+                
+                if (error) {
+                    showNotification('Fehler beim Erstellen des Auftrags', 'error');
+                    return;
+                }
+                
+                showNotification('Auftrag erfolgreich erstellt!');
+                document.getElementById('jobService').value = '';
+                document.getElementById('jobAddress').value = '';
+                document.getElementById('jobPriority').value = 'normal';
+                document.getElementById('jobDescription').value = '';
+                loadCustomerJobs();
+                
+            } catch (error) {
+                console.error('Fehler beim Erstellen des Auftrags:', error);
+                showNotification('Fehler beim Erstellen des Auftrags', 'error');
+            }
+        }
+
+        async function loadCustomerJobs() {
+            try {
+                const { data, error } = await supabase
+                    .from('jobs')
+                    .select('*')
+                    .eq('customer_id', currentUser.id)
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    console.error('Fehler beim Laden der Aufträge:', error);
+                    return;
+                }
+                
+                const tbody = document.getElementById('customerJobsTableBody');
+                if (data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #718096; padding: 2rem;">Keine Aufträge vorhanden</td></tr>';
+                    return;
+                }
+                
+                tbody.innerHTML = data.map(job => `
+                    <tr>
+                        <td>${job.service}</td>
+                        <td><span class="status-badge status-${job.status}">${job.status}</span></td>
+                        <td>${new Date(job.created_at).toLocaleDateString('de-DE')}</td>
+                    </tr>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Fehler beim Laden der Aufträge:', error);
+            }
+        }
+
+        async function loadEmployeeJobs() {
+            try {
+                const { data, error } = await supabase
+                    .from('jobs')
+                    .select(`
+                        *,
+                        customers:customer_id (name)
+                    `)
+                    .eq('assigned_to', currentUser.id)
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    console.error('Fehler beim Laden der Aufträge:', error);
+                    return;
+                }
+                
+                const tbody = document.getElementById('employeeJobsTableBody');
+                if (data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #718096; padding: 2rem;">Keine Aufträge zugewiesen</td></tr>';
+                    return;
+                }
+                
+                tbody.innerHTML = data.map(job => `
+                    <tr>
+                        <td>${job.customers?.name || 'Unbekannt'}</td>
+                        <td>${job.service}</td>
+                        <td><span class="status-badge status-${job.status}">${job.status}</span></td>
+                        <td>
+                            <button class="btn small" onclick="updateJobStatus('${job.id}', 'bearbeitung')">Start</button>
+                            <button class="btn small secondary" onclick="updateJobStatus('${job.id}', 'erledigt')">Erledigt</button>
+                        </td>
+                    </tr>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Fehler beim Laden der Aufträge:', error);
+            }
+        }
+
+        async function updateJobStatus(jobId, status) {
+            try {
+                const { error } = await supabase
+                    .from('jobs')
+                    .update({ status: status, updated_at: new Date().toISOString() })
+                    .eq('id', jobId);
+                
+                if (error) {
+                    showNotification('Fehler beim Aktualisieren des Status', 'error');
+                    return;
+                }
+                
+                showNotification(`Auftrag als "${status}" markiert`);
+                if (userType === 'employee') {
+                    loadEmployeeJobs();
+                } else if (userType === 'admin') {
+                    loadAllJobs();
+                }
+                
+            } catch (error) {
+                console.error('Fehler beim Aktualisieren des Status:', error);
+                showNotification('Fehler beim Aktualisieren des Status', 'error');
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            userType = null;
+            showView('home');
+            showNotification('Erfolgreich abgemeldet');
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        console.log('🚀 Köln Rhein Service Portal gestartet');
+        console.log('📋 Test-Zugänge:');
+        console.log('👤 Kunde: Müller GmbH / test123');
+        console.log('👷 Mitarbeiter: Max Mustermann / worker123');
+        console.log('⚙️ Admin: Passwort "admin"');
+    </script>
+</body>
+</html>
