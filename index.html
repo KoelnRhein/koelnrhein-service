@@ -1,80 +1,1333 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Köln Rhein Service Portal</title>
-  <style>
-    :root { --gap: 14px; --radius: 14px; }
-    * { box-sizing: border-box; }
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, Noto Sans, 'Apple Color Emoji', 'Segoe UI Emoji'; margin: 0; background: #0f172a; color: #e5e7eb; }
-    header { display: flex; align-items: center; justify-content: space-between; padding: 18px 22px; background: #111827; border-bottom: 1px solid #1f2937; position: sticky; top: 0; z-index: 10; }
-    header h1 { margin: 0; font-size: 18px; letter-spacing: .4px; }
-    main { max-width: 1100px; margin: 0 auto; padding: 22px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--gap); }
-    .card { background: #111827; border: 1px solid #1f2937; border-radius: var(--radius); padding: 18px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-    .card h2 { margin: 0 0 10px; font-size: 18px; }
-    .muted { color: #9ca3af; font-size: 14px; }
-    button, input, select { font: inherit; }
-    input, select { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid #374151; background: #0b1220; color: #e5e7eb; outline: none; }
-    input:focus { border-color: #60a5fa; box-shadow: 0 0 0 3px rgba(96,165,250,.2); }
-    .row { display: grid; gap: 10px; }
-    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .actions { display: flex; gap: 10px; flex-wrap: wrap; }
-    .btn { padding: 10px 14px; border-radius: 10px; border: 1px solid #374151; background: #111827; color: #e5e7eb; cursor: pointer; }
-    .btn.primary { background: #2563eb; border-color: #1d4ed8; }
-    .btn.ghost { background: transparent; }
-    .error { color: #fecaca; font-size: 14px; min-height: 20px; }
-    .ok { color: #bbf7d0; font-size: 14px; }
-    dialog { border: 1px solid #1f2937; border-radius: 16px; background: #0b1220; color: #e5e7eb; padding: 0; width: min(520px, 92vw); }
-    dialog header { border-bottom: 1px solid #1f2937; padding: 14px 16px; }
-    dialog .content { padding: 16px; }
-    dialog form { display: grid; gap: 12px; }
-    dialog footer { padding: 14px 16px; border-top: 1px solid #1f2937; display: flex; justify-content: flex-end; gap: 8px; }
-    .hidden { display: none !important; }
-    .tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; font-size: 12px; border-radius: 999px; background: #172554; border: 1px solid #1e3a8a; }
-    .stack { display: grid; gap: 8px; }
-    .kpi { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-    .kpi .card { text-align: center; }
-    .table { width: 100%; border-collapse: collapse; font-size: 14px; }
-    .table th, .table td { border-bottom: 1px solid #1f2937; padding: 10px; text-align: left; }
-    .table th { color: #9ca3af; font-weight: 600; }
-    .pw-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #9ca3af; }
-    .pw-wrapper { position: relative; }
-  </style>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Köln Rhein Service Portal</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/supabase/2.39.0/umd/supabase.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+        }
+        
+        .main-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+        }
+        
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .info-icon {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .card p {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn-info {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .auth-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .auth-modal {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .auth-header h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #f0f0f0;
+        }
+        
+        .tab-button {
+            flex: 1;
+            padding: 15px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .form-section {
+            display: none;
+        }
+        
+        .form-section.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #c33;
+        }
+        
+        .success-message {
+            background: #efe;
+            color: #3c3;
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #3c3;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .view {
+            display: none;
+        }
+        
+        .view.active {
+            display: block;
+        }
+        
+        .dashboard {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .dashboard-title {
+            font-size: 2rem;
+            color: #333;
+        }
+        
+        .logout-btn {
+            background: #ff6b6b;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+        
+        .job-list {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .job-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .job-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .job-status {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .status-neu {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .status-in-bearbeitung {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+        
+        .status-abgeschlossen {
+            background: #e8f5e8;
+            color: #388e3c;
+        }
+        
+        .job-details {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .job-meta {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #888;
+            flex-wrap: wrap;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            z-index: 1001;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            background: #4caf50;
+        }
+        
+        .notification.error {
+            background: #f44336;
+        }
+        
+        .back-btn {
+            background: #6c757d;
+            margin-bottom: 20px;
+        }
+        
+        .employee-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+        
+        .btn-success {
+            background: #28a745;
+        }
+        
+        .btn-warning {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+        }
+        
+        .info-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .contact-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .contact-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .admin-btn {
+            background: #17a2b8;
+            margin-top: 20px;
+        }
+        
+        .admin-modal {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+        
+        .admin-dashboard {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .admin-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                padding: 25px;
+            }
+            
+            .auth-modal {
+                padding: 25px;
+            }
+            
+            .dashboard-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .job-header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .employee-actions {
+                justify-content: center;
+            }
+            
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Dialog: Kunden-Login -->
-  <dialog id="dlgCustomer">
-    <header><strong>Kunden‑Login</strong></header>
-    <div class="content">
-      <form id="formCustomer" onsubmit="customerLogin(event)">
-        <label>Firmenname<input id="custName" autocomplete="organization" required /></label>
-        <div class="pw-wrapper">
-          <label>Passwort<input id="custPw" type="password" autocomplete="current-password" required /></label>
-          <span class="pw-toggle" onclick="togglePw('custPw', this)">👁</span>
+    <div id="homeView" class="view active">
+        <div class="container">
+            <div class="header">
+                <h1>Köln Rhein Service Portal</h1>
+                <p>Professioneller Service für Köln und Umgebung</p>
+            </div>
+            
+            <div class="main-grid">
+                <div class="card">
+                    <div class="card-icon">K</div>
+                    <h2>Kunden-Zugang</h2>
+                    <p>Erstellen Sie Aufträge, verfolgen Sie den Status und verwalten Sie Ihre Service-Anfragen.</p>
+                    <button class="btn" onclick="openCustomerAuth()">Zum Kunden-Bereich</button>
+                </div>
+                
+                <div class="card">
+                    <div class="card-icon">M</div>
+                    <h2>Mitarbeiter-Bereich</h2>
+                    <p>Bearbeiten Sie zugewiesene Aufträge, erfassen Sie Arbeitszeiten und aktualisieren Sie den Status.</p>
+                    <button class="btn" onclick="openEmployeeAuth()">Zum Mitarbeiter-Bereich</button>
+                </div>
+                
+                <div class="card">
+                    <div class="card-icon info-icon">i</div>
+                    <h2>Service-Info</h2>
+                    <p>Erfahren Sie mehr über unsere Dienstleistungen, Öffnungszeiten und Kontaktmöglichkeiten.</p>
+                    <button class="btn btn-info" onclick="showView('infoView')">Mehr erfahren</button>
+                </div>
+            </div>
         </div>
-        <div id="custLoginError" class="error"></div>
-      </form>
     </div>
-    <footer>
-      <button class="btn" onclick="closeDialog('dlgCustomer')">Abbrechen</button>
-      <button class="btn primary" form="formCustomer">Einloggen</button>
-    </footer>
-  </dialog>
 
-  <script>
-    function togglePw(id, el){
-      const input = document.getElementById(id);
-      if (input.type === 'password') {
-        input.type = 'text';
-        el.textContent = '🙈';
-      } else {
-        input.type = 'password';
-        el.textContent = '👁';
-      }
-    }
-  </script>
+    <!-- Customer Auth Modal -->
+    <div id="customerAuth" class="auth-container hidden">
+        <div class="auth-modal">
+            <button class="close-btn" onclick="closeAuth()">&times;</button>
+            <div class="auth-header">
+                <h2>Kunden-Bereich</h2>
+                <p>Anmelden oder Registrieren</p>
+            </div>
+            
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="switchTab('login')">Anmelden</button>
+                <button class="tab-button" onclick="switchTab('register')">Registrieren</button>
+            </div>
+            
+            <div id="customerLoginForm" class="form-section active">
+                <form onsubmit="customerLogin(event)">
+                    <div class="form-group">
+                        <label>Firma / Name</label>
+                        <input type="text" id="custLoginName" placeholder="Ihre Firma oder Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Passwort</label>
+                        <input type="password" id="custLoginPassword" placeholder="Ihr Passwort" required>
+                    </div>
+                    <div id="custLoginError" class="error-message hidden"></div>
+                    <button type="submit" class="btn">Anmelden</button>
+                </form>
+            </div>
+            
+            <div id="customerRegisterForm" class="form-section">
+                <form onsubmit="customerRegister(event)">
+                    <div class="form-group">
+                        <label>Firma / Name</label>
+                        <input type="text" id="custRegName" placeholder="Ihre Firma oder Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>E-Mail</label>
+                        <input type="email" id="custRegEmail" placeholder="ihre@email.de" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Telefon</label>
+                        <input type="tel" id="custRegPhone" placeholder="0221 / 12345678" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Adresse</label>
+                        <input type="text" id="custRegAddress" placeholder="Straße, PLZ Ort" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Passwort</label>
+                        <input type="password" id="custRegPassword" placeholder="Neues Passwort" required>
+                    </div>
+                    <div id="custRegError" class="error-message hidden"></div>
+                    <button type="submit" class="btn">Registrieren</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Employee Auth Modal -->
+    <div id="employeeAuth" class="auth-container hidden">
+        <div class="auth-modal">
+            <button class="close-btn" onclick="closeAuth()">&times;</button>
+            <div class="auth-header">
+                <h2>Mitarbeiter-Bereich</h2>
+                <p>Anmelden für Mitarbeiter</p>
+            </div>
+            
+            <div class="form-section active">
+                <form onsubmit="employeeLogin(event)">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="empLoginName" placeholder="Ihr Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Passwort</label>
+                        <input type="password" id="empLoginPassword" placeholder="Vom Admin erhalten" required>
+                    </div>
+                    <div id="empLoginError" class="error-message hidden"></div>
+                    <button type="submit" class="btn">Anmelden</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer Dashboard -->
+    <div id="customerView" class="view">
+        <div class="container">
+            <button class="btn back-btn" onclick="showView('homeView')">Zurück</button>
+            
+            <div class="dashboard">
+                <div class="dashboard-header">
+                    <h2 class="dashboard-title">Willkommen, <span id="customerName"></span></h2>
+                    <button class="btn logout-btn" onclick="logout()">Abmelden</button>
+                </div>
+                
+                <div class="dashboard-actions" style="margin-bottom: 30px;">
+                    <button class="btn" onclick="showNewJobForm()">Neuen Auftrag erstellen</button>
+                </div>
+                
+                <h3 style="margin-bottom: 20px;">Ihre Aufträge</h3>
+                <div id="customerJobs" class="job-list">
+                    <!-- Jobs werden hier geladen -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Employee Dashboard -->
+    <div id="employeeView" class="view">
+        <div class="container">
+            <button class="btn back-btn" onclick="showView('homeView')">Zurück</button>
+            
+            <div class="dashboard">
+                <div class="dashboard-header">
+                    <h2 class="dashboard-title">Mitarbeiter-Portal - <span id="employeeName"></span></h2>
+                    <button class="btn logout-btn" onclick="logout()">Abmelden</button>
+                </div>
+                
+                <h3 style="margin-bottom: 20px;">Zugewiesene Aufträge</h3>
+                <div id="employeeJobs" class="job-list">
+                    <!-- Jobs werden hier geladen -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info View -->
+    <div id="infoView" class="view">
+        <div class="container">
+            <button class="btn back-btn" onclick="showView('homeView')">Zurück</button>
+            
+            <div class="info-section">
+                <h2 style="margin-bottom: 30px; text-align: center;">Service-Informationen</h2>
+                
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <h3>Kontakt</h3>
+                        <p><strong>E-Mail:</strong> info@koelnrhein.de</p>
+                        <p><strong>Telefon:</strong> 015566988393</p>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <h3>Adresse</h3>
+                        <p>Dürenerstr. 206-208<br>50931 Köln</p>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <h3>Öffnungszeiten</h3>
+                        <p>Mo-Fr: 8:00 - 18:00 Uhr<br>Sa: 9:00 - 14:00 Uhr</p>
+                    </div>
+                </div>
+                
+                <h3 style="margin-bottom: 20px;">Unsere Dienstleistungen</h3>
+                <div style="display: grid; gap: 15px; margin-bottom: 30px;">
+                    <div class="contact-card">
+                        <h4>Gebäudereinigung</h4>
+                        <p>Professionelle Reinigung von Büros, Praxen und Geschäftsräumen</p>
+                    </div>
+                    <div class="contact-card">
+                        <h4>Facility Management</h4>
+                        <p>Komplette Betreuung Ihrer Immobilie mit allen technischen Services</p>
+                    </div>
+                    <div class="contact-card">
+                        <h4>Wartung & Reparatur</h4>
+                        <p>Zuverlässige Wartung und schnelle Reparaturen für Ihre Einrichtungen</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center;">
+                    <button class="btn admin-btn" onclick="openAdminAuth()">Admin-Bereich öffnen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Auth Modal -->
+    <div id="adminAuth" class="auth-container hidden">
+        <div class="auth-modal">
+            <button class="close-btn" onclick="closeAuth()">&times;</button>
+            <div class="auth-header">
+                <h2>Admin-Bereich</h2>
+                <p>Administratoren-Zugang</p>
+            </div>
+            
+            <div class="form-section active">
+                <form onsubmit="adminLogin(event)">
+                    <div class="form-group">
+                        <label>Admin-Passwort</label>
+                        <input type="password" id="adminPassword" placeholder="Admin-Passwort eingeben" required>
+                    </div>
+                    <div id="adminLoginError" class="error-message hidden"></div>
+                    <button type="submit" class="btn">Anmelden</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard Modal -->
+    <div id="adminDashboard" class="auth-container hidden">
+        <div class="admin-modal">
+            <button class="close-btn" onclick="closeAuth()">&times;</button>
+            <div class="auth-header">
+                <h2>Admin-Dashboard</h2>
+                <p>Verwaltung des Service-Portals</p>
+            </div>
+            
+            <div class="admin-dashboard">
+                <div class="admin-actions">
+                    <button class="btn" onclick="showAdminJobs()">Aufträge verwalten</button>
+                    <button class="btn btn-secondary" onclick="alert('Kunden-Verwaltung: Diese Funktion ist in Entwicklung')">Kunden verwalten</button>
+                    <button class="btn btn-secondary" onclick="alert('Mitarbeiter-Verwaltung: Diese Funktion ist in Entwicklung')">Mitarbeiter verwalten</button>
+                    <button class="btn btn-secondary" onclick="alert('Daten-Export: Diese Funktion ist in Entwicklung')">Daten exportieren</button>
+                </div>
+                
+                <div id="adminJobsSection">
+                    <h3 style="margin-bottom: 20px;">Alle Aufträge</h3>
+                    <div id="adminJobs" class="job-list">
+                        <!-- Admin Jobs werden hier geladen -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Job Modal -->
+    <div id="newJobModal" class="auth-container hidden">
+        <div class="auth-modal">
+            <button class="close-btn" onclick="closeNewJobModal()">&times;</button>
+            <div class="auth-header">
+                <h2>Neuen Auftrag erstellen</h2>
+            </div>
+            
+            <form onsubmit="createJob(event)">
+                <div class="form-group">
+                    <label>Service-Art</label>
+                    <select id="jobService" required>
+                        <option value="">Bitte wählen...</option>
+                        <option value="Gebäudereinigung">Gebäudereinigung</option>
+                        <option value="Büroreinigung">Büroreinigung</option>
+                        <option value="Facility Management">Facility Management</option>
+                        <option value="Wartung">Wartung & Reparatur</option>
+                        <option value="Sonstige">Sonstige</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Adresse</label>
+                    <input type="text" id="jobAddress" placeholder="Straße, PLZ Ort" required>
+                </div>
+                <div class="form-group">
+                    <label>Priorität</label>
+                    <select id="jobPriority" required>
+                        <option value="normal">Normal</option>
+                        <option value="hoch">Hoch</option>
+                        <option value="dringend">Dringend</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Beschreibung</label>
+                    <textarea id="jobDescription" rows="4" placeholder="Detaillierte Beschreibung des Auftrags..." required></textarea>
+                </div>
+                <button type="submit" class="btn">Auftrag erstellen</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script>
+        // Supabase Setup
+        const supabaseUrl = 'https://aatldgtpxokqhzgcutun.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFhdGxkZ3RweG9rcWh6Z2N1dHVuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcxNTQzNTgsImV4cCI6MjA3MjczMDM1OH0.x2vM8yNwGn2X1XbKGLr1Xq_-9fP2Z4iY6J0FYcVEaVo';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        
+        let currentUser = null;
+
+        // Initialize demo data
+        document.addEventListener('DOMContentLoaded', async function() {
+            await createDemoData();
+        });
+
+        async function createDemoData() {
+            try {
+                // Check if demo data already exists
+                const { data: customers } = await supabase.from('customers').select('*').limit(1);
+                const { data: employees } = await supabase.from('employees').select('*').limit(1);
+                
+                if (customers.length === 0 || employees.length === 0) {
+                    // Create demo customer
+                    await supabase.from('customers').insert([
+                        {
+                            name: 'Müller GmbH',
+                            email: 'mueller@firma.de',
+                            phone: '0221 / 12345678',
+                            address: 'Musterstraße 123, 50667 Köln',
+                            password: 'test123'
+                        }
+                    ]);
+                    
+                    // Create demo employee
+                    await supabase.from('employees').insert([
+                        {
+                            name: 'Max Mustermann',
+                            email: 'max@koelnrhein.de',
+                            password: 'worker123',
+                            skill: 'Allround'
+                        }
+                    ]);
+                    
+                    console.log('Demo-Daten erstellt!');
+                    console.log('KUNDE: Müller GmbH / test123');
+                    console.log('MITARBEITER: Max Mustermann / worker123');
+                }
+            } catch (error) {
+                console.error('Fehler beim Erstellen der Demo-Daten:', error);
+            }
+        }
+
+        // View Management
+        function showView(viewId) {
+            document.querySelectorAll('.view').forEach(view => {
+                view.classList.remove('active');
+            });
+            document.getElementById(viewId).classList.add('active');
+        }
+
+        // Authentication Functions
+        function openCustomerAuth() {
+            document.getElementById('customerAuth').classList.remove('hidden');
+        }
+
+        function openEmployeeAuth() {
+            document.getElementById('employeeAuth').classList.remove('hidden');
+        }
+
+        function openAdminAuth() {
+            document.getElementById('adminAuth').classList.remove('hidden');
+        }
+
+        function closeAuth() {
+            document.querySelectorAll('.auth-container').forEach(modal => {
+                modal.classList.add('hidden');
+            });
+        }
+
+        function switchTab(tab) {
+            const loginForm = document.getElementById('customerLoginForm');
+            const registerForm = document.getElementById('customerRegisterForm');
+            const loginTab = document.querySelector('[onclick="switchTab(\'login\')"]');
+            const registerTab = document.querySelector('[onclick="switchTab(\'register\')"]');
+            
+            if (tab === 'login') {
+                loginForm.classList.add('active');
+                registerForm.classList.remove('active');
+                loginTab.classList.add('active');
+                registerTab.classList.remove('active');
+            } else {
+                registerForm.classList.add('active');
+                loginForm.classList.remove('active');
+                registerTab.classList.add('active');
+                loginTab.classList.remove('active');
+            }
+        }
+
+        // Customer Login
+        async function customerLogin(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('custLoginName').value;
+            const password = document.getElementById('custLoginPassword').value;
+            
+            try {
+                const { data, error } = await supabase
+                    .from('customers')
+                    .select('*')
+                    .eq('name', name)
+                    .eq('password', password)
+                    .single();
+                
+                if (error || !data || data.length === 0) {
+                    console.error('Login-Fehler:', error);
+                    document.getElementById('custLoginError').textContent = 'Falsche Anmeldedaten';
+                    document.getElementById('custLoginError').classList.remove('hidden');
+                } else {
+                    // Login erfolgreich
+                    currentUser = data;
+                    currentUser.type = 'customer';
+                    
+                    showNotification('Willkommen, ' + currentUser.name + '!', 'success');
+                    showView('customerView');
+                    closeAuth();
+                    
+                    // Formular zurücksetzen
+                    document.getElementById('custLoginName').value = '';
+                    document.getElementById('custLoginPassword').value = '';
+                    
+                    // Fehlertext verstecken
+                    document.getElementById('custLoginError').classList.add('hidden');
+                    
+                    // Kundenname anzeigen
+                    document.getElementById('customerName').textContent = currentUser.name;
+                    
+                    // Jobs laden
+                    loadCustomerJobs();
+                }
+            } catch (error) {
+                console.error('Login-Fehler:', error);
+                document.getElementById('custLoginError').textContent = 'Fehler beim Anmelden';
+                document.getElementById('custLoginError').classList.remove('hidden');
+            }
+        }
+
+        // Customer Registration
+        async function customerRegister(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('custRegName').value;
+            const email = document.getElementById('custRegEmail').value;
+            const phone = document.getElementById('custRegPhone').value;
+            const address = document.getElementById('custRegAddress').value;
+            const password = document.getElementById('custRegPassword').value;
+            
+            try {
+                const { data, error } = await supabase
+                    .from('customers')
+                    .insert([
+                        { name, email, phone, address, password }
+                    ])
+                    .select()
+                    .single();
+                
+                if (error) {
+                    console.error('Registrierung-Fehler:', error);
+                    document.getElementById('custRegError').textContent = 'Fehler bei der Registrierung';
+                    document.getElementById('custRegError').classList.remove('hidden');
+                } else {
+                    showNotification('Registrierung erfolgreich! Sie können sich nun anmelden.', 'success');
+                    
+                    // Zur Login-Seite wechseln
+                    switchTab('login');
+                    
+                    // Name ins Login-Feld eintragen
+                    document.getElementById('custLoginName').value = name;
+                }
+            } catch (error) {
+                console.error('Registrierung-Fehler:', error);
+                document.getElementById('custRegError').textContent = 'Fehler bei der Registrierung';
+                document.getElementById('custRegError').classList.remove('hidden');
+            }
+        }
+
+        // Employee Login
+        async function employeeLogin(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('empLoginName').value;
+            const password = document.getElementById('empLoginPassword').value;
+            
+            try {
+                const { data, error } = await supabase
+                    .from('employees')
+                    .select('*')
+                    .eq('name', name)
+                    .eq('password', password)
+                    .single();
+                
+                if (error || !data || data.length === 0) {
+                    console.error('Login-Fehler:', error);
+                    document.getElementById('empLoginError').textContent = 'Falsche Anmeldedaten';
+                    document.getElementById('empLoginError').classList.remove('hidden');
+                } else {
+                    // Login erfolgreich
+                    currentUser = data;
+                    currentUser.type = 'employee';
+                    
+                    showNotification('Willkommen, ' + currentUser.name + '!', 'success');
+                    showView('employeeView');
+                    closeAuth();
+                    
+                    // Formular zurücksetzen
+                    document.getElementById('empLoginName').value = '';
+                    document.getElementById('empLoginPassword').value = '';
+                    
+                    // Fehlertext verstecken
+                    document.getElementById('empLoginError').classList.add('hidden');
+                    
+                    // Mitarbeitername anzeigen
+                    document.getElementById('employeeName').textContent = currentUser.name;
+                    
+                    // Jobs laden
+                    loadEmployeeJobs();
+                }
+            } catch (error) {
+                console.error('Login-Fehler:', error);
+                document.getElementById('empLoginError').textContent = 'Fehler beim Anmelden';
+                document.getElementById('empLoginError').classList.remove('hidden');
+            }
+        }
+
+        // Admin Login
+        async function adminLogin(event) {
+            event.preventDefault();
+            
+            const password = document.getElementById('adminPassword').value;
+            
+            if (password === 'admin') {
+                showNotification('Admin-Zugang gewährt!', 'success');
+                document.getElementById('adminAuth').classList.add('hidden');
+                document.getElementById('adminDashboard').classList.remove('hidden');
+                loadAdminJobs();
+            } else {
+                document.getElementById('adminLoginError').textContent = 'Falsches Passwort';
+                document.getElementById('adminLoginError').classList.remove('hidden');
+            }
+        }
+
+        // Job Management
+        function showNewJobForm() {
+            document.getElementById('newJobModal').classList.remove('hidden');
+        }
+
+        function closeNewJobModal() {
+            document.getElementById('newJobModal').classList.add('hidden');
+        }
+
+        async function createJob(event) {
+            event.preventDefault();
+            
+            const service = document.getElementById('jobService').value;
+            const address = document.getElementById('jobAddress').value;
+            const priority = document.getElementById('jobPriority').value;
+            const description = document.getElementById('jobDescription').value;
+            
+            try {
+                const { data, error } = await supabase
+                    .from('jobs')
+                    .insert([{
+                        customer_id: currentUser.id,
+                        service,
+                        address,
+                        priority,
+                        description,
+                        status: 'neu'
+                    }])
+                    .select()
+                    .single();
+                
+                if (error) {
+                    console.error('Fehler beim Erstellen des Auftrags:', error);
+                    showNotification('Fehler beim Erstellen des Auftrags', 'error');
+                    return;
+                }
+                
+                showNotification('Auftrag erfolgreich erstellt!');
+                document.getElementById('jobService').value = '';
+                document.getElementById('jobAddress').value = '';
+                document.getElementById('jobPriority').value = 'normal';
+                document.getElementById('jobDescription').value = '';
+                loadCustomerJobs();
+            } catch (error) {
+                console.error('Fehler beim Erstellen des Auftrags:', error);
+                showNotification('Fehler beim Erstellen des Auftrags', 'error');
+            }
+        }
+
+        async function loadCustomerJobs() {
+            try {
+                const { data, error } = await supabase
+                    .from('jobs')
+                    .select('*')
+                    .eq('customer_id', currentUser.id)
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    console.error('Fehler beim Laden der Aufträge:', error);
+                    return;
+                }
+                
+                const jobsContainer = document.getElementById('customerJobs');
+                
+                if (data.length === 0) {
+                    jobsContainer.innerHTML = '<p>Sie haben noch keine Aufträge erstellt.</p>';
+                    return;
+                }
+                
+                jobsContainer.innerHTML = data.map(job => `
+                    <div class="job-card">
+                        <div class="job-header">
+                            <div class="job-title">${job.service}</div>
+                            <div class="job-status status-${job.status}">${job.status}</div>
+                        </div>
+                        <div class="job-details">
+                            <p><strong>Adresse:</strong> ${job.address}</p>
+                            <p><strong>Priorität:</strong> ${job.priority}</p>
+                            <p><strong>Beschreibung:</strong> ${job.description}</p>
+                        </div>
+                        <div class="job-meta">
+                            <span>Erstellt: ${new Date(job.created_at).toLocaleDateString()}</span>
+                            <span>Auftrag #${job.id}</span>
+                        </div>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Fehler beim Laden der Aufträge:', error);
+            }
+        }
+
+        async function loadEmployeeJobs() {
+            try {
+                const { data, error } = await supabase
+                    .from('jobs')
+                    .select('*')
+                    .eq('assigned_employee_id', currentUser.id)
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    console.error('Fehler beim Laden der Aufträge:', error);
+                    return;
+                }
+                
+                const jobsContainer = document.getElementById('employeeJobs');
+                
+                if (data.length === 0) {
+                    jobsContainer.innerHTML = '<p>Ihnen sind derzeit keine Aufträge zugewiesen.</p>';
+                    return;
+                }
+                
+                jobsContainer.innerHTML = data.map(job => `
+                    <div class="job-card">
+                        <div class="job-header">
+                            <div class="job-title">${job.service}</div>
+                            <div class="job-status status-${job.status}">${job.status}</div>
+                        </div>
+                        <div class="job-details">
+                            <p><strong>Adresse:</strong> ${job.address}</p>
+                            <p><strong>Priorität:</strong> ${job.priority}</p>
+                            <p><strong>Beschreibung:</strong> ${job.description}</p>
+                        </div>
+                        <div class="employee-actions">
+                            <button class="btn btn-small btn-warning" onclick="updateJobStatus(${job.id}, 'in-bearbeitung')">In Bearbeitung</button>
+                            <button class="btn btn-small btn-success" onclick="updateJobStatus(${job.id}, 'abgeschlossen')">Abgeschlossen</button>
+                        </div>
+                        <div class="job-meta">
+                            <span>Erstellt: ${new Date(job.created_at).toLocaleDateString()}</span>
+                            <span>Auftrag #${job.id}</span>
+                        </div>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Fehler beim Laden der Aufträge:', error);
+            }
+        }
+
+        async function loadAdminJobs() {
+            try {
+                const { data, error } = await supabase
+                    .from('jobs')
+                    .select(`
+                        *,
+                        customers (name),
+                        employees (name)
+                    `)
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    console.error('Fehler beim Laden der Aufträge:', error);
+                    return;
+                }
+                
+                const jobsContainer = document.getElementById('adminJobs');
+                
+                if (data.length === 0) {
+                    jobsContainer.innerHTML = '<p>Keine Aufträge vorhanden.</p>';
+                    return;
+                }
+                
+                jobsContainer.innerHTML = data.map(job => `
+                    <div class="job-card">
+                        <div class="job-header">
+                            <div class="job-title">${job.service}</div>
+                            <div class="job-status status-${job.status}">${job.status}</div>
+                        </div>
+                        <div class="job-details">
+                            <p><strong>Kunde:</strong> ${job.customers?.name || 'Unbekannt'}</p>
+                            <p><strong>Adresse:</strong> ${job.address}</p>
+                            <p><strong>Priorität:</strong> ${job.priority}</p>
+                            <p><strong>Beschreibung:</strong> ${job.description}</p>
+                            ${job.employees ? `<p><strong>Zugewiesen an:</strong> ${job.employees.name}</p>` : ''}
+                        </div>
+                        <div class="employee-actions">
+                            <button class="btn btn-small" onclick="assignEmployee(${job.id})">Mitarbeiter zuweisen</button>
+                            <button class="btn btn-small btn-danger" onclick="cancelJob(${job.id})">Stornieren</button>
+                        </div>
+                        <div class="job-meta">
+                            <span>Erstellt: ${new Date(job.created_at).toLocaleDateString()}</span>
+                            <span>Auftrag #${job.id}</span>
+                        </div>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Fehler beim Laden der Aufträge:', error);
+            }
+        }
+
+        async function updateJobStatus(jobId, status) {
+            try {
+                const { error } = await supabase
+                    .from('jobs')
+                    .update({ status })
+                    .eq('id', jobId);
+                
+                if (error) {
+                    console.error('Fehler beim Aktualisieren des Status:', error);
+                    showNotification('Fehler beim Aktualisieren des Status', 'error');
+                    return;
+                }
+                
+                showNotification('Status erfolgreich aktualisiert!', 'success');
+                loadEmployeeJobs();
+                
+            } catch (error) {
+                console.error('Fehler beim Aktualisieren des Status:', error);
+                showNotification('Fehler beim Aktualisieren des Status', 'error');
+            }
+        }
+
+        async function assignEmployee(jobId) {
+            const employeeName = prompt('Mitarbeitername eingeben:');
+            if (!employeeName) return;
+            
+            try {
+                // Find employee
+                const { data: employee, error: empError } = await supabase
+                    .from('employees')
+                    .select('id')
+                    .eq('name', employeeName)
+                    .single();
+                
+                if (empError || !employee) {
+                    showNotification('Mitarbeiter nicht gefunden', 'error');
+                    return;
+                }
+                
+                // Assign job
+                const { error } = await supabase
+                    .from('jobs')
+                    .update({ assigned_employee_id: employee.id })
+                    .eq('id', jobId);
+                
+                if (error) {
+                    console.error('Fehler beim Zuweisen:', error);
+                    showNotification('Fehler beim Zuweisen des Mitarbeiters', 'error');
+                    return;
+                }
+                
+                showNotification('Mitarbeiter erfolgreich zugewiesen!', 'success');
+                loadAdminJobs();
+                
+            } catch (error) {
+                console.error('Fehler beim Zuweisen:', error);
+                showNotification('Fehler beim Zuweisen des Mitarbeiters', 'error');
+            }
+        }
+
+        async function cancelJob(jobId) {
+            if (!confirm('Auftrag wirklich stornieren?')) return;
+            
+            try {
+                const { error } = await supabase
+                    .from('jobs')
+                    .update({ status: 'storniert' })
+                    .eq('id', jobId);
+                
+                if (error) {
+                    console.error('Fehler beim Stornieren:', error);
+                    showNotification('Fehler beim Stornieren', 'error');
+                    return;
+                }
+                
+                showNotification('Auftrag storniert!', 'success');
+                loadAdminJobs();
+                
+            } catch (error) {
+                console.error('Fehler beim Stornieren:', error);
+                showNotification('Fehler beim Stornieren', 'error');
+            }
+        }
+
+        function showAdminJobs() {
+            loadAdminJobs();
+        }
+
+        function logout() {
+            currentUser = null;
+            showView('homeView');
+            showNotification('Sie wurden abgemeldet', 'success');
+        }
+
+        // Notification System
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
