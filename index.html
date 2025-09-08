@@ -543,7 +543,6 @@
         </div>
     </div>
 
-    <!-- Customer Auth Modal -->
     <div id="customerAuth" class="auth-container hidden">
         <div class="auth-modal">
             <button class="close-btn" onclick="closeAuth()">&times;</button>
@@ -607,7 +606,6 @@
         </div>
     </div>
 
-    <!-- Employee Auth Modal -->
     <div id="employeeAuth" class="auth-container hidden">
         <div class="auth-modal">
             <button class="close-btn" onclick="closeAuth()">&times;</button>
@@ -636,7 +634,6 @@
         </div>
     </div>
 
-    <!-- Customer Dashboard -->
     <div id="customerView" class="view">
         <div class="container">
             <button class="btn back-btn" onclick="showView('homeView')">Zurück</button>
@@ -652,14 +649,11 @@
                 </div>
                 
                 <h3 style="margin-bottom: 20px;">Ihre Aufträge</h3>
-                <div id="customerJobs" class="job-list">
-                    <!-- Jobs werden hier geladen -->
-                </div>
+                <div id="customerJobs" class="job-list"></div>
             </div>
         </div>
     </div>
 
-    <!-- Employee Dashboard -->
     <div id="employeeView" class="view">
         <div class="container">
             <button class="btn back-btn" onclick="showView('homeView')">Zurück</button>
@@ -671,14 +665,11 @@
                 </div>
                 
                 <h3 style="margin-bottom: 20px;">Zugewiesene Aufträge</h3>
-                <div id="employeeJobs" class="job-list">
-                    <!-- Jobs werden hier geladen -->
-                </div>
+                <div id="employeeJobs" class="job-list"></div>
             </div>
         </div>
     </div>
 
-    <!-- Info View -->
     <div id="infoView" class="view">
         <div class="container">
             <button class="btn back-btn" onclick="showView('homeView')">Zurück</button>
@@ -727,7 +718,6 @@
         </div>
     </div>
 
-    <!-- Admin Auth Modal -->
     <div id="adminAuth" class="auth-container hidden">
         <div class="auth-modal">
             <button class="close-btn" onclick="closeAuth()">&times;</button>
@@ -752,7 +742,6 @@
         </div>
     </div>
 
-    <!-- Admin Dashboard Modal -->
     <div id="adminDashboard" class="auth-container hidden">
         <div class="admin-modal">
             <button class="close-btn" onclick="closeAuth()">&times;</button>
@@ -771,30 +760,23 @@
                 
                 <div id="adminJobsSection">
                     <h3 style="margin-bottom: 20px;">Alle Aufträge</h3>
-                    <div id="adminJobs" class="job-list">
-                        <!-- Admin Jobs werden hier geladen -->
-                    </div>
+                    <div id="adminJobs" class="job-list"></div>
                 </div>
 
                 <div id="adminCustomersSection" class="hidden">
                     <h3 style="margin-bottom: 20px;">Alle Kunden</h3>
-                    <div id="adminCustomers" class="job-list">
-                        <!-- Admin Customers werden hier geladen -->
-                    </div>
+                    <div id="adminCustomers" class="job-list"></div>
                 </div>
 
                 <div id="adminEmployeesSection" class="hidden">
                     <h3 style="margin-bottom: 20px;">Alle Mitarbeiter</h3>
                     <button class="btn" onclick="showAddEmployeeForm()" style="margin-bottom: 20px;">Neuen Mitarbeiter hinzufügen</button>
-                    <div id="adminEmployees" class="job-list">
-                        <!-- Admin Employees werden hier geladen -->
-                    </div>
+                    <div id="adminEmployees" class="job-list"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- New Job Modal -->
     <div id="newJobModal" class="auth-container hidden">
         <div class="auth-modal">
             <button class="close-btn" onclick="closeNewJobModal()">&times;</button>
@@ -835,7 +817,6 @@
         </div>
     </div>
 
-    <!-- Add Employee Modal -->
     <div id="addEmployeeModal" class="auth-container hidden">
         <div class="auth-modal">
             <button class="close-btn" onclick="closeAddEmployeeModal()">&times;</button>
@@ -864,592 +845,4 @@
                     <select id="newEmpSkill" required>
                         <option value="">Bitte wählen...</option>
                         <option value="Allround">Allround</option>
-                        <option value="Gebäudereinigung">Gebäudereinigung</option>
-                        <option value="Facility Management">Facility Management</option>
-                        <option value="Wartung">Wartung & Reparatur</option>
-                        <option value="Elektriker">Elektriker</option>
-                        <option value="Hausmeister">Hausmeister</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn">Mitarbeiter hinzufügen</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="notification" class="notification"></div>
-
-    <script>
-        // Erweiterte Demo-Daten mit besserer Struktur
-        const appData = {
-            customers: [
-                {
-                    id: 1,
-                    name: 'Müller GmbH',
-                    email: 'mueller@firma.de',
-                    phone: '0221 / 12345678',
-                    address: 'Musterstraße 123, 50667 Köln',
-                    password: 'test123',
-                    created_at: new Date().toISOString()
-                }
-            ],
-            employees: [
-                {
-                    id: 1,
-                    name: 'Max Mustermann',
-                    email: 'max@koelnrhein.de',
-                    password: 'worker123',
-                    skill: 'Allround',
-                    is_active: true,
-                    created_at: new Date().toISOString()
-                },
-                {
-                    id: 2,
-                    name: 'Anna Schmidt',
-                    email: 'anna@koelnrhein.de',
-                    password: 'anna123',
-                    skill: 'Gebäudereinigung',
-                    is_active: true,
-                    created_at: new Date().toISOString()
-                }
-            ],
-            jobs: [
-                {
-                    id: 1,
-                    customer_id: 1,
-                    service: 'Büroreinigung',
-                    address: 'Hauptstraße 45, 50667 Köln',
-                    priority: 'normal',
-                    description: 'Wöchentliche Büroreinigung für 50 Arbeitsplätze',
-                    status: 'neu',
-                    assigned_employee_id: null,
-                    created_at: new Date(Date.now() - 86400000).toISOString()
-                },
-                {
-                    id: 2,
-                    customer_id: 1,
-                    service: 'Facility Management',
-                    address: 'Businesspark 12, 50931 Köln',
-                    priority: 'hoch',
-                    description: 'Komplette Gebäudeverwaltung und Wartung',
-                    status: 'in-bearbeitung',
-                    assigned_employee_id: 1,
-                    created_at: new Date(Date.now() - 172800000).toISOString()
-                }
-            ],
-            job_notes: []
-        };
-        
-        let currentUser = null;
-        let nextId = { customers: 2, employees: 3, jobs: 3 };
-
-        // Initialize app
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(() => {
-                showNotification('Service Portal geladen! Demo-Logins: Müller GmbH/test123, Max Mustermann/worker123, Admin: admin', 'success');
-            }, 1000);
-        });
-
-        // View Management
-        function showView(viewId) {
-            document.querySelectorAll('.view').forEach(view => {
-                view.classList.remove('active');
-            });
-            document.getElementById(viewId).classList.add('active');
-        }
-
-        // Authentication Functions
-        function openCustomerAuth() {
-            document.getElementById('customerAuth').classList.remove('hidden');
-        }
-
-        function openEmployeeAuth() {
-            document.getElementById('employeeAuth').classList.remove('hidden');
-        }
-
-        function openAdminAuth() {
-            document.getElementById('adminAuth').classList.remove('hidden');
-        }
-
-        function closeAuth() {
-            document.querySelectorAll('.auth-container').forEach(modal => {
-                modal.classList.add('hidden');
-            });
-        }
-
-        function switchTab(tab) {
-            const loginForm = document.getElementById('customerLoginForm');
-            const registerForm = document.getElementById('customerRegisterForm');
-            const loginTab = document.querySelector('[onclick="switchTab(\'login\')"]');
-            const registerTab = document.querySelector('[onclick="switchTab(\'register\')"]');
-            
-            if (tab === 'login') {
-                loginForm.classList.add('active');
-                registerForm.classList.remove('active');
-                loginTab.classList.add('active');
-                registerTab.classList.remove('active');
-            } else {
-                registerForm.classList.add('active');
-                loginForm.classList.remove('active');
-                registerTab.classList.add('active');
-                loginTab.classList.remove('active');
-            }
-        }
-
-        // Customer Login
-        function customerLogin(event) {
-            event.preventDefault();
-            
-            const name = document.getElementById('custLoginName').value;
-            const password = document.getElementById('custLoginPassword').value;
-            
-            const customer = appData.customers.find(c => c.name === name && c.password === password);
-            
-            if (customer) {
-                currentUser = customer;
-                currentUser.type = 'customer';
-                
-                showNotification('Willkommen, ' + currentUser.name + '!', 'success');
-                showView('customerView');
-                closeAuth();
-                
-                document.getElementById('custLoginName').value = '';
-                document.getElementById('custLoginPassword').value = '';
-                document.getElementById('custLoginError').classList.add('hidden');
-                document.getElementById('customerName').textContent = currentUser.name;
-                
-                loadCustomerJobs();
-            } else {
-                document.getElementById('custLoginError').textContent = 'Falsche Anmeldedaten. Demo: Müller GmbH / test123';
-                document.getElementById('custLoginError').classList.remove('hidden');
-            }
-        }
-
-        // Customer Registration
-        function customerRegister(event) {
-            event.preventDefault();
-            
-            const name = document.getElementById('custRegName').value;
-            const email = document.getElementById('custRegEmail').value;
-            const phone = document.getElementById('custRegPhone').value;
-            const address = document.getElementById('custRegAddress').value;
-            const password = document.getElementById('custRegPassword').value;
-            
-            const newCustomer = {
-                id: nextId.customers++,
-                name, email, phone, address, password,
-                created_at: new Date().toISOString()
-            };
-            
-            appData.customers.push(newCustomer);
-            
-            showNotification('Registrierung erfolgreich! Sie können sich nun anmelden.', 'success');
-            switchTab('login');
-            document.getElementById('custLoginName').value = name;
-        }
-
-        // Employee Login
-        function employeeLogin(event) {
-            event.preventDefault();
-            
-            const name = document.getElementById('empLoginName').value;
-            const password = document.getElementById('empLoginPassword').value;
-            
-            const employee = appData.employees.find(e => e.name === name && e.password === password && e.is_active);
-            
-            if (employee) {
-                currentUser = employee;
-                currentUser.type = 'employee';
-                
-                showNotification('Willkommen, ' + currentUser.name + '!', 'success');
-                showView('employeeView');
-                closeAuth();
-                
-                document.getElementById('empLoginName').value = '';
-                document.getElementById('empLoginPassword').value = '';
-                document.getElementById('empLoginError').classList.add('hidden');
-                document.getElementById('employeeName').textContent = currentUser.name;
-                
-                loadEmployeeJobs();
-            } else {
-                document.getElementById('empLoginError').textContent = 'Falsche Anmeldedaten. Demo: Max Mustermann / worker123';
-                document.getElementById('empLoginError').classList.remove('hidden');
-            }
-        }
-
-        // Admin Login
-        function adminLogin(event) {
-            event.preventDefault();
-            
-            const password = document.getElementById('adminPassword').value;
-            
-            if (password === 'admin') {
-                showNotification('Admin-Zugang gewährt!', 'success');
-                document.getElementById('adminAuth').classList.add('hidden');
-                document.getElementById('adminDashboard').classList.remove('hidden');
-                showAdminJobs();
-            } else {
-                document.getElementById('adminLoginError').textContent = 'Falsches Passwort. Demo: admin';
-                document.getElementById('adminLoginError').classList.remove('hidden');
-            }
-        }
-
-        // Job Management
-        function showNewJobForm() {
-            document.getElementById('newJobModal').classList.remove('hidden');
-        }
-
-        function closeNewJobModal() {
-            document.getElementById('newJobModal').classList.add('hidden');
-        }
-
-        function createJob(event) {
-            event.preventDefault();
-            
-            const service = document.getElementById('jobService').value;
-            const address = document.getElementById('jobAddress').value;
-            const priority = document.getElementById('jobPriority').value;
-            const description = document.getElementById('jobDescription').value;
-            
-            const newJob = {
-                id: nextId.jobs++,
-                customer_id: currentUser.id,
-                service, address, priority, description,
-                status: 'neu',
-                assigned_employee_id: null,
-                created_at: new Date().toISOString()
-            };
-            
-            appData.jobs.push(newJob);
-            
-            showNotification('Auftrag erfolgreich erstellt!', 'success');
-            closeNewJobModal();
-            
-            // Reset form
-            document.getElementById('jobService').value = '';
-            document.getElementById('jobAddress').value = '';
-            document.getElementById('jobPriority').value = 'normal';
-            document.getElementById('jobDescription').value = '';
-            
-            loadCustomerJobs();
-        }
-
-        function loadCustomerJobs() {
-            const customerJobs = appData.jobs.filter(job => job.customer_id === currentUser.id);
-            const jobsContainer = document.getElementById('customerJobs');
-            
-            if (customerJobs.length === 0) {
-                jobsContainer.innerHTML = '<p>Sie haben noch keine Aufträge erstellt.</p>';
-                return;
-            }
-            
-            jobsContainer.innerHTML = customerJobs.map(job => {
-                const employee = job.assigned_employee_id ? 
-                    appData.employees.find(e => e.id === job.assigned_employee_id) : null;
-                
-                return `
-                    <div class="job-card">
-                        <div class="job-header">
-                            <div class="job-title">${job.service}</div>
-                            <div class="job-status status-${job.status}">${job.status}</div>
-                        </div>
-                        <div class="job-details">
-                            <p><strong>Adresse:</strong> ${job.address}</p>
-                            <p><strong>Priorität:</strong> ${job.priority}</p>
-                            <p><strong>Beschreibung:</strong> ${job.description}</p>
-                            ${employee ? `<p><strong>Bearbeitet von:</strong> ${employee.name}</p>` : ''}
-                        </div>
-                        <div class="job-meta">
-                            <span>Erstellt: ${new Date(job.created_at).toLocaleDateString()}</span>
-                            <span>Auftrag #${job.id}</span>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function loadEmployeeJobs() {
-            const employeeJobs = appData.jobs.filter(job => job.assigned_employee_id === currentUser.id);
-            const jobsContainer = document.getElementById('employeeJobs');
-            
-            if (employeeJobs.length === 0) {
-                jobsContainer.innerHTML = '<p>Ihnen sind derzeit keine Aufträge zugewiesen.</p>';
-                return;
-            }
-            
-            jobsContainer.innerHTML = employeeJobs.map(job => {
-                const customer = appData.customers.find(c => c.id === job.customer_id);
-                
-                return `
-                    <div class="job-card">
-                        <div class="job-header">
-                            <div class="job-title">${job.service}</div>
-                            <div class="job-status status-${job.status}">${job.status}</div>
-                        </div>
-                        <div class="job-details">
-                            <p><strong>Kunde:</strong> ${customer ? customer.name : 'Unbekannt'}</p>
-                            <p><strong>Adresse:</strong> ${job.address}</p>
-                            <p><strong>Priorität:</strong> ${job.priority}</p>
-                            <p><strong>Beschreibung:</strong> ${job.description}</p>
-                        </div>
-                        <div class="employee-actions">
-                            <button class="btn btn-small btn-warning" onclick="updateJobStatus(${job.id}, 'in-bearbeitung')">In Bearbeitung</button>
-                            <button class="btn btn-small btn-success" onclick="updateJobStatus(${job.id}, 'abgeschlossen')">Abgeschlossen</button>
-                        </div>
-                        <div class="job-meta">
-                            <span>Erstellt: ${new Date(job.created_at).toLocaleDateString()}</span>
-                            <span>Auftrag #${job.id}</span>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function updateJobStatus(jobId, status) {
-            const job = appData.jobs.find(j => j.id === jobId);
-            if (job) {
-                job.status = status;
-                showNotification('Status erfolgreich aktualisiert!', 'success');
-                loadEmployeeJobs();
-            }
-        }
-
-        // Admin Functions
-        function showAdminJobs() {
-            document.getElementById('adminJobsSection').classList.remove('hidden');
-            document.getElementById('adminCustomersSection').classList.add('hidden');
-            document.getElementById('adminEmployeesSection').classList.add('hidden');
-            loadAdminJobs();
-        }
-
-        function showAdminCustomers() {
-            document.getElementById('adminJobsSection').classList.add('hidden');
-            document.getElementById('adminCustomersSection').classList.remove('hidden');
-            document.getElementById('adminEmployeesSection').classList.add('hidden');
-            loadAdminCustomers();
-        }
-
-        function showAdminEmployees() {
-            document.getElementById('adminJobsSection').classList.add('hidden');
-            document.getElementById('adminCustomersSection').classList.add('hidden');
-            document.getElementById('adminEmployeesSection').classList.remove('hidden');
-            loadAdminEmployees();
-        }
-
-        function loadAdminJobs() {
-            const jobsContainer = document.getElementById('adminJobs');
-            
-            if (appData.jobs.length === 0) {
-                jobsContainer.innerHTML = '<p>Keine Aufträge vorhanden.</p>';
-                return;
-            }
-            
-            jobsContainer.innerHTML = appData.jobs.map(job => {
-                const customer = appData.customers.find(c => c.id === job.customer_id);
-                const employee = job.assigned_employee_id ? 
-                    appData.employees.find(e => e.id === job.assigned_employee_id) : null;
-                
-                return `
-                    <div class="job-card">
-                        <div class="job-header">
-                            <div class="job-title">${job.service}</div>
-                            <div class="job-status status-${job.status}">${job.status}</div>
-                        </div>
-                        <div class="job-details">
-                            <p><strong>Kunde:</strong> ${customer ? customer.name : 'Unbekannt'}</p>
-                            <p><strong>Adresse:</strong> ${job.address}</p>
-                            <p><strong>Priorität:</strong> ${job.priority}</p>
-                            <p><strong>Beschreibung:</strong> ${job.description}</p>
-                            ${employee ? `<p><strong>Zugewiesen an:</strong> ${employee.name}</p>` : ''}
-                        </div>
-                        <div class="employee-actions">
-                            <button class="btn btn-small" onclick="assignEmployee(${job.id})">Mitarbeiter zuweisen</button>
-                            <button class="btn btn-small btn-danger" onclick="updateJobStatus(${job.id}, 'storniert')">Stornieren</button>
-                        </div>
-                        <div class="job-meta">
-                            <span>Erstellt: ${new Date(job.created_at).toLocaleDateString()}</span>
-                            <span>Auftrag #${job.id}</span>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function loadAdminCustomers() {
-            const customersContainer = document.getElementById('adminCustomers');
-            
-            customersContainer.innerHTML = appData.customers.map(customer => {
-                const customerJobs = appData.jobs.filter(job => job.customer_id === customer.id);
-                
-                return `
-                    <div class="job-card">
-                        <div class="job-header">
-                            <div class="job-title">${customer.name}</div>
-                            <div class="job-status" style="background: #e3f2fd; color: #1976d2;">${customerJobs.length} Aufträge</div>
-                        </div>
-                        <div class="job-details">
-                            <p><strong>E-Mail:</strong> ${customer.email}</p>
-                            <p><strong>Telefon:</strong> ${customer.phone}</p>
-                            <p><strong>Adresse:</strong> ${customer.address}</p>
-                        </div>
-                        <div class="job-meta">
-                            <span>Registriert: ${new Date(customer.created_at).toLocaleDateString()}</span>
-                            <span>Kunde #${customer.id}</span>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function loadAdminEmployees() {
-            const employeesContainer = document.getElementById('adminEmployees');
-            
-            employeesContainer.innerHTML = appData.employees.map(employee => {
-                const employeeJobs = appData.jobs.filter(job => job.assigned_employee_id === employee.id);
-                
-                return `
-                    <div class="job-card">
-                        <div class="job-header">
-                            <div class="job-title">${employee.name}</div>
-                            <div class="job-status" style="background: ${employee.is_active ? '#e8f5e8' : '#fee'}; color: ${employee.is_active ? '#388e3c' : '#c33'};">
-                                ${employee.is_active ? 'Aktiv' : 'Inaktiv'}
-                            </div>
-                        </div>
-                        <div class="job-details">
-                            <p><strong>E-Mail:</strong> ${employee.email}</p>
-                            <p><strong>Fähigkeiten:</strong> ${employee.skill}</p>
-                            <p><strong>Zugewiesene Aufträge:</strong> ${employeeJobs.length}</p>
-                        </div>
-                        <div class="employee-actions">
-                            <button class="btn btn-small ${employee.is_active ? 'btn-danger' : 'btn-success'}" 
-                                onclick="toggleEmployeeStatus(${employee.id})">
-                                ${employee.is_active ? 'Deaktivieren' : 'Aktivieren'}
-                            </button>
-                        </div>
-                        <div class="job-meta">
-                            <span>Eingestellt: ${new Date(employee.created_at).toLocaleDateString()}</span>
-                            <span>Mitarbeiter #${employee.id}</span>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function assignEmployee(jobId) {
-            const activeEmployees = appData.employees.filter(e => e.is_active);
-            const employeeNames = activeEmployees.map(e => e.name).join(', ');
-            const employeeName = prompt(`Verfügbare Mitarbeiter: ${employeeNames}\n\nMitarbeitername eingeben:`);
-            
-            if (!employeeName) return;
-            
-            const employee = activeEmployees.find(e => e.name === employeeName);
-            if (employee) {
-                const job = appData.jobs.find(j => j.id === jobId);
-                if (job) {
-                    job.assigned_employee_id = employee.id;
-                    job.status = 'in-bearbeitung';
-                    showNotification('Mitarbeiter erfolgreich zugewiesen!', 'success');
-                    loadAdminJobs();
-                }
-            } else {
-                showNotification('Mitarbeiter nicht gefunden', 'error');
-            }
-        }
-
-        function toggleEmployeeStatus(employeeId) {
-            const employee = appData.employees.find(e => e.id === employeeId);
-            if (employee) {
-                employee.is_active = !employee.is_active;
-                showNotification(`Mitarbeiter ${employee.is_active ? 'aktiviert' : 'deaktiviert'}!`, 'success');
-                loadAdminEmployees();
-            }
-        }
-
-        function showAddEmployeeForm() {
-            document.getElementById('addEmployeeModal').classList.remove('hidden');
-        }
-
-        function closeAddEmployeeModal() {
-            document.getElementById('addEmployeeModal').classList.add('hidden');
-        }
-
-        function addEmployee(event) {
-            event.preventDefault();
-            
-            const name = document.getElementById('newEmpName').value;
-            const email = document.getElementById('newEmpEmail').value;
-            const password = document.getElementById('newEmpPassword').value;
-            const skill = document.getElementById('newEmpSkill').value;
-            
-            const newEmployee = {
-                id: nextId.employees++,
-                name, email, password, skill,
-                is_active: true,
-                created_at: new Date().toISOString()
-            };
-            
-            appData.employees.push(newEmployee);
-            
-            showNotification('Mitarbeiter erfolgreich hinzugefügt!', 'success');
-            closeAddEmployeeModal();
-            
-            // Reset form
-            document.getElementById('newEmpName').value = '';
-            document.getElementById('newEmpEmail').value = '';
-            document.getElementById('newEmpPassword').value = '';
-            document.getElementById('newEmpSkill').value = '';
-            
-            loadAdminEmployees();
-        }
-
-        function exportData() {
-            const dataToExport = {
-                customers: appData.customers,
-                employees: appData.employees.map(emp => ({...emp, password: '***'})), // Hide passwords
-                jobs: appData.jobs,
-                exported_at: new Date().toISOString()
-            };
-            
-            const dataStr = JSON.stringify(dataToExport, null, 2);
-            const dataBlob = new Blob([dataStr], {type: 'application/json'});
-            const url = URL.createObjectURL(dataBlob);
-            
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `koeln-rhein-export-${new Date().toISOString().split('T')[0]}.json`;
-            link.click();
-            
-            showNotification('Daten erfolgreich exportiert!', 'success');
-        }
-
-        function logout() {
-            currentUser = null;
-            showView('homeView');
-            showNotification('Sie wurden abgemeldet', 'success');
-        }
-
-        // Notification System
-        function showNotification(message, type = 'success') {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.className = `notification ${type}`;
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
-
-        // Password Toggle Function
-        function togglePassword(inputId, button) {
-            const input = document.getElementById(inputId);
-            if (input.type === 'password') {
-                input.type = 'text';
-                button.textContent = '🙈';
-            } else {
-                input.type = 'password';
-                button.textContent = '👁';
-            }
-        }
-    </script>
-</body>
-</html>
+                        <option value="Gebäudereinigung">Gebäudereinigung</option
