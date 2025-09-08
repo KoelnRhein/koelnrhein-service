@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Köln Rhein Service Portal</title>
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <style>
         * {
             margin: 0;
@@ -200,6 +199,32 @@
             font-size: 1rem;
             transition: border-color 0.3s ease;
         }
+
+        .password-container {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 1.1rem;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .password-toggle:hover {
+            color: #333;
+        }
         
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             outline: none;
@@ -273,68 +298,6 @@
             font-size: 0.9rem;
         }
         
-        .job-list {
-            display: grid;
-            gap: 20px;
-        }
-        
-        .job-card {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 20px;
-            border-left: 5px solid #667eea;
-        }
-        
-        .job-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .job-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #333;
-        }
-        
-        .job-status {
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        
-        .status-neu {
-            background: #e3f2fd;
-            color: #1976d2;
-        }
-        
-        .status-in-bearbeitung {
-            background: #fff3e0;
-            color: #f57c00;
-        }
-        
-        .status-abgeschlossen {
-            background: #e8f5e8;
-            color: #388e3c;
-        }
-        
-        .job-details {
-            color: #666;
-            line-height: 1.6;
-        }
-        
-        .job-meta {
-            display: flex;
-            gap: 20px;
-            margin-top: 15px;
-            font-size: 0.9rem;
-            color: #888;
-            flex-wrap: wrap;
-        }
-        
         .notification {
             position: fixed;
             top: 20px;
@@ -363,31 +326,6 @@
         .back-btn {
             background: #6c757d;
             margin-bottom: 20px;
-        }
-        
-        .employee-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .btn-small {
-            padding: 8px 16px;
-            font-size: 0.9rem;
-        }
-        
-        .btn-success {
-            background: #28a745;
-        }
-        
-        .btn-warning {
-            background: #ffc107;
-            color: #333;
-        }
-        
-        .btn-danger {
-            background: #dc3545;
         }
         
         .info-section {
@@ -421,31 +359,6 @@
             margin-top: 20px;
         }
         
-        .admin-modal {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            width: 90%;
-            max-width: 600px;
-            position: relative;
-        }
-        
-        .admin-dashboard {
-            max-height: 70vh;
-            overflow-y: auto;
-        }
-        
-        .admin-actions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        
-        .btn-secondary {
-            background: #6c757d;
-        }
-        
         @media (max-width: 768px) {
             .main-grid {
                 grid-template-columns: 1fr;
@@ -467,16 +380,6 @@
                 flex-direction: column;
                 gap: 15px;
                 text-align: center;
-            }
-            
-            .job-header {
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
-            }
-            
-            .employee-actions {
-                justify-content: center;
             }
             
             .contact-info {
@@ -540,7 +443,10 @@
                     </div>
                     <div class="form-group">
                         <label>Passwort</label>
-                        <input type="password" id="custLoginPassword" placeholder="Ihr Passwort" required>
+                        <div class="password-container">
+                            <input type="password" id="custLoginPassword" placeholder="Ihr Passwort" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword('custLoginPassword', this)">👁</button>
+                        </div>
                     </div>
                     <div id="custLoginError" class="error-message hidden"></div>
                     <button type="submit" class="btn">Anmelden</button>
@@ -567,7 +473,10 @@
                     </div>
                     <div class="form-group">
                         <label>Passwort</label>
-                        <input type="password" id="custRegPassword" placeholder="Neues Passwort" required>
+                        <div class="password-container">
+                            <input type="password" id="custRegPassword" placeholder="Neues Passwort" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword('custRegPassword', this)">👁</button>
+                        </div>
                     </div>
                     <div id="custRegError" class="error-message hidden"></div>
                     <button type="submit" class="btn">Registrieren</button>
@@ -593,7 +502,10 @@
                     </div>
                     <div class="form-group">
                         <label>Passwort</label>
-                        <input type="password" id="empLoginPassword" placeholder="Vom Admin erhalten" required>
+                        <div class="password-container">
+                            <input type="password" id="empLoginPassword" placeholder="Vom Admin erhalten" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword('empLoginPassword', this)">👁</button>
+                        </div>
                     </div>
                     <div id="empLoginError" class="error-message hidden"></div>
                     <button type="submit" class="btn">Anmelden</button>
@@ -614,12 +526,12 @@
                 </div>
                 
                 <div class="dashboard-actions" style="margin-bottom: 30px;">
-                    <button class="btn" onclick="showNewJobForm()">Neuen Auftrag erstellen</button>
+                    <button class="btn" onclick="showNotification('Auftragserstellung ist in dieser Demo-Version deaktiviert', 'error')">Neuen Auftrag erstellen</button>
                 </div>
                 
                 <h3 style="margin-bottom: 20px;">Ihre Aufträge</h3>
-                <div id="customerJobs" class="job-list">
-                    <!-- Jobs werden hier geladen -->
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 15px;">
+                    <p>Demo-Version: In der echten App würden hier Ihre Aufträge angezeigt werden.</p>
                 </div>
             </div>
         </div>
@@ -637,8 +549,8 @@
                 </div>
                 
                 <h3 style="margin-bottom: 20px;">Zugewiesene Aufträge</h3>
-                <div id="employeeJobs" class="job-list">
-                    <!-- Jobs werden hier geladen -->
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 15px;">
+                    <p>Demo-Version: In der echten App würden hier zugewiesene Aufträge angezeigt werden.</p>
                 </div>
             </div>
         </div>
@@ -687,159 +599,39 @@
                 </div>
                 
                 <div style="text-align: center;">
-                    <button class="btn admin-btn" onclick="openAdminAuth()">Admin-Bereich öffnen</button>
+                    <button class="btn admin-btn" onclick="showNotification('Admin-Bereich funktioniert nur mit Datenbank-Version', 'error')">Admin-Bereich öffnen</button>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Admin Auth Modal -->
-    <div id="adminAuth" class="auth-container hidden">
-        <div class="auth-modal">
-            <button class="close-btn" onclick="closeAuth()">&times;</button>
-            <div class="auth-header">
-                <h2>Admin-Bereich</h2>
-                <p>Administratoren-Zugang</p>
-            </div>
-            
-            <div class="form-section active">
-                <form onsubmit="adminLogin(event)">
-                    <div class="form-group">
-                        <label>Admin-Passwort</label>
-                        <input type="password" id="adminPassword" placeholder="Admin-Passwort eingeben" required>
-                    </div>
-                    <div id="adminLoginError" class="error-message hidden"></div>
-                    <button type="submit" class="btn">Anmelden</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Admin Dashboard Modal -->
-    <div id="adminDashboard" class="auth-container hidden">
-        <div class="admin-modal">
-            <button class="close-btn" onclick="closeAuth()">&times;</button>
-            <div class="auth-header">
-                <h2>Admin-Dashboard</h2>
-                <p>Verwaltung des Service-Portals</p>
-            </div>
-            
-            <div class="admin-dashboard">
-                <div class="admin-actions">
-                    <button class="btn" onclick="showAdminJobs()">Aufträge verwalten</button>
-                    <button class="btn btn-secondary" onclick="alert('Kunden-Verwaltung: Diese Funktion ist in Entwicklung')">Kunden verwalten</button>
-                    <button class="btn btn-secondary" onclick="alert('Mitarbeiter-Verwaltung: Diese Funktion ist in Entwicklung')">Mitarbeiter verwalten</button>
-                    <button class="btn btn-secondary" onclick="alert('Daten-Export: Diese Funktion ist in Entwicklung')">Daten exportieren</button>
-                </div>
-                
-                <div id="adminJobsSection">
-                    <h3 style="margin-bottom: 20px;">Alle Aufträge</h3>
-                    <div id="adminJobs" class="job-list">
-                        <!-- Admin Jobs werden hier geladen -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- New Job Modal -->
-    <div id="newJobModal" class="auth-container hidden">
-        <div class="auth-modal">
-            <button class="close-btn" onclick="closeNewJobModal()">&times;</button>
-            <div class="auth-header">
-                <h2>Neuen Auftrag erstellen</h2>
-            </div>
-            
-            <form onsubmit="createJob(event)">
-                <div class="form-group">
-                    <label>Service-Art</label>
-                    <select id="jobService" required>
-                        <option value="">Bitte wählen...</option>
-                        <option value="Gebäudereinigung">Gebäudereinigung</option>
-                        <option value="Büroreinigung">Büroreinigung</option>
-                        <option value="Facility Management">Facility Management</option>
-                        <option value="Wartung">Wartung & Reparatur</option>
-                        <option value="Sonstige">Sonstige</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Adresse</label>
-                    <input type="text" id="jobAddress" placeholder="Straße, PLZ Ort" required>
-                </div>
-                <div class="form-group">
-                    <label>Priorität</label>
-                    <select id="jobPriority" required>
-                        <option value="normal">Normal</option>
-                        <option value="hoch">Hoch</option>
-                        <option value="dringend">Dringend</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Beschreibung</label>
-                    <textarea id="jobDescription" rows="4" placeholder="Detaillierte Beschreibung des Auftrags..." required></textarea>
-                </div>
-                <button type="submit" class="btn">Auftrag erstellen</button>
-            </form>
         </div>
     </div>
 
     <div id="notification" class="notification"></div>
 
     <script>
-        // Alternative Supabase Setup mit unpkg
-        const { createClient } = supabase;
-        const supabaseUrl = 'https://aatldgtpxokqhzgcutun.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFhdGxkZ3RweG9rcWh6Z2N1dHVuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcxNTQzNTgsImV4cCI6MjA3MjczMDM1OH0.x2vM8yNwGn2X1XbKGLr1Xq_-9fP2Z4iY6J0FYcVEaVo';
-        const supabaseClient = createClient(supabaseUrl, supabaseKey);
+        // Demo-Daten (temporär ohne Datenbank)
+        const demoUsers = {
+            customers: [
+                {
+                    id: 1,
+                    name: 'Müller GmbH',
+                    email: 'mueller@firma.de',
+                    phone: '0221 / 12345678',
+                    address: 'Musterstraße 123, 50667 Köln',
+                    password: 'test123'
+                }
+            ],
+            employees: [
+                {
+                    id: 1,
+                    name: 'Max Mustermann',
+                    email: 'max@koelnrhein.de',
+                    password: 'worker123',
+                    skill: 'Allround'
+                }
+            ]
+        };
         
         let currentUser = null;
-
-        // Initialize demo data
-        document.addEventListener('DOMContentLoaded', async function() {
-            console.log('Initialisiere App...');
-            await createDemoData();
-        });
-
-        async function createDemoData() {
-            try {
-                console.log('Erstelle Demo-Daten...');
-                
-                // Check if demo data already exists
-                const { data: customers } = await supabaseClient.from('customers').select('*').limit(1);
-                const { data: employees } = await supabaseClient.from('employees').select('*').limit(1);
-                
-                if (customers.length === 0 || employees.length === 0) {
-                    // Create demo customer
-                    await supabaseClient.from('customers').insert([
-                        {
-                            name: 'Müller GmbH',
-                            email: 'mueller@firma.de',
-                            phone: '0221 / 12345678',
-                            address: 'Musterstraße 123, 50667 Köln',
-                            password: 'test123'
-                        }
-                    ]);
-                    
-                    // Create demo employee
-                    await supabaseClient.from('employees').insert([
-                        {
-                            name: 'Max Mustermann',
-                            email: 'max@koelnrhein.de',
-                            password: 'worker123',
-                            skill: 'Allround'
-                        }
-                    ]);
-                    
-                    console.log('Demo-Daten erstellt!');
-                    console.log('KUNDE: Müller GmbH / test123');
-                    console.log('MITARBEITER: Max Mustermann / worker123');
-                } else {
-                    console.log('Demo-Daten bereits vorhanden');
-                }
-            } catch (error) {
-                console.error('Fehler beim Erstellen der Demo-Daten:', error);
-            }
-        }
 
         // View Management
         function showView(viewId) {
@@ -856,10 +648,6 @@
 
         function openEmployeeAuth() {
             document.getElementById('employeeAuth').classList.remove('hidden');
-        }
-
-        function openAdminAuth() {
-            document.getElementById('adminAuth').classList.remove('hidden');
         }
 
         function closeAuth() {
@@ -887,59 +675,43 @@
             }
         }
 
-        // Customer Login - FIXED VERSION
-        async function customerLogin(event) {
+        // Customer Login - DEMO VERSION
+        function customerLogin(event) {
             event.preventDefault();
             
             const name = document.getElementById('custLoginName').value;
             const password = document.getElementById('custLoginPassword').value;
             
-            console.log('Versuche Login für:', name);
+            console.log('Demo-Login Versuch:', name, password);
             
-            try {
-                const { data, error } = await supabaseClient
-                    .from('customers')
-                    .select('*')
-                    .eq('name', name)
-                    .eq('password', password);
+            // Suche in Demo-Daten
+            const customer = demoUsers.customers.find(c => c.name === name && c.password === password);
+            
+            if (customer) {
+                currentUser = customer;
+                currentUser.type = 'customer';
                 
-                console.log('Login Antwort:', { data, error });
+                showNotification('Demo-Login erfolgreich! Willkommen, ' + currentUser.name + '!', 'success');
+                showView('customerView');
+                closeAuth();
                 
-                if (error || !data || data.length === 0) {
-                    console.error('Login-Fehler:', error);
-                    document.getElementById('custLoginError').textContent = 'Falsche Anmeldedaten';
-                    document.getElementById('custLoginError').classList.remove('hidden');
-                } else {
-                    // Login erfolgreich
-                    currentUser = data[0];
-                    currentUser.type = 'customer';
-                    
-                    showNotification('Willkommen, ' + currentUser.name + '!', 'success');
-                    showView('customerView');
-                    closeAuth();
-                    
-                    // Formular zurücksetzen
-                    document.getElementById('custLoginName').value = '';
-                    document.getElementById('custLoginPassword').value = '';
-                    
-                    // Fehlertext verstecken
-                    document.getElementById('custLoginError').classList.add('hidden');
-                    
-                    // Kundenname anzeigen
-                    document.getElementById('customerName').textContent = currentUser.name;
-                    
-                    // Jobs laden
-                    loadCustomerJobs();
-                }
-            } catch (error) {
-                console.error('Login-Fehler:', error);
-                document.getElementById('custLoginError').textContent = 'Fehler beim Anmelden';
+                // Formular zurücksetzen
+                document.getElementById('custLoginName').value = '';
+                document.getElementById('custLoginPassword').value = '';
+                
+                // Fehlertext verstecken
+                document.getElementById('custLoginError').classList.add('hidden');
+                
+                // Kundenname anzeigen
+                document.getElementById('customerName').textContent = currentUser.name;
+            } else {
+                document.getElementById('custLoginError').textContent = 'Falsche Anmeldedaten. Demo: Müller GmbH / test123';
                 document.getElementById('custLoginError').classList.remove('hidden');
             }
         }
 
-        // Customer Registration
-        async function customerRegister(event) {
+        // Customer Registration - DEMO VERSION
+        function customerRegister(event) {
             event.preventDefault();
             
             const name = document.getElementById('custRegName').value;
@@ -948,381 +720,56 @@
             const address = document.getElementById('custRegAddress').value;
             const password = document.getElementById('custRegPassword').value;
             
-            try {
-                const { data, error } = await supabaseClient
-                    .from('customers')
-                    .insert([
-                        { name, email, phone, address, password }
-                    ])
-                    .select()
-                    .single();
-                
-                if (error) {
-                    console.error('Registrierung-Fehler:', error);
-                    document.getElementById('custRegError').textContent = 'Fehler bei der Registrierung';
-                    document.getElementById('custRegError').classList.remove('hidden');
-                } else {
-                    showNotification('Registrierung erfolgreich! Sie können sich nun anmelden.', 'success');
-                    
-                    // Zur Login-Seite wechseln
-                    switchTab('login');
-                    
-                    // Name ins Login-Feld eintragen
-                    document.getElementById('custLoginName').value = name;
-                }
-            } catch (error) {
-                console.error('Registrierung-Fehler:', error);
-                document.getElementById('custRegError').textContent = 'Fehler bei der Registrierung';
-                document.getElementById('custRegError').classList.remove('hidden');
-            }
+            // Füge neuen Kunden zu Demo-Daten hinzu
+            const newCustomer = {
+                id: demoUsers.customers.length + 1,
+                name, email, phone, address, password
+            };
+            
+            demoUsers.customers.push(newCustomer);
+            
+            showNotification('Demo-Registrierung erfolgreich! Sie können sich nun anmelden.', 'success');
+            
+            // Zur Login-Seite wechseln
+            switchTab('login');
+            
+            // Name ins Login-Feld eintragen
+            document.getElementById('custLoginName').value = name;
         }
 
-        // Employee Login - FIXED VERSION
-        async function employeeLogin(event) {
+        // Employee Login - DEMO VERSION
+        function employeeLogin(event) {
             event.preventDefault();
             
             const name = document.getElementById('empLoginName').value;
             const password = document.getElementById('empLoginPassword').value;
             
-            console.log('Versuche Mitarbeiter-Login für:', name);
+            console.log('Demo-Mitarbeiter-Login Versuch:', name, password);
             
-            try {
-                const { data, error } = await supabaseClient
-                    .from('employees')
-                    .select('*')
-                    .eq('name', name)
-                    .eq('password', password);
+            // Suche in Demo-Daten
+            const employee = demoUsers.employees.find(e => e.name === name && e.password === password);
+            
+            if (employee) {
+                currentUser = employee;
+                currentUser.type = 'employee';
                 
-                console.log('Mitarbeiter Login Antwort:', { data, error });
+                showNotification('Demo-Login erfolgreich! Willkommen, ' + currentUser.name + '!', 'success');
+                showView('employeeView');
+                closeAuth();
                 
-                if (error || !data || data.length === 0) {
-                    console.error('Login-Fehler:', error);
-                    document.getElementById('empLoginError').textContent = 'Falsche Anmeldedaten';
-                    document.getElementById('empLoginError').classList.remove('hidden');
-                } else {
-                    // Login erfolgreich
-                    currentUser = data[0];
-                    currentUser.type = 'employee';
-                    
-                    showNotification('Willkommen, ' + currentUser.name + '!', 'success');
-                    showView('employeeView');
-                    closeAuth();
-                    
-                    // Formular zurücksetzen
-                    document.getElementById('empLoginName').value = '';
-                    document.getElementById('empLoginPassword').value = '';
-                    
-                    // Fehlertext verstecken
-                    document.getElementById('empLoginError').classList.add('hidden');
-                    
-                    // Mitarbeitername anzeigen
-                    document.getElementById('employeeName').textContent = currentUser.name;
-                    
-                    // Jobs laden
-                    loadEmployeeJobs();
-                }
-            } catch (error) {
-                console.error('Login-Fehler:', error);
-                document.getElementById('empLoginError').textContent = 'Fehler beim Anmelden';
+                // Formular zurücksetzen
+                document.getElementById('empLoginName').value = '';
+                document.getElementById('empLoginPassword').value = '';
+                
+                // Fehlertext verstecken
+                document.getElementById('empLoginError').classList.add('hidden');
+                
+                // Mitarbeitername anzeigen
+                document.getElementById('employeeName').textContent = currentUser.name;
+            } else {
+                document.getElementById('empLoginError').textContent = 'Falsche Anmeldedaten. Demo: Max Mustermann / worker123';
                 document.getElementById('empLoginError').classList.remove('hidden');
             }
-        }
-
-        // Admin Login
-        async function adminLogin(event) {
-            event.preventDefault();
-            
-            const password = document.getElementById('adminPassword').value;
-            
-            if (password === 'admin') {
-                showNotification('Admin-Zugang gewährt!', 'success');
-                document.getElementById('adminAuth').classList.add('hidden');
-                document.getElementById('adminDashboard').classList.remove('hidden');
-                loadAdminJobs();
-            } else {
-                document.getElementById('adminLoginError').textContent = 'Falsches Passwort';
-                document.getElementById('adminLoginError').classList.remove('hidden');
-            }
-        }
-
-        // Job Management
-        function showNewJobForm() {
-            document.getElementById('newJobModal').classList.remove('hidden');
-        }
-
-        function closeNewJobModal() {
-            document.getElementById('newJobModal').classList.add('hidden');
-        }
-
-        async function createJob(event) {
-            event.preventDefault();
-            
-            const service = document.getElementById('jobService').value;
-            const address = document.getElementById('jobAddress').value;
-            const priority = document.getElementById('jobPriority').value;
-            const description = document.getElementById('jobDescription').value;
-            
-            try {
-                const { data, error } = await supabaseClient
-                    .from('jobs')
-                    .insert([{
-                        customer_id: currentUser.id,
-                        service,
-                        address,
-                        priority,
-                        description,
-                        status: 'neu'
-                    }])
-                    .select()
-                    .single();
-                
-                if (error) {
-                    console.error('Fehler beim Erstellen des Auftrags:', error);
-                    showNotification('Fehler beim Erstellen des Auftrags', 'error');
-                    return;
-                }
-                
-                showNotification('Auftrag erfolgreich erstellt!');
-                closeNewJobModal();
-                document.getElementById('jobService').value = '';
-                document.getElementById('jobAddress').value = '';
-                document.getElementById('jobPriority').value = 'normal';
-                document.getElementById('jobDescription').value = '';
-                loadCustomerJobs();
-            } catch (error) {
-                console.error('Fehler beim Erstellen des Auftrags:', error);
-                showNotification('Fehler beim Erstellen des Auftrags', 'error');
-            }
-        }
-
-        async function loadCustomerJobs() {
-            try {
-                const { data, error } = await supabaseClient
-                    .from('jobs')
-                    .select('*')
-                    .eq('customer_id', currentUser.id)
-                    .order('created_at', { ascending: false });
-                
-                if (error) {
-                    console.error('Fehler beim Laden der Aufträge:', error);
-                    return;
-                }
-                
-                const jobsContainer = document.getElementById('customerJobs');
-                
-                if (data.length === 0) {
-                    jobsContainer.innerHTML = '<p>Sie haben noch keine Aufträge erstellt.</p>';
-                    return;
-                }
-                
-                jobsContainer.innerHTML = data.map(job => `
-                    <div class="job-card">
-                        <div class="job-header">
-                            <div class="job-title">${job.service}</div>
-                            <div class="job-status status-${job.status}">${job.status}</div>
-                        </div>
-                        <div class="job-details">
-                            <p><strong>Adresse:</strong> ${job.address}</p>
-                            <p><strong>Priorität:</strong> ${job.priority}</p>
-                            <p><strong>Beschreibung:</strong> ${job.description}</p>
-                        </div>
-                        <div class="job-meta">
-                            <span>Erstellt: ${new Date(job.created_at).toLocaleDateString()}</span>
-                            <span>Auftrag #${job.id}</span>
-                        </div>
-                    </div>
-                `).join('');
-                
-            } catch (error) {
-                console.error('Fehler beim Laden der Aufträge:', error);
-            }
-        }
-
-        async function loadEmployeeJobs() {
-            try {
-                const { data, error } = await supabaseClient
-                    .from('jobs')
-                    .select('*')
-                    .eq('assigned_employee_id', currentUser.id)
-                    .order('created_at', { ascending: false });
-                
-                if (error) {
-                    console.error('Fehler beim Laden der Aufträge:', error);
-                    return;
-                }
-                
-                const jobsContainer = document.getElementById('employeeJobs');
-                
-                if (data.length === 0) {
-                    jobsContainer.innerHTML = '<p>Ihnen sind derzeit keine Aufträge zugewiesen.</p>';
-                    return;
-                }
-                
-                jobsContainer.innerHTML = data.map(job => `
-                    <div class="job-card">
-                        <div class="job-header">
-                            <div class="job-title">${job.service}</div>
-                            <div class="job-status status-${job.status}">${job.status}</div>
-                        </div>
-                        <div class="job-details">
-                            <p><strong>Adresse:</strong> ${job.address}</p>
-                            <p><strong>Priorität:</strong> ${job.priority}</p>
-                            <p><strong>Beschreibung:</strong> ${job.description}</p>
-                        </div>
-                        <div class="employee-actions">
-                            <button class="btn btn-small btn-warning" onclick="updateJobStatus(${job.id}, 'in-bearbeitung')">In Bearbeitung</button>
-                            <button class="btn btn-small btn-success" onclick="updateJobStatus(${job.id}, 'abgeschlossen')">Abgeschlossen</button>
-                        </div>
-                        <div class="job-meta">
-                            <span>Erstellt: ${new Date(job.created_at).toLocaleDateString()}</span>
-                            <span>Auftrag #${job.id}</span>
-                        </div>
-                    </div>
-                `).join('');
-                
-            } catch (error) {
-                console.error('Fehler beim Laden der Aufträge:', error);
-            }
-        }
-
-        async function loadAdminJobs() {
-            try {
-                const { data, error } = await supabaseClient
-                    .from('jobs')
-                    .select(`
-                        *,
-                        customers (name),
-                        employees (name)
-                    `)
-                    .order('created_at', { ascending: false });
-                
-                if (error) {
-                    console.error('Fehler beim Laden der Aufträge:', error);
-                    return;
-                }
-                
-                const jobsContainer = document.getElementById('adminJobs');
-                
-                if (data.length === 0) {
-                    jobsContainer.innerHTML = '<p>Keine Aufträge vorhanden.</p>';
-                    return;
-                }
-                
-                jobsContainer.innerHTML = data.map(job => `
-                    <div class="job-card">
-                        <div class="job-header">
-                            <div class="job-title">${job.service}</div>
-                            <div class="job-status status-${job.status}">${job.status}</div>
-                        </div>
-                        <div class="job-details">
-                            <p><strong>Kunde:</strong> ${job.customers?.name || 'Unbekannt'}</p>
-                            <p><strong>Adresse:</strong> ${job.address}</p>
-                            <p><strong>Priorität:</strong> ${job.priority}</p>
-                            <p><strong>Beschreibung:</strong> ${job.description}</p>
-                            ${job.employees ? `<p><strong>Zugewiesen an:</strong> ${job.employees.name}</p>` : ''}
-                        </div>
-                        <div class="employee-actions">
-                            <button class="btn btn-small" onclick="assignEmployee(${job.id})">Mitarbeiter zuweisen</button>
-                            <button class="btn btn-small btn-danger" onclick="cancelJob(${job.id})">Stornieren</button>
-                        </div>
-                        <div class="job-meta">
-                            <span>Erstellt: ${new Date(job.created_at).toLocaleDateString()}</span>
-                            <span>Auftrag #${job.id}</span>
-                        </div>
-                    </div>
-                `).join('');
-                
-            } catch (error) {
-                console.error('Fehler beim Laden der Aufträge:', error);
-            }
-        }
-
-        async function updateJobStatus(jobId, status) {
-            try {
-                const { error } = await supabaseClient
-                    .from('jobs')
-                    .update({ status })
-                    .eq('id', jobId);
-                
-                if (error) {
-                    console.error('Fehler beim Aktualisieren des Status:', error);
-                    showNotification('Fehler beim Aktualisieren des Status', 'error');
-                    return;
-                }
-                
-                showNotification('Status erfolgreich aktualisiert!', 'success');
-                loadEmployeeJobs();
-                
-            } catch (error) {
-                console.error('Fehler beim Aktualisieren des Status:', error);
-                showNotification('Fehler beim Aktualisieren des Status', 'error');
-            }
-        }
-
-        async function assignEmployee(jobId) {
-            const employeeName = prompt('Mitarbeitername eingeben:');
-            if (!employeeName) return;
-            
-            try {
-                // Find employee
-                const { data: employee, error: empError } = await supabaseClient
-                    .from('employees')
-                    .select('id')
-                    .eq('name', employeeName)
-                    .single();
-                
-                if (empError || !employee) {
-                    showNotification('Mitarbeiter nicht gefunden', 'error');
-                    return;
-                }
-                
-                // Assign job
-                const { error } = await supabaseClient
-                    .from('jobs')
-                    .update({ assigned_employee_id: employee.id })
-                    .eq('id', jobId);
-                
-                if (error) {
-                    console.error('Fehler beim Zuweisen:', error);
-                    showNotification('Fehler beim Zuweisen des Mitarbeiters', 'error');
-                    return;
-                }
-                
-                showNotification('Mitarbeiter erfolgreich zugewiesen!', 'success');
-                loadAdminJobs();
-                
-            } catch (error) {
-                console.error('Fehler beim Zuweisen:', error);
-                showNotification('Fehler beim Zuweisen des Mitarbeiters', 'error');
-            }
-        }
-
-        async function cancelJob(jobId) {
-            if (!confirm('Auftrag wirklich stornieren?')) return;
-            
-            try {
-                const { error } = await supabaseClient
-                    .from('jobs')
-                    .update({ status: 'storniert' })
-                    .eq('id', jobId);
-                
-                if (error) {
-                    console.error('Fehler beim Stornieren:', error);
-                    showNotification('Fehler beim Stornieren', 'error');
-                    return;
-                }
-                
-                showNotification('Auftrag storniert!', 'success');
-                loadAdminJobs();
-                
-            } catch (error) {
-                console.error('Fehler beim Stornieren:', error);
-                showNotification('Fehler beim Stornieren', 'error');
-            }
-        }
-
-        function showAdminJobs() {
-            loadAdminJobs();
         }
 
         function logout() {
@@ -1354,6 +801,13 @@
                 button.textContent = '👁';
             }
         }
+
+        // Demo-Hinweis beim Laden
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                showNotification('Demo-Version geladen! Login-Daten: Müller GmbH / test123 oder Max Mustermann / worker123', 'success');
+            }, 1000);
+        });
     </script>
 </body>
 </html>
