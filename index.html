@@ -16,174 +16,213 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: #333;
+            padding: 20px;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
         }
 
         .header {
             text-align: center;
+            margin-bottom: 30px;
             color: white;
-            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
         }
 
         .page-selector {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
             background: rgba(255, 255, 255, 0.95);
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
         }
 
-        .page-btn {
-            background: rgba(102, 126, 234, 0.8);
+        .nav-btn {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
             color: white;
-            border: 2px solid rgba(102, 126, 234, 0.9);
+            border: none;
             padding: 15px 30px;
-            border-radius: 15px;
+            margin: 0 10px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        .page-btn:hover, .page-btn.active {
-            background: rgba(102, 126, 234, 1);
-            border-color: rgba(102, 126, 234, 1);
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
             transform: translateY(-2px);
         }
 
+        .nav-btn i {
+            margin-right: 8px;
+        }
+
         .content-area {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
+            background: white;
+            border-radius: 15px;
             padding: 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            min-height: 600px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            min-height: 400px;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
         }
 
         .hidden {
             display: none !important;
         }
 
-        .login-form {
-            max-width: 400px;
-            margin: 0 auto;
-            text-align: center;
+        .card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
         }
 
         .form-group {
             margin-bottom: 20px;
-            text-align: left;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
+            font-weight: 600;
+            color: #333;
         }
 
-        .form-group input, .form-group select, .form-group textarea {
+        .form-control {
             width: 100%;
             padding: 12px;
-            border: 2px solid #ddd;
+            border: 2px solid #e9ecef;
             border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
         }
 
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+        .form-control:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #4f46e5;
         }
 
         .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            padding: 12px 24px;
             border: none;
-            padding: 12px 30px;
             border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             margin: 5px;
         }
 
-        .btn:hover {
+        .btn-primary {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
         }
 
         .btn-secondary {
             background: #6c757d;
+            color: white;
         }
 
-        .btn-danger {
-            background: #dc3545;
+        .btn-info {
+            background: #17a2b8;
+            color: white;
         }
 
-        .btn-success {
-            background: #28a745;
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
         }
 
-        .table-container {
-            overflow-x: auto;
-            margin-top: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        .login-form {
+            max-width: 400px;
+            margin: 0 auto;
             background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
         }
 
-        th {
-            background: #f8f9fa;
-            font-weight: bold;
-            color: #555;
+        .dashboard {
+            text-align: center;
         }
 
-        tr:hover {
-            background: #f8f9fa;
-        }
-
-        .card {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-left: 4px solid #667eea;
-        }
-
-        .card-header {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
+        .dashboard h2 {
+            margin-bottom: 30px;
             color: #333;
         }
 
         .status-badge {
-            padding: 4px 12px;
+            padding: 5px 12px;
             border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
+            font-size: 0.8rem;
+            font-weight: 600;
             text-transform: uppercase;
         }
 
@@ -202,6 +241,28 @@
             color: #155724;
         }
 
+        .status-storniert {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
         .admin-corner {
             position: fixed;
             top: 20px;
@@ -210,72 +271,114 @@
         }
 
         .admin-btn {
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0,0,0,0.7);
             color: white;
             border: none;
-            padding: 10px;
-            border-radius: 50%;
+            padding: 10px 15px;
+            border-radius: 50px;
             cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
         }
 
         .admin-btn:hover {
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0,0,0,0.9);
             transform: scale(1.1);
         }
 
-        .time-tracker {
-            text-align: center;
-            padding: 20px;
+        .work-status {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            padding: 15px;
             background: #f8f9fa;
             border-radius: 10px;
-            margin-bottom: 20px;
+            text-align: center;
         }
 
-        .time-display {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .page-selector {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .page-btn {
-                width: 100%;
-                max-width: 300px;
-            }
-            
-            .content-area {
-                padding: 20px;
-            }
+        .clock-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
         }
 
         .success-message {
             background: #d4edda;
             color: #155724;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 15px;
+            border-radius: 8px;
             margin-bottom: 20px;
-            border: 1px solid #c3e6cb;
+            border-left: 4px solid #28a745;
         }
 
         .error-message {
             background: #f8d7da;
             color: #721c24;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 15px;
+            border-radius: 8px;
             margin-bottom: 20px;
-            border: 1px solid #f5c6cb;
+            border-left: 4px solid #dc3545;
+        }
+
+        .image-preview {
+            margin-top: 10px;
+        }
+
+        .image-preview img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-btn {
+                margin: 5px;
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .content-area {
+                padding: 20px;
+            }
+
+            .admin-corner {
+                top: 10px;
+                right: 10px;
+            }
+
+            .clock-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
         }
 
         #admin-login {
@@ -283,8 +386,17 @@
             margin-top: 30px;
         }
 
-        #info-page .card:first-child {
-            display: none;
+        .priority-hoch {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .priority-normal {
+            color: #6c757d;
+        }
+
+        .priority-niedrig {
+            color: #28a745;
         }
     </style>
 </head><body>
@@ -301,242 +413,217 @@
         </div>
 
         <div class="page-selector">
-            <button class="page-btn active" onclick="showPage('info')">
+            <button class="nav-btn active" onclick="showPage('info')">
                 <i class="fas fa-info-circle"></i> Informationen
             </button>
-            <button class="page-btn" onclick="showPage('customer')">
+            <button class="nav-btn" onclick="showPage('customer')">
                 <i class="fas fa-user"></i> Kunden
             </button>
-            <button class="page-btn" onclick="showPage('employee')">
-                <i class="fas fa-hard-hat"></i> Mitarbeiter
+            <button class="nav-btn" onclick="showPage('employee')">
+                <i class="fas fa-users"></i> Mitarbeiter
             </button>
         </div>
 
         <div class="content-area">
-            <div id="info-page" class="page-content">
+            <!-- Info Page -->
+            <div id="info-page" class="page">
+                <div class="card">
+                    <h3><i class="fas fa-building"></i> Über unser Unternehmen</h3>
+                    <p>Wir sind Ihr zuverlässiger Partner für professionelle Dienstleistungen. Unser erfahrenes Team steht Ihnen mit modernster Technik und jahrelanger Expertise zur Verfügung.</p>
+                    <br>
+                    <p><strong>Unsere Leistungen:</strong></p>
+                    <ul>
+                        <li>Professionelle Auftragsverwaltung</li>
+                        <li>GPS-basierte Mitarbeiterverfolgung</li>
+                        <li>Digitale Dokumentation</li>
+                        <li>Transparente Kommunikation</li>
+                    </ul>
+                </div>
+
                 <div id="admin-login">
-                    <div class="login-form">
-                        <h2><i class="fas fa-shield-alt"></i> Administrator Login</h2>
+                    <div class="card">
+                        <h3><i class="fas fa-shield-alt"></i> Admin-Login</h3>
                         <div class="form-group">
-                            <label>Passwort:</label>
-                            <input type="password" id="admin-password" placeholder="Admin-Passwort eingeben">
+                            <input type="password" id="admin-password" class="form-control" placeholder="Admin-Passwort">
                         </div>
-                        <button class="btn" onclick="adminLogin()">
+                        <button onclick="adminLogin()" class="btn btn-primary">
                             <i class="fas fa-sign-in-alt"></i> Anmelden
                         </button>
                     </div>
                 </div>
-            </div>
 
-            <div id="customer-page" class="page-content hidden">
-                <div id="customer-login" class="login-form">
-                    <h2><i class="fas fa-user"></i> Kunden Login</h2>
-                    <div class="form-group">
-                        <label>Benutzername:</label>
-                        <input type="text" id="customer-username" placeholder="Benutzername">
-                    </div>
-                    <div class="form-group">
-                        <label>Passwort:</label>
-                        <input type="password" id="customer-password" placeholder="Passwort">
-                    </div>
-                    <button class="btn" onclick="customerLogin()">
-                        <i class="fas fa-sign-in-alt"></i> Anmelden
-                    </button>
-                    <button class="btn btn-secondary" onclick="showCustomerRegister()">
-                        <i class="fas fa-user-plus"></i> Registrieren
-                    </button>
-                </div>
-
-                <div id="customer-register" class="login-form hidden">
-                    <h2><i class="fas fa-user-plus"></i> Kunden Registrierung</h2>
-                    <div class="form-group">
-                        <label>Firmenname:</label>
-                        <input type="text" id="reg-company" placeholder="Firmenname">
-                    </div>
-                    <div class="form-group">
-                        <label>Benutzername:</label>
-                        <input type="text" id="reg-username" placeholder="Benutzername wählen">
-                    </div>
-                    <div class="form-group">
-                        <label>E-Mail:</label>
-                        <input type="email" id="reg-email" placeholder="E-Mail Adresse">
-                    </div>
-                    <div class="form-group">
-                        <label>Passwort:</label>
-                        <input type="password" id="reg-password" placeholder="Passwort wählen">
-                    </div>
-                    <button class="btn" onclick="customerRegister()">
-                        <i class="fas fa-user-plus"></i> Registrieren
-                    </button>
-                    <button class="btn btn-secondary" onclick="showCustomerLogin()">
-                        <i class="fas fa-arrow-left"></i> Zurück zum Login
-                    </button>
-                </div>
-
-                <div id="customer-dashboard" class="hidden">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                        <h2><i class="fas fa-tachometer-alt"></i> Kunden Dashboard</h2>
-                        <button class="btn btn-secondary" onclick="customerLogout()">
+                <div id="admin-panel" class="hidden">
+                    <div class="card">
+                        <h3><i class="fas fa-cogs"></i> Admin-Panel</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                            <button onclick="showCustomerManagement()" class="btn btn-info">
+                                <i class="fas fa-users"></i> Kundenverwaltung
+                            </button>
+                            <button onclick="showEmployeeManagement()" class="btn btn-info">
+                                <i class="fas fa-user-tie"></i> Mitarbeiterverwaltung
+                            </button>
+                            <button onclick="showOrderManagement()" class="btn btn-info">
+                                <i class="fas fa-clipboard-list"></i> Auftragsverwaltung
+                            </button>
+                            <button onclick="showImageManagement()" class="btn btn-info">
+                                <i class="fas fa-images"></i> Bilderverwaltung
+                            </button>
+                            <button onclick="showGPSTracking()" class="btn btn-info">
+                                <i class="fas fa-map-marker-alt"></i> GPS-Tracking
+                            </button>
+                            <button onclick="showSettings()" class="btn btn-warning">
+                                <i class="fas fa-cog"></i> Einstellungen
+                            </button>
+                        </div>
+                        <button onclick="adminLogout()" class="btn btn-secondary">
                             <i class="fas fa-sign-out-alt"></i> Abmelden
                         </button>
                     </div>
+                    <div id="admin-content"></div>
+                </div>
+            </div>
 
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px;">
-                        <div class="card">
-                            <div class="card-header">
-                                <i class="fas fa-plus-circle"></i> Neuen Auftrag erstellen
-                            </div>
-                            <div class="form-group">
-                                <label>Straße/Adresse:</label>
-                                <input type="text" id="order-address" placeholder="Straße und Hausnummer">
-                            </div>
-                            <div class="form-group">
-                                <label>Beschreibung:</label>
-                                <textarea id="order-description" placeholder="Beschreibung der Arbeiten" rows="3"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Priorität:</label>
-                                <select id="order-priority">
-                                    <option value="normal">Normal</option>
-                                    <option value="hoch">Hoch</option>
-                                    <option value="dringend">Dringend</option>
-                                </select>
-                            </div>
-                            <button class="btn" onclick="createOrder()">
-                                <i class="fas fa-paper-plane"></i> Auftrag erstellen
+            <!-- Customer Page -->
+            <div id="customer-page" class="page">
+                <div id="customer-login">
+                    <div class="login-form">
+                        <h2><i class="fas fa-user"></i> Kunden-Login</h2>
+                        <div class="form-group">
+                            <input type="email" id="customer-email" class="form-control" placeholder="E-Mail">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="customer-password" class="form-control" placeholder="Passwort">
+                        </div>
+                        <button onclick="customerLogin()" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-sign-in-alt"></i> Anmelden
+                        </button>
+                        <div style="text-align: center; margin-top: 20px;">
+                            <a href="#" onclick="showCustomerRegister()" style="color: #4f46e5;">Noch kein Konto? Registrieren</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="customer-register" class="hidden">
+                    <div class="login-form">
+                        <h2><i class="fas fa-user-plus"></i> Kunden-Registrierung</h2>
+                        <div class="form-group">
+                            <input type="text" id="reg-name" class="form-control" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="reg-email" class="form-control" placeholder="E-Mail">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="reg-password" class="form-control" placeholder="Passwort">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="reg-phone" class="form-control" placeholder="Telefon (optional)">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="reg-address" class="form-control" placeholder="Adresse (optional)">
+                        </div>
+                        <button onclick="customerRegister()" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-user-plus"></i> Registrieren
+                        </button>
+                        <div style="text-align: center; margin-top: 20px;">
+                            <a href="#" onclick="showCustomerLogin()" style="color: #4f46e5;">Bereits registriert? Anmelden</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="customer-dashboard" class="hidden">
+                    <div class="dashboard">
+                        <h2>Willkommen im Kundenbereich</h2>
+                        <button onclick="customerLogout()" class="btn btn-secondary" style="float: right;">
+                            <i class="fas fa-sign-out-alt"></i> Abmelden
+                        </button>
+                        <div style="clear: both;"></div>
+                    </div>
+
+                    <div class="card">
+                        <h3><i class="fas fa-plus-circle"></i> Neuen Auftrag erstellen</h3>
+                        <div class="form-group">
+                            <label>Adresse:</label>
+                            <input type="text" id="order-address" class="form-control" placeholder="Vollständige Adresse">
+                        </div>
+                        <div class="form-group">
+                            <label>Beschreibung:</label>
+                            <textarea id="order-description" class="form-control" rows="4" placeholder="Beschreiben Sie Ihren Auftrag..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Priorität:</label>
+                            <select id="order-priority" class="form-control">
+                                <option value="niedrig">Niedrig</option>
+                                <option value="normal" selected>Normal</option>
+                                <option value="hoch">Hoch</option>
+                            </select>
+                        </div>
+                        <button onclick="createOrder()" class="btn btn-success">
+                            <i class="fas fa-paper-plane"></i> Auftrag erstellen
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <h3><i class="fas fa-list"></i> Meine Aufträge</h3>
+                        <table id="customer-orders-table">
+                            <thead>
+                                <tr>
+                                    <th>Auftrag-ID</th>
+                                    <th>Datum</th>
+                                    <th>Adresse</th>
+                                    <th>Beschreibung</th>
+                                    <th>Status</th>
+                                    <th>Mitarbeiter</th>
+                                    <th>Aktionen</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Employee Page -->
+            <div id="employee-page" class="page">
+                <div id="employee-login">
+                    <div class="login-form">
+                        <h2><i class="fas fa-user-tie"></i> Mitarbeiter-Login</h2>
+                        <div class="form-group">
+                            <input type="text" id="employee-id" class="form-control" placeholder="Mitarbeiter-ID">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="employee-pin" class="form-control" placeholder="PIN">
+                        </div>
+                        <button onclick="employeeLogin()" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-sign-in-alt"></i> Anmelden
+                        </button>
+                    </div>
+                </div>
+
+                <div id="employee-dashboard" class="hidden">
+                    <div class="dashboard">
+                        <h2>Mitarbeiter Dashboard</h2>
+                        <button onclick="employeeLogout()" class="btn btn-secondary" style="float: right;">
+                            <i class="fas fa-sign-out-alt"></i> Abmelden
+                        </button>
+                        <div style="clear: both;"></div>
+                    </div>
+
+                    <div class="card">
+                        <h3><i class="fas fa-clock"></i> Zeiterfassung</h3>
+                        <div id="work-status" class="work-status"></div>
+                        <div class="clock-buttons">
+                            <button id="clock-in-btn" onclick="clockIn()" class="btn btn-success">
+                                <i class="fas fa-play"></i> Einstempeln
+                            </button>
+                            <button id="clock-out-btn" onclick="clockOut()" class="btn btn-danger">
+                                <i class="fas fa-stop"></i> Ausstempeln
                             </button>
                         </div>
                     </div>
 
                     <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-list"></i> Meine Aufträge
-                        </div>
-                        <div class="table-container">
-                            <table id="customer-orders-table">
-                                <thead>
-                                    <tr>
-                                        <th>Auftrag-Nr.</th>
-                                        <th>Datum</th>
-                                        <th>Straße</th>
-                                        <th>Beschreibung</th>
-                                        <th>Status</th>
-                                        <th>Mitarbeiter</th>
-                                        <th>Aktionen</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="employee-page" class="page-content hidden">
-                <div id="employee-login" class="login-form">
-                    <h2><i class="fas fa-hard-hat"></i> Mitarbeiter Login</h2>
-                    <div class="form-group">
-                        <label>Mitarbeiter-ID:</label>
-                        <input type="text" id="employee-id" placeholder="Mitarbeiter-ID">
-                    </div>
-                    <div class="form-group">
-                        <label>PIN:</label>
-                        <input type="password" id="employee-pin" placeholder="PIN">
-                    </div>
-                    <button class="btn" onclick="employeeLogin()">
-                        <i class="fas fa-sign-in-alt"></i> Anmelden
-                    </button>
-                </div>
-
-                <div id="employee-dashboard" class="hidden">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                        <h2><i class="fas fa-user-hard-hat"></i> Mitarbeiter Dashboard</h2>
-                        <button class="btn btn-secondary" onclick="employeeLogout()">
-                            <i class="fas fa-sign-out-alt"></i> Abmelden
-                        </button>
-                    </div>
-
-                    <div class="time-tracker">
-                        <div class="time-display" id="current-time">--:--:--</div>
-                        <div id="work-status" style="margin-bottom: 15px;">Status: Nicht eingestempelt</div>
-                        <button class="btn btn-success" id="clock-in-btn" onclick="clockIn()">
-                            <i class="fas fa-clock"></i> Einstempeln
-                        </button>
-                        <button class="btn btn-danger hidden" id="clock-out-btn" onclick="clockOut()">
-                            <i class="fas fa-clock"></i> Ausstempeln
-                        </button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-tasks"></i> Zugewiesene Aufträge
-                        </div>
+                        <h3><i class="fas fa-tasks"></i> Zugewiesene Aufträge</h3>
                         <div id="employee-orders"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="admin-panel" class="hidden">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h2><i class="fas fa-shield-alt"></i> Administrator Panel</h2>
-                    <button class="btn btn-secondary" onclick="adminLogout()">
-                        <i class="fas fa-sign-out-alt"></i> Abmelden
-                    </button>
-                </div>
-
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-users"></i> Kundenverwaltung
-                        </div>
-                        <button class="btn" onclick="showCustomerManagement()">
-                            <i class="fas fa-edit"></i> Kunden verwalten
-                        </button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-user-hard-hat"></i> Mitarbeiterverwaltung
-                        </div>
-                        <button class="btn" onclick="showEmployeeManagement()">
-                            <i class="fas fa-edit"></i> Mitarbeiter verwalten
-                        </button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-clipboard-list"></i> Auftragsverwaltung
-                        </div>
-                        <button class="btn" onclick="showOrderManagement()">
-                            <i class="fas fa-tasks"></i> Aufträge verwalten
-                        </button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-images"></i> Bilderverwaltung
-                        </div>
-                        <button class="btn" onclick="showMessage('Bilderverwaltung wird geladen...', 'success')">
-                            <i class="fas fa-folder-open"></i> Bilder verwalten
-                        </button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-cog"></i> Einstellungen
-                        </div>
-                        <button class="btn" onclick="showMessage('Einstellungen werden geladen...', 'success')">
-                            <i class="fas fa-wrench"></i> System-Einstellungen
-                        </button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-map-marker-alt"></i> GPS-Tracking
-                        </div>
-                        <button class="btn" onclick="showEmployeeLocations()">
-                            <i class="fas fa-location-dot"></i> Mitarbeiter-Standorte
-                        </button>
                     </div>
                 </div>
             </div>
@@ -544,455 +631,92 @@
     </div><script>
         let systemData = {
             customers: [
-                { id: 1, username: 'demo', password: 'demo', company: 'Demo GmbH', email: 'demo@example.com' }
+                { id: 'C001', name: 'Demo Kunde', email: 'demo@example.com', password: 'demo', phone: '0221-12345', address: 'Musterstraße 1, 50667 Köln' }
             ],
             employees: [
                 { id: 'E001', name: 'Max Mustermann', pin: '1234', isWorking: false, clockInTime: null, workLog: [] }
             ],
             orders: [
                 { 
-                    id: 1001, 
-                    customerId: 1, 
-                    address: 'Musterstraße 123', 
-                    description: 'Demo Auftrag', 
-                    status: 'offen', 
-                    priority: 'normal',
-                    created: '2024-01-15',
-                    assignedTo: null,
+                    id: 'O001', 
+                    customerId: 'C001', 
+                    assignedTo: 'E001',
+                    created: new Date().toISOString().split('T')[0], 
+                    address: 'Musterstraße 1, Köln', 
+                    description: 'Demo-Auftrag für Tests', 
+                    priority: 'normal', 
+                    status: 'offen',
                     notes: '',
                     images: []
                 }
             ],
-            admin: {
-                password: 'admin123'
-            },
-            streets: ['Musterstraße', 'Hauptstraße', 'Bahnhofstraße'],
-            images: {}
+            streets: ['Musterstraße', 'Hauptstraße', 'Bahnhofstraße', 'Kölner Straße', 'Rheinstraße'],
+            adminPassword: 'admin123'
         };
 
         let currentUser = null;
         let currentUserType = null;
+        let currentPage = 'info';
 
+        // Initialize the system
         document.addEventListener('DOMContentLoaded', function() {
-            updateClock();
-            setInterval(updateClock, 1000);
-            loadCustomerOrders();
+            // Load saved data
+            const savedData = localStorage.getItem('auftragssystem-data');
+            if (savedData) {
+                try {
+                    systemData = {...systemData, ...JSON.parse(savedData)};
+                } catch (e) {
+                    console.error('Error loading saved data:', e);
+                }
+            }
+            
+            showPage('info');
         });
 
-        function updateClock() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('de-DE');
-            const timeDisplay = document.getElementById('current-time');
-            if (timeDisplay) {
-                timeDisplay.textContent = timeString;
-            }
+        // Save data automatically
+        function saveData() {
+            localStorage.setItem('auftragssystem-data', JSON.stringify(systemData));
         }
 
-        function showPage(pageId) {
-            document.querySelectorAll('.page-content').forEach(page => {
-                page.classList.add('hidden');
-            });
+        function showPage(page) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
             
-            document.getElementById('admin-panel').classList.add('hidden');
-            document.getElementById(pageId + '-page').classList.remove('hidden');
+            // Remove active class from all buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
             
-            document.querySelectorAll('.page-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
+            // Show selected page
+            document.getElementById(page + '-page').classList.remove('hidden');
+            
+            // Add active class to selected button
+            document.querySelector(`[onclick="showPage('${page}')"]`).classList.add('active');
+            
+            currentPage = page;
+            
+            // Load page-specific data
+            if (page === 'customer' && currentUser && currentUserType === 'customer') {
+                loadCustomerOrders();
+            } else if (page === 'employee' && currentUser && currentUserType === 'employee') {
+                loadEmployeeOrders();
+            }
         }
 
         function toggleAdminLogin() {
-            showMessage('Admin-Login ist bereits sichtbar', 'success');
-        }
-
-        function adminLogin() {
-            const password = document.getElementById('admin-password').value;
+            const adminLogin = document.getElementById('admin-login');
+            const adminPanel = document.getElementById('admin-panel');
             
-            if (password === systemData.admin.password) {
-                document.getElementById('admin-login').classList.add('hidden');
-                document.getElementById('admin-panel').classList.remove('hidden');
-                currentUser = 'admin';
-                currentUserType = 'admin';
-                showMessage('Admin erfolgreich angemeldet!', 'success');
-            } else {
-                showMessage('Falsches Passwort!', 'error');
+            if (adminPanel.classList.contains('hidden')) {
+                adminLogin.style.display = adminLogin.style.display === 'none' ? 'block' : 'none';
             }
         }
 
-        function adminLogout() {
-            document.getElementById('admin-panel').classList.add('hidden');
-            document.getElementById('admin-login').classList.remove('hidden');
-            currentUser = null;
-            currentUserType = null;
-            document.getElementById('admin-password').value = '';
-            showMessage('Admin abgemeldet.', 'success');
-        }
-
-        // KUNDENVERWALTUNG
-        function showCustomerManagement() {
-            const panel = document.getElementById('admin-panel');
-            panel.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h2><i class="fas fa-users"></i> Kundenverwaltung</h2>
-                    <button class="btn btn-secondary" onclick="backToAdminDashboard()">
-                        <i class="fas fa-arrow-left"></i> Zurück
-                    </button>
-                </div>
-                
-                <div class="card">
-                    <div class="card-header">Neuen Kunden hinzufügen</div>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
-                        <div class="form-group">
-                            <label>Firmenname:</label>
-                            <input type="text" id="new-customer-company" placeholder="Firmenname">
-                        </div>
-                        <div class="form-group">
-                            <label>Benutzername:</label>
-                            <input type="text" id="new-customer-username" placeholder="Benutzername">
-                        </div>
-                        <div class="form-group">
-                            <label>E-Mail:</label>
-                            <input type="email" id="new-customer-email" placeholder="E-Mail">
-                        </div>
-                        <div class="form-group">
-                            <label>Passwort:</label>
-                            <input type="password" id="new-customer-password" placeholder="Passwort">
-                        </div>
-                    </div>
-                    <button class="btn" onclick="addCustomer()">
-                        <i class="fas fa-plus"></i> Kunde hinzufügen
-                    </button>
-                </div>
-                
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Firmenname</th>
-                                <th>Benutzername</th>
-                                <th>E-Mail</th>
-                                <th>Aktionen</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${systemData.customers.map(customer => `
-                                <tr>
-                                    <td>${customer.id}</td>
-                                    <td>${customer.company}</td>
-                                    <td>${customer.username}</td>
-                                    <td>${customer.email}</td>
-                                    <td>
-                                        <button class="btn btn-danger" onclick="deleteCustomer(${customer.id})">
-                                            <i class="fas fa-trash"></i> Löschen
-                                        </button>
-                                    </td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            `;
-        }
-
-        function addCustomer() {
-            const company = document.getElementById('new-customer-company').value;
-            const username = document.getElementById('new-customer-username').value;
-            const email = document.getElementById('new-customer-email').value;
-            const password = document.getElementById('new-customer-password').value;
-            
-            if (!company || !username || !email || !password) {
-                showMessage('Alle Felder müssen ausgefüllt werden!', 'error');
-                return;
-            }
-            
-            if (systemData.customers.find(c => c.username === username)) {
-                showMessage('Benutzername bereits vergeben!', 'error');
-                return;
-            }
-            
-            const newCustomer = {
-                id: Math.max(...systemData.customers.map(c => c.id)) + 1,
-                company,
-                username,
-                email,
-                password
-            };
-            
-            systemData.customers.push(newCustomer);
-            showMessage('Kunde erfolgreich hinzugefügt!', 'success');
-            showCustomerManagement();
-        }
-
-        function deleteCustomer(customerId) {
-            if (confirm('Kunde wirklich löschen?')) {
-                systemData.customers = systemData.customers.filter(c => c.id !== customerId);
-                showMessage('Kunde gelöscht!', 'success');
-                showCustomerManagement();
-            }
-        }
-
-        // MITARBEITERVERWALTUNG
-        function showEmployeeManagement() {
-            const panel = document.getElementById('admin-panel');
-            panel.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h2><i class="fas fa-user-hard-hat"></i> Mitarbeiterverwaltung</h2>
-                    <button class="btn btn-secondary" onclick="backToAdminDashboard()">
-                        <i class="fas fa-arrow-left"></i> Zurück
-                    </button>
-                </div>
-                
-                <div class="card">
-                    <div class="card-header">Neuen Mitarbeiter hinzufügen</div>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
-                        <div class="form-group">
-                            <label>Mitarbeiter-ID:</label>
-                            <input type="text" id="new-employee-id" placeholder="z.B. E002">
-                        </div>
-                        <div class="form-group">
-                            <label>Name:</label>
-                            <input type="text" id="new-employee-name" placeholder="Vollständiger Name">
-                        </div>
-                        <div class="form-group">
-                            <label>PIN:</label>
-                            <input type="password" id="new-employee-pin" placeholder="4-stellige PIN">
-                        </div>
-                    </div>
-                    <button class="btn" onclick="addEmployee()">
-                        <i class="fas fa-plus"></i> Mitarbeiter hinzufügen
-                    </button>
-                </div>
-                
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Mitarbeiter-ID</th>
-                                <th>Name</th>
-                                <th>Status</th>
-                                <th>Aktionen</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${systemData.employees.map(employee => `
-                                <tr>
-                                    <td>${employee.id}</td>
-                                    <td>${employee.name}</td>
-                                    <td>
-                                        <span class="status-badge ${employee.isWorking ? 'status-bearbeitung' : 'status-offen'}">
-                                            ${employee.isWorking ? 'Arbeitet' : 'Nicht aktiv'}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-danger" onclick="deleteEmployee('${employee.id}')">
-                                            <i class="fas fa-trash"></i> Löschen
-                                        </button>
-                                    </td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            `;
-        }
-
-        function addEmployee() {
-            const employeeId = document.getElementById('new-employee-id').value;
-            const name = document.getElementById('new-employee-name').value;
-            const pin = document.getElementById('new-employee-pin').value;
-            
-            if (!employeeId || !name || !pin) {
-                showMessage('Alle Felder müssen ausgefüllt werden!', 'error');
-                return;
-            }
-            
-            if (systemData.employees.find(e => e.id === employeeId)) {
-                showMessage('Mitarbeiter-ID bereits vergeben!', 'error');
-                return;
-            }
-            
-            if (pin.length !== 4 || !/^\d{4}$/.test(pin)) {
-                showMessage('PIN muss 4 Ziffern haben!', 'error');
-                return;
-            }
-            
-            const newEmployee = {
-                id: employeeId,
-                name,
-                pin,
-                isWorking: false,
-                clockInTime: null,
-                workLog: []
-            };
-            
-            systemData.employees.push(newEmployee);
-            showMessage('Mitarbeiter erfolgreich hinzugefügt!', 'success');
-            showEmployeeManagement();
-        }
-
-        function deleteEmployee(employeeId) {
-            if (confirm('Mitarbeiter wirklich löschen?')) {
-                systemData.employees = systemData.employees.filter(e => e.id !== employeeId);
-                
-                systemData.orders.forEach(order => {
-                    if (order.assignedTo === employeeId) {
-                        order.assignedTo = null;
-                    }
-                });
-                
-                showMessage('Mitarbeiter gelöscht!', 'success');
-                showEmployeeManagement();
-            }
-        }
-
-        // AUFTRAGSVERWALTUNG
-        function showOrderManagement() {
-            const panel = document.getElementById('admin-panel');
-            panel.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h2><i class="fas fa-clipboard-list"></i> Auftragsverwaltung</h2>
-                    <button class="btn btn-secondary" onclick="backToAdminDashboard()">
-                        <i class="fas fa-arrow-left"></i> Zurück
-                    </button>
-                </div>
-                
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Auftrag-Nr.</th>
-                                <th>Kunde</th>
-                                <th>Adresse</th>
-                                <th>Status</th>
-                                <th>Zugewiesen an</th>
-                                <th>Aktionen</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${systemData.orders.map(order => {
-                                const customer = systemData.customers.find(c => c.id === order.customerId);
-                                const employee = systemData.employees.find(e => e.id === order.assignedTo);
-                                return `
-                                    <tr>
-                                        <td>${order.id}</td>
-                                        <td>${customer ? customer.company : 'Unbekannt'}</td>
-                                        <td>${order.address}</td>
-                                        <td><span class="status-badge status-${order.status}">${order.status}</span></td>
-                                        <td>
-                                            <select onchange="assignOrder(${order.id}, this.value)">
-                                                <option value="">Nicht zugewiesen</option>
-                                                ${systemData.employees.map(emp => 
-                                                    `<option value="${emp.id}" ${order.assignedTo === emp.id ? 'selected' : ''}>${emp.name}</option>`
-                                                ).join('')}
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <button class="btn" onclick="viewOrderDetails(${order.id})">
-                                                <i class="fas fa-eye"></i> Details
-                                            </button>
-                                        </td>
-                                    </tr>
-                                `;
-                            }).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            `;
-        }
-
-        function assignOrder(orderId, employeeId) {
-            const order = systemData.orders.find(o => o.id === orderId);
-            if (order) {
-                order.assignedTo = employeeId || null;
-                showMessage('Auftrag zugewiesen!', 'success');
-            }
-        }
-
-        function viewOrderDetails(orderId) {
-            const order = systemData.orders.find(o => o.id === orderId);
-            if (!order) return;
-            
-            const customer = systemData.customers.find(c => c.id === order.customerId);
-            showMessage(`Auftrag ${order.id}: ${order.description} für ${customer ? customer.company : 'Unbekannt'}`, 'success');
-        }
-
-        function backToAdminDashboard() {
-            const panel = document.getElementById('admin-panel');
-            panel.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h2><i class="fas fa-shield-alt"></i> Administrator Panel</h2>
-                    <button class="btn btn-secondary" onclick="adminLogout()">
-                        <i class="fas fa-sign-out-alt"></i> Abmelden
-                    </button>
-                </div>
-
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-users"></i> Kundenverwaltung
-                        </div>
-                        <button class="btn" onclick="showCustomerManagement()">
-                            <i class="fas fa-edit"></i> Kunden verwalten
-                        </button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-user-hard-hat"></i> Mitarbeiterverwaltung
-                        </div>
-                        <button class="btn" onclick="showEmployeeManagement()">
-                            <i class="fas fa-edit"></i> Mitarbeiter verwalten
-                        </button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-clipboard-list"></i> Auftragsverwaltung
-                        </div>
-                        <button class="btn" onclick="showOrderManagement()">
-                            <i class="fas fa-tasks"></i> Aufträge verwalten
-                        </button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-images"></i> Bilderverwaltung
-                        </div>
-                        <button class="btn" onclick="showMessage('Bilderverwaltung wird geladen...', 'success')">
-                            <i class="fas fa-folder-open"></i> Bilder verwalten
-                        </button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-cog"></i> Einstellungen
-                        </div>
-                        <button class="btn" onclick="showMessage('Einstellungen werden geladen...', 'success')">
-                            <i class="fas fa-wrench"></i> System-Einstellungen
-                        </button>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-map-marker-alt"></i> GPS-Tracking
-                        </div>
-                        <button class="btn" onclick="showEmployeeLocations()">
-                            <i class="fas fa-location-dot"></i> Mitarbeiter-Standorte
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-
-        // KUNDEN-FUNKTIONEN
+        // Customer functions
         function customerLogin() {
-            const username = document.getElementById('customer-username').value;
+            const email = document.getElementById('customer-email').value;
             const password = document.getElementById('customer-password').value;
             
             const customer = systemData.customers.find(c => 
-                c.username === username && c.password === password
+                c.email === email && c.password === password
             );
             
             if (customer) {
@@ -1007,6 +731,41 @@
             }
         }
 
+        function customerRegister() {
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const phone = document.getElementById('reg-phone').value;
+            const address = document.getElementById('reg-address').value;
+            
+            if (!name || !email || !password) {
+                showMessage('Bitte alle Pflichtfelder ausfüllen!', 'error');
+                return;
+            }
+            
+            // Check if customer already exists
+            if (systemData.customers.find(c => c.email === email)) {
+                showMessage('Kunde mit dieser E-Mail existiert bereits!', 'error');
+                return;
+            }
+            
+            const newCustomer = {
+                id: 'C' + String(systemData.customers.length + 1).padStart(3, '0'),
+                name,
+                email,
+                password,
+                phone,
+                address
+            };
+            
+            systemData.customers.push(newCustomer);
+            saveData();
+            
+            document.getElementById('customer-register').classList.add('hidden');
+            document.getElementById('customer-login').classList.remove('hidden');
+            showMessage('Registrierung erfolgreich! Sie können sich jetzt anmelden.', 'success');
+        }
+
         function showCustomerRegister() {
             document.getElementById('customer-login').classList.add('hidden');
             document.getElementById('customer-register').classList.remove('hidden');
@@ -1017,74 +776,42 @@
             document.getElementById('customer-login').classList.remove('hidden');
         }
 
-        function customerRegister() {
-            const company = document.getElementById('reg-company').value;
-            const username = document.getElementById('reg-username').value;
-            const email = document.getElementById('reg-email').value;
-            const password = document.getElementById('reg-password').value;
-            
-            if (!company || !username || !email || !password) {
-                showMessage('Alle Felder müssen ausgefüllt werden!', 'error');
-                return;
-            }
-            
-            if (systemData.customers.find(c => c.username === username)) {
-                showMessage('Benutzername bereits vergeben!', 'error');
-                return;
-            }
-            
-            const newCustomer = {
-                id: systemData.customers.length + 1,
-                username,
-                password,
-                company,
-                email
-            };
-            
-            systemData.customers.push(newCustomer);
-            showMessage('Registrierung erfolgreich! Sie können sich jetzt anmelden.', 'success');
-            showCustomerLogin();
-        }
-
         function customerLogout() {
-            document.getElementById('customer-dashboard').classList.add('hidden');
-            document.getElementById('customer-login').classList.remove('hidden');
             currentUser = null;
             currentUserType = null;
-            document.getElementById('customer-username').value = '';
-            document.getElementById('customer-password').value = '';
+            document.getElementById('customer-dashboard').classList.add('hidden');
+            document.getElementById('customer-login').classList.remove('hidden');
         }
 
         function createOrder() {
-            if (!currentUser || currentUserType !== 'customer') {
-                showMessage('Sie müssen als Kunde angemeldet sein!', 'error');
-                return;
-            }
+            if (!currentUser || currentUserType !== 'customer') return;
             
             const address = document.getElementById('order-address').value;
             const description = document.getElementById('order-description').value;
             const priority = document.getElementById('order-priority').value;
             
             if (!address || !description) {
-                showMessage('Adresse und Beschreibung sind erforderlich!', 'error');
+                showMessage('Bitte Adresse und Beschreibung eingeben!', 'error');
                 return;
             }
             
             const newOrder = {
-                id: 1000 + systemData.orders.length + 1,
+                id: 'O' + String(systemData.orders.length + 1).padStart(3, '0'),
                 customerId: currentUser.id,
+                assignedTo: null,
+                created: new Date().toISOString().split('T')[0],
                 address,
                 description,
-                status: 'offen',
                 priority,
-                created: new Date().toISOString().split('T')[0],
-                assignedTo: null,
+                status: 'offen',
                 notes: '',
                 images: []
             };
             
             systemData.orders.push(newOrder);
+            saveData();
             
+            // Clear form
             document.getElementById('order-address').value = '';
             document.getElementById('order-description').value = '';
             document.getElementById('order-priority').value = 'normal';
@@ -1098,8 +825,6 @@
             
             const customerOrders = systemData.orders.filter(order => order.customerId === currentUser.id);
             const tbody = document.querySelector('#customer-orders-table tbody');
-            
-            if (!tbody) return;
             
             tbody.innerHTML = '';
             
@@ -1117,7 +842,9 @@
                     <td>${employeeName}</td>
                     <td>
                         ${order.status === 'erledigt' ? 
-                            '<button class="btn btn-secondary">Drucken</button>' : 
+                            `<button class="btn btn-secondary" onclick="printOrder('${order.id}')">
+                                <i class="fas fa-print"></i> Drucken
+                            </button>` : 
                             'In Bearbeitung'
                         }
                     </td>
@@ -1126,7 +853,41 @@
             });
         }
 
-        // MITARBEITER-FUNKTIONEN
+        function printOrder(orderId) {
+            const order = systemData.orders.find(o => o.id === orderId);
+            if (!order) return;
+            
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Auftrag ${order.id}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        .header { border-bottom: 2px solid #333; padding-bottom: 10px; }
+                        .details { margin: 20px 0; }
+                        .status { padding: 5px 10px; border-radius: 3px; background: #28a745; color: white; }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>Auftrag ${order.id}</h1>
+                        <p>Erstellt: ${order.created}</p>
+                    </div>
+                    <div class="details">
+                        <p><strong>Adresse:</strong> ${order.address}</p>
+                        <p><strong>Beschreibung:</strong> ${order.description}</p>
+                        <p><strong>Status:</strong> <span class="status">${order.status}</span></p>
+                        <p><strong>Notizen:</strong> ${order.notes || 'Keine Notizen'}</p>
+                    </div>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // Employee functions
         function employeeLogin() {
             const employeeId = document.getElementById('employee-id').value;
             const pin = document.getElementById('employee-pin').value;
@@ -1140,200 +901,802 @@
                 currentUserType = 'employee';
                 document.getElementById('employee-login').classList.add('hidden');
                 document.getElementById('employee-dashboard').classList.remove('hidden');
+                
+                // Arbeitsstatus aktualisieren
                 updateWorkStatus();
+                
+                // WICHTIG: Aufträge laden mit Verzögerung
+                setTimeout(() => {
+                    loadEmployeeOrders();
+                }, 200);
+                
                 showMessage('Mitarbeiter erfolgreich angemeldet!', 'success');
             } else {
                 showMessage('Ungültige Anmeldedaten!', 'error');
             }
         }
 
-        function employeeLogout() {
-            document.getElementById('employee-dashboard').classList.add('hidden');
-            document.getElementById('employee-login').classList.remove('hidden');
-            currentUser = null;
-            currentUserType = null;
-            document.getElementById('employee-id').value = '';
-            document.getElementById('employee-pin').value = '';
+        // KORRIGIERTE loadEmployeeOrders Funktion
+        function loadEmployeeOrders() {
+            console.log('loadEmployeeOrders aufgerufen');
+            console.log('currentUser:', currentUser);
+            console.log('currentUserType:', currentUserType);
+            
+            if (!currentUser || currentUserType !== 'employee') {
+                console.log('Benutzer nicht korrekt angemeldet');
+                return;
+            }
+            
+            const employeeOrders = systemData.orders.filter(order => order.assignedTo === currentUser.id);
+            console.log('Gefundene Aufträge:', employeeOrders);
+            
+            const container = document.getElementById('employee-orders');
+            console.log('Container gefunden:', container);
+            
+            if (!container) {
+                console.error('Container #employee-orders nicht gefunden!');
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            if (employeeOrders.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">Keine Aufträge zugewiesen.</p>';
+                console.log('Keine Aufträge gefunden');
+                return;
+            }
+            
+            employeeOrders.forEach(order => {
+                console.log('Verarbeite Auftrag:', order);
+                const customer = systemData.customers.find(c => c.id === order.customerId);
+                const customerName = customer ? customer.name : 'Unbekannter Kunde';
+                
+                const orderCard = document.createElement('div');
+                orderCard.className = 'card';
+                orderCard.style.marginBottom = '15px';
+                orderCard.innerHTML = `
+                    <h4><i class="fas fa-clipboard"></i> Auftrag ${order.id} - ${customerName}</h4>
+                    <p><strong><i class="fas fa-map-marker-alt"></i> Adresse:</strong> ${order.address}</p>
+                    <p><strong><i class="fas fa-file-alt"></i> Beschreibung:</strong> ${order.description}</p>
+                    <p><strong><i class="fas fa-flag"></i> Priorität:</strong> <span class="priority-${order.priority}">${order.priority}</span></p>
+                    <p><strong><i class="fas fa-calendar"></i> Erstellt:</strong> ${order.created}</p>
+                    <p><strong><i class="fas fa-info-circle"></i> Aktueller Status:</strong> <span class="status-badge status-${order.status}">${order.status}</span></p>
+                    
+                    <div class="form-group">
+                        <label><strong><i class="fas fa-edit"></i> Status ändern:</strong></label>
+                        <select onchange="updateOrderStatus('${order.id}', this.value)" class="form-control">
+                            <option value="offen" ${order.status === 'offen' ? 'selected' : ''}>Offen</option>
+                            <option value="bearbeitung" ${order.status === 'bearbeitung' ? 'selected' : ''}>In Bearbeitung</option>
+                            <option value="erledigt" ${order.status === 'erledigt' ? 'selected' : ''}>Erledigt</option>
+                            <option value="storniert" ${order.status === 'storniert' ? 'selected' : ''}>Storniert</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><strong><i class="fas fa-sticky-note"></i> Notizen:</strong></label>
+                        <textarea id="notes-${order.id}" class="form-control" rows="3" 
+                            onblur="saveOrderNotes('${order.id}')" 
+                            placeholder="Notizen zum Auftrag hinzufügen...">${order.notes || ''}</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><strong><i class="fas fa-camera"></i> Bilder hochladen:</strong></label>
+                        <input type="file" id="images-${order.id}" multiple accept="image/*" 
+                            onchange="handleImageUpload('${order.id}')" class="form-control">
+                        <div class="image-preview" id="preview-${order.id}" style="margin-top: 10px;">
+                            ${order.images && order.images.length > 0 ? 
+                                order.images.map((img, index) => 
+                                    `<img src="${img}" alt="Auftragsbild ${index + 1}" 
+                                        style="width: 100px; height: 100px; object-fit: cover; margin: 5px; border-radius: 8px; cursor: pointer; border: 2px solid #ddd;" 
+                                        onclick="showFullImage('${img}')">`
+                                ).join('') : 
+                                '<p style="color: #999; font-style: italic; margin-top: 10px;"><i class="fas fa-info-circle"></i> Noch keine Bilder hochgeladen</p>'
+                            }
+                        </div>
+                    </div>
+                `;
+                container.appendChild(orderCard);
+            });
+            
+            console.log('Aufträge erfolgreich geladen');
         }
 
         function clockIn() {
             if (currentUser && currentUserType === 'employee') {
+                // Get GPS location
                 if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(
-                        function(position) {
-                            const lat = position.coords.latitude.toFixed(6);
-                            const lon = position.coords.longitude.toFixed(6);
-                            const timestamp = new Date().toLocaleString('de-DE');
-                            
-                            currentUser.isWorking = true;
-                            currentUser.clockInTime = new Date().toISOString();
-                            currentUser.clockInLocation = `${lat}, ${lon}`;
-                            currentUser.clockInTimestamp = timestamp;
-                            
-                            updateWorkStatus();
-                            showMessage(`Erfolgreich eingestempelt! Standort: ${lat}, ${lon}`, 'success');
-                        },
-                        function(error) {
-                            currentUser.isWorking = true;
-                            currentUser.clockInTime = new Date().toISOString();
-                            currentUser.clockInLocation = 'GPS nicht verfügbar';
-                            currentUser.clockInTimestamp = new Date().toLocaleString('de-DE');
-                            
-                            updateWorkStatus();
-                            showMessage('Erfolgreich eingestempelt! (GPS nicht verfügbar)', 'success');
-                        }
-                    );
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        currentUser.isWorking = true;
+                        currentUser.clockInTime = new Date().toISOString();
+                        
+                        // Save GPS data
+                        const gpsData = {
+                            type: 'clockIn',
+                            timestamp: new Date().toISOString(),
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                            accuracy: position.coords.accuracy
+                        };
+                        
+                        if (!currentUser.workLog) currentUser.workLog = [];
+                        currentUser.workLog.push(gpsData);
+                        
+                        updateWorkStatus();
+                        saveData();
+                        showMessage(`Erfolgreich eingestempelt! GPS: ${position.coords.latitude.toFixed(6)}, ${position.coords.longitude.toFixed(6)}`, 'success');
+                    }, function(error) {
+                        currentUser.isWorking = true;
+                        currentUser.clockInTime = new Date().toISOString();
+                        updateWorkStatus();
+                        saveData();
+                        showMessage('Eingestempelt (GPS nicht verfügbar)', 'success');
+                    });
                 } else {
                     currentUser.isWorking = true;
                     currentUser.clockInTime = new Date().toISOString();
-                    currentUser.clockInLocation = 'GPS nicht unterstützt';
-                    currentUser.clockInTimestamp = new Date().toLocaleString('de-DE');
-                    
                     updateWorkStatus();
-                    showMessage('Erfolgreich eingestempelt! (GPS nicht unterstützt)', 'success');
+                    saveData();
+                    showMessage('Erfolgreich eingestempelt!', 'success');
                 }
             }
         }
 
         function clockOut() {
             if (currentUser && currentUserType === 'employee') {
+                // Get GPS location
                 if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(
-                        function(position) {
-                            const lat = position.coords.latitude.toFixed(6);
-                            const lon = position.coords.longitude.toFixed(6);
-                            const timestamp = new Date().toLocaleString('de-DE');
-                            
-                            currentUser.isWorking = false;
-                            const clockInTime = new Date(currentUser.clockInTime);
-                            const clockOutTime = new Date();
-                            const workDuration = Math.round((clockOutTime - clockInTime) / 1000 / 60);
-                            
-                            currentUser.clockOutLocation = `${lat}, ${lon}`;
-                            currentUser.clockOutTimestamp = timestamp;
-                            
-                            if (!currentUser.workLog) currentUser.workLog = [];
-                            currentUser.workLog.push({
-                                date: new Date().toISOString().split('T')[0],
-                                clockIn: currentUser.clockInTimestamp,
-                                clockOut: timestamp,
-                                clockInLocation: currentUser.clockInLocation,
-                                clockOutLocation: currentUser.clockOutLocation,
-                                duration: workDuration
-                            });
-                            
-                            showMessage(`Ausgestempelt! Arbeitszeit: ${workDuration} Min. Standort: ${lat}, ${lon}`, 'success');
-                            
-                            currentUser.clockInTime = null;
-                            updateWorkStatus();
-                        },
-                        function(error) {
-                            currentUser.isWorking = false;
-                            const clockInTime = new Date(currentUser.clockInTime);
-                            const clockOutTime = new Date();
-                            const workDuration = Math.round((clockOutTime - clockInTime) / 1000 / 60);
-                            
-                            currentUser.clockOutLocation = 'GPS nicht verfügbar';
-                            currentUser.clockOutTimestamp = new Date().toLocaleString('de-DE');
-                            
-                            showMessage(`Ausgestempelt! Arbeitszeit: ${workDuration} Min. (GPS nicht verfügbar)`, 'success');
-                            currentUser.clockInTime = null;
-                            updateWorkStatus();
-                        }
-                    );
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        const clockInTime = new Date(currentUser.clockInTime);
+                        const clockOutTime = new Date();
+                        const workDuration = Math.round((clockOutTime - clockInTime) / 1000 / 60);
+                        
+                        // Save GPS data
+                        const gpsData = {
+                            type: 'clockOut',
+                            timestamp: new Date().toISOString(),
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                            accuracy: position.coords.accuracy,
+                            workDuration: workDuration
+                        };
+                        
+                        if (!currentUser.workLog) currentUser.workLog = [];
+                        currentUser.workLog.push(gpsData);
+                        
+                        currentUser.isWorking = false;
+                        currentUser.clockInTime = null;
+                        updateWorkStatus();
+                        saveData();
+                        showMessage(`Erfolgreich ausgestempelt! Arbeitszeit: ${workDuration} Minuten. GPS: ${position.coords.latitude.toFixed(6)}, ${position.coords.longitude.toFixed(6)}`, 'success');
+                    }, function(error) {
+                        const clockInTime = new Date(currentUser.clockInTime);
+                        const clockOutTime = new Date();
+                        const workDuration = Math.round((clockOutTime - clockInTime) / 1000 / 60);
+                        
+                        currentUser.isWorking = false;
+                        currentUser.clockInTime = null;
+                        updateWorkStatus();
+                        saveData();
+                        showMessage(`Ausgestempelt! Arbeitszeit: ${workDuration} Minuten (GPS nicht verfügbar)`, 'success');
+                    });
                 } else {
-                    currentUser.isWorking = false;
                     const clockInTime = new Date(currentUser.clockInTime);
                     const clockOutTime = new Date();
                     const workDuration = Math.round((clockOutTime - clockInTime) / 1000 / 60);
                     
-                    currentUser.clockOutLocation = 'GPS nicht unterstützt';
-                    currentUser.clockOutTimestamp = new Date().toLocaleString('de-DE');
-                    
-                    showMessage(`Ausgestempelt! Arbeitszeit: ${workDuration} Min. (GPS nicht unterstützt)`, 'success');
+                    currentUser.isWorking = false;
                     currentUser.clockInTime = null;
                     updateWorkStatus();
+                    saveData();
+                    showMessage(`Erfolgreich ausgestempelt! Arbeitszeit: ${workDuration} Minuten`, 'success');
                 }
             }
         }
 
         function updateWorkStatus() {
-            const statusElement = document.getElementById('work-status');
+            if (!currentUser || currentUserType !== 'employee') return;
+            
+            const statusDiv = document.getElementById('work-status');
             const clockInBtn = document.getElementById('clock-in-btn');
             const clockOutBtn = document.getElementById('clock-out-btn');
             
-            if (!statusElement || !clockInBtn || !clockOutBtn) return;
+            if (!statusDiv || !clockInBtn || !clockOutBtn) return;
             
-            if (currentUser && currentUser.isWorking) {
-                const locationInfo = currentUser.clockInLocation ? 
-                    `<br><small>Standort: ${currentUser.clockInLocation}</small>` : '';
-                    
-                statusElement.innerHTML = `
-                    Status: <span style="color: green;">Eingestempelt seit ${new Date(currentUser.clockInTime).toLocaleTimeString('de-DE')}</span>
-                    ${locationInfo}
-                `;
-                clockInBtn.classList.add('hidden');
-                clockOutBtn.classList.remove('hidden');
+            const currentTime = new Date().toLocaleTimeString('de-DE');
+            statusDiv.innerHTML = `<div style="font-size: 1.5rem; font-weight: bold; margin-bottom: 10px;">${currentTime}</div>`;
+            
+            if (currentUser.isWorking) {
+                statusDiv.innerHTML += '<div>Status: <span style="color: #28a745;"><i class="fas fa-play-circle"></i> Nicht eingestempelt</span></div>';
+                clockInBtn.disabled = true;
+                clockOutBtn.disabled = false;
             } else {
-                statusElement.innerHTML = 'Status: <span style="color: red;">Nicht eingestempelt</span>';
-                clockInBtn.classList.remove('hidden');
-                clockOutBtn.classList.add('hidden');
+                statusDiv.innerHTML += '<div>Status: <span style="color: #dc3545;"><i class="fas fa-pause-circle"></i> Nicht eingestempelt</span></div>';
+                clockInBtn.disabled = false;
+                clockOutBtn.disabled = true;
             }
         }
 
-        function showEmployeeLocations() {
-            let locationData = '<h3>Mitarbeiter GPS-Tracking</h3>';
-            
-            systemData.employees.forEach(employee => {
-                locationData += `<div class="card"><div class="card-header">${employee.name} (${employee.id})</div>`;
+        function updateOrderStatus(orderId, newStatus) {
+            const order = systemData.orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = newStatus;
+                saveData();
+                showMessage(`Auftragsstatus geändert zu: ${newStatus}`, 'success');
                 
-                if (employee.workLog && employee.workLog.length > 0) {
-                    employee.workLog.slice(-5).forEach(entry => {
-                        locationData += `
-                            <p><strong>Datum:</strong> ${entry.date}</p>
-                            <p><strong>Eingestempelt:</strong> ${entry.clockIn} - ${entry.clockInLocation}</p>
-                            <p><strong>Ausgestempelt:</strong> ${entry.clockOut} - ${entry.clockOutLocation}</p>
-                            <p><strong>Arbeitszeit:</strong> ${entry.duration} Minuten</p>
-                            <hr>
-                        `;
-                    });
-                } else {
-                    locationData += '<p>Keine GPS-Daten verfügbar</p>';
+                // Reload orders to update display
+                if (currentUserType === 'employee') {
+                    loadEmployeeOrders();
                 }
-                
-                locationData += '</div>';
+            }
+        }
+
+        function saveOrderNotes(orderId) {
+            const order = systemData.orders.find(o => o.id === orderId);
+            const notesTextarea = document.getElementById(`notes-${orderId}`);
+            if (order && notesTextarea) {
+                order.notes = notesTextarea.value;
+                saveData();
+                showMessage('Notizen gespeichert', 'success');
+            }
+        }
+
+        function handleImageUpload(orderId) {
+            const order = systemData.orders.find(o => o.id === orderId);
+            const fileInput = document.getElementById(`images-${orderId}`);
+            const previewDiv = document.getElementById(`preview-${orderId}`);
+            
+            if (!order || !fileInput.files.length) return;
+            
+            if (!order.images) order.images = [];
+            
+            Array.from(fileInput.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    order.images.push(e.target.result);
+                    saveData();
+                    
+                    // Update preview
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.cssText = 'width: 100px; height: 100px; object-fit: cover; margin: 5px; border-radius: 8px; cursor: pointer; border: 2px solid #ddd;';
+                    img.alt = 'Auftragsbild';
+                    img.onclick = () => showFullImage(e.target.result);
+                    
+                    // Remove "no images" text if present
+                    if (previewDiv.querySelector('p')) {
+                        previewDiv.innerHTML = '';
+                    }
+                    
+                    previewDiv.appendChild(img);
+                };
+                reader.readAsDataURL(file);
             });
             
-            const panel = document.getElementById('admin-panel');
-            panel.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h2>GPS-Tracking Übersicht</h2>
-                    <button class="btn btn-secondary" onclick="backToAdminDashboard()">Zurück</button>
+            showMessage('Bilder hochgeladen', 'success');
+        }
+
+        function showFullImage(imgSrc) {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                background: rgba(0,0,0,0.8); z-index: 10000; display: flex; 
+                justify-content: center; align-items: center; cursor: pointer;
+            `;
+            modal.innerHTML = `<img src="${imgSrc}" style="max-width: 90%; max-height: 90%; border-radius: 8px;">`;
+            modal.onclick = () => modal.remove();
+            document.body.appendChild(modal);
+        }
+
+        function employeeLogout() {
+            currentUser = null;
+            currentUserType = null;
+            document.getElementById('employee-dashboard').classList.add('hidden');
+            document.getElementById('employee-login').classList.remove('hidden');
+        }
+
+        // Admin functions
+        function adminLogin() {
+            const password = document.getElementById('admin-password').value;
+            
+            if (password === systemData.adminPassword) {
+                document.getElementById('admin-login').classList.add('hidden');
+                document.getElementById('admin-panel').classList.remove('hidden');
+                showMessage('Admin erfolgreich angemeldet!', 'success');
+            } else {
+                showMessage('Falsches Admin-Passwort!', 'error');
+            }
+        }
+
+        function showCustomerManagement() {
+            document.getElementById('admin-content').innerHTML = `
+                <h3>Kundenverwaltung</h3>
+                <div class="form-group">
+                    <h4>Neuen Kunden hinzufügen</h4>
+                    <input type="text" id="new-customer-name" placeholder="Name" class="form-control">
+                    <input type="email" id="new-customer-email" placeholder="E-Mail" class="form-control">
+                    <input type="password" id="new-customer-password" placeholder="Passwort" class="form-control">
+                    <input type="text" id="new-customer-phone" placeholder="Telefon" class="form-control">
+                    <input type="text" id="new-customer-address" placeholder="Adresse" class="form-control">
+                    <button onclick="addCustomer()" class="btn btn-primary">Kunde hinzufügen</button>
                 </div>
-                ${locationData}
+                <div class="form-group">
+                    <h4>Bestehende Kunden</h4>
+                    <div id="customers-list">
+                        ${systemData.customers.map(customer => `
+                            <div class="card">
+                                <h5>${customer.name} (${customer.id})</h5>
+                                <p>E-Mail: ${customer.email}</p>
+                                <p>Telefon: ${customer.phone || 'Nicht angegeben'}</p>
+                                <p>Adresse: ${customer.address || 'Nicht angegeben'}</p>
+                                <button onclick="deleteCustomer('${customer.id}')" class="btn btn-danger">Löschen</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
             `;
         }
 
-        function showMessage(message, type) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
-            messageDiv.textContent = message;
+        function addCustomer() {
+            const name = document.getElementById('new-customer-name').value;
+            const email = document.getElementById('new-customer-email').value;
+            const password = document.getElementById('new-customer-password').value;
+            const phone = document.getElementById('new-customer-phone').value;
+            const address = document.getElementById('new-customer-address').value;
             
-            const container = document.querySelector('.content-area');
-            if (container) {
-                container.insertBefore(messageDiv, container.firstChild);
-                
-                setTimeout(() => {
-                    messageDiv.remove();
-                }, 3000);
+            if (!name || !email || !password) {
+                showMessage('Name, E-Mail und Passwort sind Pflichtfelder!', 'error');
+                return;
+            }
+            
+            if (systemData.customers.find(c => c.email === email)) {
+                showMessage('Kunde mit dieser E-Mail existiert bereits!', 'error');
+                return;
+            }
+            
+            const newCustomer = {
+                id: 'C' + String(systemData.customers.length + 1).padStart(3, '0'),
+                name,
+                email,
+                password,
+                phone,
+                address
+            };
+            
+            systemData.customers.push(newCustomer);
+            saveData();
+            showMessage('Kunde erfolgreich hinzugefügt!', 'success');
+            showCustomerManagement(); // Refresh the list
+        }
+
+        function deleteCustomer(customerId) {
+            if (confirm('Sind Sie sicher, dass Sie diesen Kunden löschen möchten?')) {
+                systemData.customers = systemData.customers.filter(c => c.id !== customerId);
+                // Also delete related orders
+                systemData.orders = systemData.orders.filter(o => o.customerId !== customerId);
+                saveData();
+                showMessage('Kunde erfolgreich gelöscht!', 'success');
+                showCustomerManagement(); // Refresh the list
             }
         }
 
-        console.log('Auftragsverwaltungssystem geladen!');
-        console.log('Demo-Zugangsdaten:');
-        console.log('Kunde: demo / demo');
-        console.log('Mitarbeiter: E001 / 1234');
-        console.log('Admin: admin123');
+        function showEmployeeManagement() {
+            document.getElementById('admin-content').innerHTML = `
+                <h3>Mitarbeiterverwaltung</h3>
+                <div class="form-group">
+                    <h4>Neuen Mitarbeiter hinzufügen</h4>
+                    <input type="text" id="new-employee-name" placeholder="Name" class="form-control">
+                    <input type="text" id="new-employee-pin" placeholder="PIN (4-stellig)" class="form-control">
+                    <button onclick="addEmployee()" class="btn btn-primary">Mitarbeiter hinzufügen</button>
+                </div>
+                <div class="form-group">
+                    <h4>Bestehende Mitarbeiter</h4>
+                    <div id="employees-list">
+                        ${systemData.employees.map(employee => `
+                            <div class="card">
+                                <h5>${employee.name} (${employee.id})</h5>
+                                <p>PIN: ${'*'.repeat(employee.pin.length)}</p>
+                                <p>Status: ${employee.isWorking ? 'Arbeitet' : 'Frei'}</p>
+                                ${employee.workLog && employee.workLog.length > 0 ? `
+                                    <p>Letzter GPS-Standort: 
+                                        ${employee.workLog[employee.workLog.length - 1].latitude.toFixed(6)}, 
+                                        ${employee.workLog[employee.workLog.length - 1].longitude.toFixed(6)}
+                                    </p>
+                                ` : ''}
+                                <button onclick="deleteEmployee('${employee.id}')" class="btn btn-danger">Löschen</button>
+                                <button onclick="showEmployeeGPS('${employee.id}')" class="btn btn-info">GPS-Verlauf</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function addEmployee() {
+            const name = document.getElementById('new-employee-name').value;
+            const pin = document.getElementById('new-employee-pin').value;
+            
+            if (!name || !pin) {
+                showMessage('Name und PIN sind Pflichtfelder!', 'error');
+                return;
+            }
+            
+            if (pin.length !== 4 || isNaN(pin)) {
+                showMessage('PIN muss 4-stellig und numerisch sein!', 'error');
+                return;
+            }
+            
+            const newEmployee = {
+                id: 'E' + String(systemData.employees.length + 1).padStart(3, '0'),
+                name,
+                pin,
+                isWorking: false,
+                clockInTime: null,
+                workLog: []
+            };
+            
+            systemData.employees.push(newEmployee);
+            saveData();
+            showMessage('Mitarbeiter erfolgreich hinzugefügt!', 'success');
+            showEmployeeManagement();
+        }
+
+        function deleteEmployee(employeeId) {
+            if (confirm('Sind Sie sicher, dass Sie diesen Mitarbeiter löschen möchten?')) {
+                systemData.employees = systemData.employees.filter(e => e.id !== employeeId);
+                systemData.orders.forEach(order => {
+                    if (order.assignedTo === employeeId) {
+                        order.assignedTo = null;
+                    }
+                });
+                saveData();
+                showMessage('Mitarbeiter erfolgreich gelöscht!', 'success');
+                showEmployeeManagement();
+            }
+        }
+
+        function showEmployeeGPS(employeeId) {
+            const employee = systemData.employees.find(e => e.id === employeeId);
+            if (!employee || !employee.workLog || employee.workLog.length === 0) {
+                showMessage('Keine GPS-Daten für diesen Mitarbeiter vorhanden.', 'error');
+                return;
+            }
+            
+            let gpsHtml = `<h3>GPS-Verlauf für ${employee.name}</h3><div class="card">`;
+            employee.workLog.forEach((log, index) => {
+                gpsHtml += `
+                    <div style="margin-bottom: 10px; padding: 10px; border-left: 3px solid ${log.type === 'clockIn' ? '#28a745' : '#dc3545'};">
+                        <strong>${log.type === 'clockIn' ? 'Eingestempelt' : 'Ausgestempelt'}</strong><br>
+                        Zeit: ${new Date(log.timestamp).toLocaleString('de-DE')}<br>
+                        GPS: ${log.latitude.toFixed(6)}, ${log.longitude.toFixed(6)}<br>
+                        Genauigkeit: ${log.accuracy}m
+                        ${log.workDuration ? `<br>Arbeitszeit: ${log.workDuration} Minuten` : ''}
+                    </div>
+                `;
+            });
+            gpsHtml += '</div>';
+            
+            document.getElementById('admin-content').innerHTML = gpsHtml + 
+                '<button onclick="showEmployeeManagement()" class="btn btn-secondary">Zurück</button>';
+        }
+
+        function showOrderManagement() {
+            document.getElementById('admin-content').innerHTML = `
+                <h3>Auftragsverwaltung</h3>
+                <div class="form-group">
+                    <h4>Alle Aufträge</h4>
+                    <div id="orders-list">
+                        ${systemData.orders.map(order => {
+                            const customer = systemData.customers.find(c => c.id === order.customerId);
+                            const employee = systemData.employees.find(e => e.id === order.assignedTo);
+                            return `
+                                <div class="card">
+                                    <h5>Auftrag ${order.id}</h5>
+                                    <p><strong>Kunde:</strong> ${customer ? customer.name : 'Unbekannt'}</p>
+                                    <p><strong>Adresse:</strong> ${order.address}</p>
+                                    <p><strong>Beschreibung:</strong> ${order.description}</p>
+                                    <p><strong>Status:</strong> <span class="status-badge status-${order.status}">${order.status}</span></p>
+                                    <p><strong>Zugewiesen an:</strong> ${employee ? employee.name : 'Nicht zugewiesen'}</p>
+                                    <p><strong>Erstellt:</strong> ${order.created}</p>
+                                    <div class="form-group">
+                                        <label>Mitarbeiter zuweisen:</label>
+                                        <select onchange="assignOrder('${order.id}', this.value)" class="form-control">
+                                            <option value="">Nicht zugewiesen</option>
+                                            ${systemData.employees.map(emp => 
+                                                `<option value="${emp.id}" ${order.assignedTo === emp.id ? 'selected' : ''}>${emp.name}</option>`
+                                            ).join('')}
+                                        </select>
+                                    </div>
+                                    ${order.images && order.images.length > 0 ? `
+                                        <div class="image-preview">
+                                            <strong>Bilder:</strong><br>
+                                            ${order.images.map(img => `<img src="${img}" alt="Auftragsbild" style="width: 80px; height: 80px; object-fit: cover; margin: 2px;">`).join('')}
+                                        </div>
+                                    ` : ''}
+                                    <button onclick="deleteOrder('${order.id}')" class="btn btn-danger">Auftrag löschen</button>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function assignOrder(orderId, employeeId) {
+            const order = systemData.orders.find(o => o.id === orderId);
+            if (order) {
+                order.assignedTo = employeeId || null;
+                saveData();
+                showMessage('Auftrag erfolgreich zugewiesen!', 'success');
+            }
+        }
+
+        function deleteOrder(orderId) {
+            if (confirm('Sind Sie sicher, dass Sie diesen Auftrag löschen möchten?')) {
+                systemData.orders = systemData.orders.filter(o => o.id !== orderId);
+                saveData();
+                showMessage('Auftrag erfolgreich gelöscht!', 'success');
+                showOrderManagement();
+            }
+        }
+
+        function showImageManagement() {
+            document.getElementById('admin-content').innerHTML = `
+                <h3>Bilderverwaltung</h3>
+                <div class="form-group">
+                    <h4>Bilder nach Straßen sortiert</h4>
+                    <div id="images-by-street">
+                        ${systemData.streets.map(street => {
+                            const streetOrders = systemData.orders.filter(order => 
+                                order.address.toLowerCase().includes(street.toLowerCase()) && 
+                                order.images && order.images.length > 0
+                            );
+                            
+                            if (streetOrders.length === 0) return '';
+                            
+                            return `
+                                <div class="card">
+                                    <h5>${street}</h5>
+                                    ${streetOrders.map(order => `
+                                        <div style="margin-bottom: 15px;">
+                                            <strong>Auftrag ${order.id} - ${order.address}</strong><br>
+                                            <div class="image-preview">
+                                                ${order.images.map((img, index) => 
+                                                    `<img src="${img}" alt="Bild ${index + 1}" style="width: 100px; height: 100px; object-fit: cover; margin: 3px; cursor: pointer;" onclick="showFullImage('${img}')">`
+                                                ).join('')}
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h4>Straßenverwaltung</h4>
+                    <input type="text" id="new-street" placeholder="Neue Straße hinzufügen" class="form-control">
+                    <button onclick="addStreet()" class="btn btn-primary">Straße hinzufügen</button>
+                    <div style="margin-top: 15px;">
+                        <strong>Aktuelle Straßen:</strong><br>
+                        ${systemData.streets.map((street, index) => `
+                            <span style="background: #f8f9fa; padding: 5px 10px; margin: 2px; border-radius: 3px; display: inline-block;">
+                                ${street} 
+                                <button onclick="removeStreet(${index})" style="background: none; border: none; color: #dc3545; margin-left: 5px;">×</button>
+                            </span>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function addStreet() {
+            const newStreet = document.getElementById('new-street').value.trim();
+            if (newStreet && !systemData.streets.includes(newStreet)) {
+                systemData.streets.push(newStreet);
+                saveData();
+                showMessage('Straße erfolgreich hinzugefügt!', 'success');
+                showImageManagement();
+            } else if (systemData.streets.includes(newStreet)) {
+                showMessage('Straße existiert bereits!', 'error');
+            } else {
+                showMessage('Bitte Straßenname eingeben!', 'error');
+            }
+        }
+
+        function removeStreet(index) {
+            if (confirm('Straße wirklich löschen?')) {
+                systemData.streets.splice(index, 1);
+                saveData();
+                showMessage('Straße erfolgreich gelöscht!', 'success');
+                showImageManagement();
+            }
+        }
+
+        function showSettings() {
+            document.getElementById('admin-content').innerHTML = `
+                <h3>Einstellungen</h3>
+                <div class="form-group">
+                    <h4>Admin-Passwort ändern</h4>
+                    <input type="password" id="current-admin-password" placeholder="Aktuelles Passwort" class="form-control">
+                    <input type="password" id="new-admin-password" placeholder="Neues Passwort" class="form-control">
+                    <input type="password" id="confirm-admin-password" placeholder="Neues Passwort bestätigen" class="form-control">
+                    <button onclick="changeAdminPassword()" class="btn btn-primary">Passwort ändern</button>
+                </div>
+                <div class="form-group">
+                    <h4>Daten verwalten</h4>
+                    <button onclick="exportData()" class="btn btn-info">Daten exportieren</button>
+                    <button onclick="importData()" class="btn btn-warning">Daten importieren</button>
+                    <input type="file" id="import-file" accept=".json" style="display: none;" onchange="handleImport()">
+                    <button onclick="resetData()" class="btn btn-danger">Alle Daten zurücksetzen</button>
+                </div>
+                <div class="form-group">
+                    <h4>System-Info</h4>
+                    <p>Kunden: ${systemData.customers.length}</p>
+                    <p>Mitarbeiter: ${systemData.employees.length}</p>
+                    <p>Aufträge: ${systemData.orders.length}</p>
+                    <p>Straßen: ${systemData.streets.length}</p>
+                </div>
+            `;
+        }
+
+        function changeAdminPassword() {
+            const currentPassword = document.getElementById('current-admin-password').value;
+            const newPassword = document.getElementById('new-admin-password').value;
+            const confirmPassword = document.getElementById('confirm-admin-password').value;
+            
+            if (currentPassword !== systemData.adminPassword) {
+                showMessage('Aktuelles Passwort ist falsch!', 'error');
+                return;
+            }
+            
+            if (!newPassword || newPassword.length < 6) {
+                showMessage('Neues Passwort muss mindestens 6 Zeichen lang sein!', 'error');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showMessage('Passwort-Bestätigung stimmt nicht überein!', 'error');
+                return;
+            }
+            
+            systemData.adminPassword = newPassword;
+            saveData();
+            showMessage('Admin-Passwort erfolgreich geändert!', 'success');
+            
+            document.getElementById('current-admin-password').value = '';
+            document.getElementById('new-admin-password').value = '';
+            document.getElementById('confirm-admin-password').value = '';
+        }
+
+        function exportData() {
+            const dataStr = JSON.stringify(systemData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `auftragssystem-backup-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+            showMessage('Daten erfolgreich exportiert!', 'success');
+        }
+
+        function importData() {
+            document.getElementById('import-file').click();
+        }
+
+        function handleImport() {
+            const file = document.getElementById('import-file').files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    if (confirm('Wirklich alle Daten importieren? Aktuelle Daten werden überschrieben!')) {
+                        systemData = importedData;
+                        saveData();
+                        showMessage('Daten erfolgreich importiert!', 'success');
+                        showSettings();
+                    }
+                } catch (error) {
+                    showMessage('Fehler beim Importieren: Ungültige Datei!', 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function resetData() {
+            if (confirm('WARNUNG: Alle Daten werden gelöscht! Sind Sie sicher?')) {
+                if (confirm('Letzte Warnung: Wirklich alle Kunden, Mitarbeiter und Aufträge löschen?')) {
+                    systemData = {
+                        customers: [],
+                        employees: [],
+                        orders: [],
+                        streets: ['Musterstraße', 'Hauptstraße', 'Bahnhofstraße'],
+                        adminPassword: 'admin123'
+                    };
+                    saveData();
+                    showMessage('Alle Daten wurden zurückgesetzt!', 'success');
+                    showSettings();
+                }
+            }
+        }
+
+        function showGPSTracking() {
+            let gpsData = [];
+            systemData.employees.forEach(employee => {
+                if (employee.workLog && employee.workLog.length > 0) {
+                    employee.workLog.forEach(log => {
+                        gpsData.push({
+                            employee: employee.name,
+                            employeeId: employee.id,
+                            ...log
+                        });
+                    });
+                }
+            });
+            
+            document.getElementById('admin-content').innerHTML = `
+                <h3>GPS-Tracking aller Mitarbeiter</h3>
+                <div id="gps-tracking-content">
+                    ${gpsData.length === 0 ? '<p>Keine GPS-Daten vorhanden.</p>' : 
+                        gpsData.map(data => `
+                            <div class="card" style="margin-bottom: 10px; border-left: 4px solid ${data.type === 'clockIn' ? '#28a745' : '#dc3545'};">
+                                <strong>${data.employee}</strong> - ${data.type === 'clockIn' ? 'Eingestempelt' : 'Ausgestempelt'}<br>
+                                <small>Zeit: ${new Date(data.timestamp).toLocaleString('de-DE')}</small><br>
+                                <small>GPS: ${data.latitude.toFixed(6)}, ${data.longitude.toFixed(6)} (±${data.accuracy}m)</small>
+                                ${data.workDuration ? `<br><small>Arbeitszeit: ${data.workDuration} Minuten</small>` : ''}
+                            </div>
+                        `).reverse().join('')
+                    }
+                </div>
+            `;
+        }
+
+        function adminLogout() {
+            document.getElementById('admin-panel').classList.add('hidden');
+            document.getElementById('admin-login').classList.remove('hidden');
+            document.getElementById('admin-password').value = '';
+        }
+
+        function showMessage(message, type) {
+            const existingMessages = document.querySelectorAll('.message');
+            existingMessages.forEach(msg => msg.remove());
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type === 'success' ? 'success-message' : 'error-message'}`;
+            messageDiv.textContent = message;
+            messageDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 5px;
+                color: white;
+                font-weight: bold;
+                z-index: 1000;
+                background: ${type === 'success' ? '#28a745' : '#dc3545'};
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                animation: slideIn 0.3s ease-out;
+            `;
+            
+            document.body.appendChild(messageDiv);
+            
+            setTimeout(() => {
+                messageDiv.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => messageDiv.remove(), 300);
+            }, 3000);
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                saveData();
+                showMessage('Daten gespeichert!', 'success');
+            }
+        });
+
+        setInterval(saveData, 30000);
+        setInterval(updateWorkStatus, 1000);
     </script>
 </body>
 </html>
