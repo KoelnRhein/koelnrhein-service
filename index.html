@@ -3,846 +3,1337 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Köln Rhein Service Portal</title>
+    <title>Auftragsverwaltungssystem</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: #333;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
-        
+
         .header {
             text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        .header h1 {
             color: white;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .header p {
-            color: rgba(255,255,255,0.9);
-            font-size: 1.1rem;
-        }
-        
-        .main-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
             margin-bottom: 40px;
         }
-        
-        .card {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
-        }
-        
-        .card-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
+
+        .page-selector {
             display: flex;
-            align-items: center;
             justify-content: center;
-            margin: 0 auto 20px;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-btn {
+            background: rgba(102, 126, 234, 0.8);
             color: white;
-            font-size: 2rem;
-            font-weight: bold;
-        }
-        
-        .info-icon {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-        
-        .card h2 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: #333;
-        }
-        
-        .card p {
-            color: #666;
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }
-        
-        .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
+            border: 2px solid rgba(102, 126, 234, 0.9);
             padding: 15px 30px;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
+            border-radius: 15px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
         }
-        
-        .btn:hover {
+
+        .page-btn:hover, .page-btn.active {
+            background: rgba(102, 126, 234, 1);
+            border-color: rgba(102, 126, 234, 1);
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
-        
-        .btn-info {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-        
-        .auth-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        
-        .auth-modal {
-            background: white;
+
+        .content-area {
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            padding: 40px;
-            width: 90%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            min-height: 600px;
         }
-        
-        .auth-header {
+
+        .hidden {
+            display: none !important;
+        }
+
+        .login-form {
+            max-width: 400px;
+            margin: 0 auto;
             text-align: center;
-            margin-bottom: 30px;
         }
-        
-        .auth-header h2 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-        
-        .tab-buttons {
-            display: flex;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            overflow: hidden;
-            background: #f0f0f0;
-        }
-        
-        .tab-button {
-            flex: 1;
-            padding: 15px;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .tab-button.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        
-        .form-section {
-            display: none;
-        }
-        
-        .form-section.active {
-            display: block;
-        }
-        
+
         .form-group {
             margin-bottom: 20px;
+            text-align: left;
         }
-        
+
         .form-group label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #333;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
         }
-        
+
         .form-group input, .form-group select, .form-group textarea {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
         }
 
-        .password-container {
-            position: relative;
-        }
-
-        .password-toggle {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #666;
-            font-size: 1.1rem;
-            padding: 0;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .password-toggle:hover {
-            color: #333;
-        }
-        
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             outline: none;
             border-color: #667eea;
         }
-        
-        .error-message {
-            background: #fee;
-            color: #c33;
-            padding: 10px 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 4px solid #c33;
-        }
-        
-        .success-message {
-            background: #efe;
-            color: #3c3;
-            padding: 10px 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 4px solid #3c3;
-        }
-        
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: none;
-            border: none;
-            font-size: 2rem;
-            cursor: pointer;
-            color: #999;
-        }
-        
-        .hidden {
-            display: none !important;
-        }
-        
-        .view {
-            display: none;
-        }
-        
-        .view.active {
-            display: block;
-        }
-        
-        .dashboard {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 20px;
-        }
-        
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .dashboard-title {
-            font-size: 2rem;
-            color: #333;
-        }
-        
-        .logout-btn {
-            background: #ff6b6b;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-        }
-        
-        .job-list {
-            display: grid;
-            gap: 20px;
-        }
-        
-        .job-card {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 20px;
-            border-left: 5px solid #667eea;
-        }
-        
-        .job-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .job-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #333;
-        }
-        
-        .job-status {
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        
-        .status-neu {
-            background: #e3f2fd;
-            color: #1976d2;
-        }
-        
-        .status-in-bearbeitung {
-            background: #fff3e0;
-            color: #f57c00;
-        }
-        
-        .status-abgeschlossen {
-            background: #e8f5e8;
-            color: #388e3c;
-        }
-        
-        .job-details {
-            color: #666;
-            line-height: 1.6;
-        }
-        
-        .job-meta {
-            display: flex;
-            gap: 20px;
-            margin-top: 15px;
-            font-size: 0.9rem;
-            color: #888;
-            flex-wrap: wrap;
-        }
-        
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            border-radius: 10px;
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            font-weight: 600;
-            z-index: 1001;
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            margin: 5px;
         }
-        
-        .notification.show {
-            transform: translateX(0);
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
-        
-        .notification.success {
-            background: #4caf50;
-        }
-        
-        .notification.error {
-            background: #f44336;
-        }
-        
-        .back-btn {
-            background: #6c757d;
-            margin-bottom: 20px;
-        }
-        
-        .employee-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .btn-small {
-            padding: 8px 16px;
-            font-size: 0.9rem;
-        }
-        
-        .btn-success {
-            background: #28a745;
-        }
-        
-        .btn-warning {
-            background: #ffc107;
-            color: #333;
-        }
-        
-        .btn-danger {
-            background: #dc3545;
-        }
-        
-        .info-section {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 20px;
-        }
-        
-        .contact-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .contact-card {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-        }
-        
-        .contact-card h3 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-        
-        .admin-btn {
-            background: #17a2b8;
-            margin-top: 20px;
-        }
-        
-        .admin-modal {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            width: 90%;
-            max-width: 600px;
-            position: relative;
-        }
-        
-        .admin-dashboard {
-            max-height: 70vh;
-            overflow-y: auto;
-        }
-        
-        .admin-actions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-        
+
         .btn-secondary {
             background: #6c757d;
         }
-        
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #555;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #667eea;
+        }
+
+        .card-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-offen {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-bearbeitung {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-erledigt {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .admin-corner {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .admin-btn {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .admin-btn:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: scale(1.1);
+        }
+
+        .time-tracker {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .time-display {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
         @media (max-width: 768px) {
-            .main-grid {
-                grid-template-columns: 1fr;
+            .container {
+                padding: 10px;
             }
             
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .card {
-                padding: 25px;
-            }
-            
-            .auth-modal {
-                padding: 25px;
-            }
-            
-            .dashboard-header {
+            .page-selector {
                 flex-direction: column;
-                gap: 15px;
-                text-align: center;
+                align-items: center;
             }
             
-            .job-header {
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
+            .page-btn {
+                width: 100%;
+                max-width: 300px;
             }
             
-            .employee-actions {
-                justify-content: center;
-            }
-            
-            .contact-info {
-                grid-template-columns: 1fr;
+            .content-area {
+                padding: 20px;
             }
         }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+
+        #admin-login {
+            display: block !important;
+            margin-top: 30px;
+        }
+
+        #info-page .card:first-child {
+            display: none;
+        }
     </style>
-</head>
-<body>
-    <div id="homeView" class="view active">
-        <div class="container">
-            <div class="header">
-                <h1>Köln Rhein Service Portal</h1>
-                <p>Professioneller Service für Köln und Umgebung</p>
-            </div>
-            
-            <div class="main-grid">
-                <div class="card">
-                    <div class="card-icon">K</div>
-                    <h2>Kunden-Zugang</h2>
-                    <p>Erstellen Sie Aufträge, verfolgen Sie den Status und verwalten Sie Ihre Service-Anfragen.</p>
-                    <button class="btn" onclick="openCustomerAuth()">Zum Kunden-Bereich</button>
-                </div>
-                
-                <div class="card">
-                    <div class="card-icon">M</div>
-                    <h2>Mitarbeiter-Bereich</h2>
-                    <p>Bearbeiten Sie zugewiesene Aufträge, erfassen Sie Arbeitszeiten und aktualisieren Sie den Status.</p>
-                    <button class="btn" onclick="openEmployeeAuth()">Zum Mitarbeiter-Bereich</button>
-                </div>
-                
-                <div class="card">
-                    <div class="card-icon info-icon">i</div>
-                    <h2>Service-Info</h2>
-                    <p>Erfahren Sie mehr über unsere Dienstleistungen, Öffnungszeiten und Kontaktmöglichkeiten.</p>
-                    <button class="btn btn-info" onclick="showView('infoView')">Mehr erfahren</button>
-                </div>
-            </div>
-        </div>
+</head><body>
+    <div class="admin-corner">
+        <button class="admin-btn" onclick="toggleAdminLogin()" title="Admin Login">
+            <i class="fas fa-lock"></i>
+        </button>
     </div>
 
-    <div id="customerAuth" class="auth-container hidden">
-        <div class="auth-modal">
-            <button class="close-btn" onclick="closeAuth()">&times;</button>
-            <div class="auth-header">
-                <h2>Kunden-Bereich</h2>
-                <p>Anmelden oder Registrieren</p>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-clipboard-list"></i> Auftragsverwaltungssystem</h1>
+            <p>Professionelle Verwaltung Ihrer Aufträge und Mitarbeiter</p>
+        </div>
+
+        <div class="page-selector">
+            <button class="page-btn active" onclick="showPage('info')">
+                <i class="fas fa-info-circle"></i> Informationen
+            </button>
+            <button class="page-btn" onclick="showPage('customer')">
+                <i class="fas fa-user"></i> Kunden
+            </button>
+            <button class="page-btn" onclick="showPage('employee')">
+                <i class="fas fa-hard-hat"></i> Mitarbeiter
+            </button>
+        </div>
+
+        <div class="content-area">
+            <div id="info-page" class="page-content">
+                <div id="admin-login">
+                    <div class="login-form">
+                        <h2><i class="fas fa-shield-alt"></i> Administrator Login</h2>
+                        <div class="form-group">
+                            <label>Passwort:</label>
+                            <input type="password" id="admin-password" placeholder="Admin-Passwort eingeben">
+                        </div>
+                        <button class="btn" onclick="adminLogin()">
+                            <i class="fas fa-sign-in-alt"></i> Anmelden
+                        </button>
+                    </div>
+                </div>
             </div>
-            
-            <div class="tab-buttons">
-                <button class="tab-button active" onclick="switchTab('login')">Anmelden</button>
-                <button class="tab-button" onclick="switchTab('register')">Registrieren</button>
-            </div>
-            
-            <div id="customerLoginForm" class="form-section active">
-                <form onsubmit="customerLogin(event)">
+
+            <div id="customer-page" class="page-content hidden">
+                <div id="customer-login" class="login-form">
+                    <h2><i class="fas fa-user"></i> Kunden Login</h2>
                     <div class="form-group">
-                        <label>Firma / Name</label>
-                        <input type="text" id="custLoginName" placeholder="Ihre Firma oder Name" required>
+                        <label>Benutzername:</label>
+                        <input type="text" id="customer-username" placeholder="Benutzername">
                     </div>
                     <div class="form-group">
-                        <label>Passwort</label>
-                        <div class="password-container">
-                            <input type="password" id="custLoginPassword" placeholder="Ihr Passwort" required>
-                            <button type="button" class="password-toggle" onclick="togglePassword('custLoginPassword', this)">👁</button>
+                        <label>Passwort:</label>
+                        <input type="password" id="customer-password" placeholder="Passwort">
+                    </div>
+                    <button class="btn" onclick="customerLogin()">
+                        <i class="fas fa-sign-in-alt"></i> Anmelden
+                    </button>
+                    <button class="btn btn-secondary" onclick="showCustomerRegister()">
+                        <i class="fas fa-user-plus"></i> Registrieren
+                    </button>
+                </div>
+
+                <div id="customer-register" class="login-form hidden">
+                    <h2><i class="fas fa-user-plus"></i> Kunden Registrierung</h2>
+                    <div class="form-group">
+                        <label>Firmenname:</label>
+                        <input type="text" id="reg-company" placeholder="Firmenname">
+                    </div>
+                    <div class="form-group">
+                        <label>Benutzername:</label>
+                        <input type="text" id="reg-username" placeholder="Benutzername wählen">
+                    </div>
+                    <div class="form-group">
+                        <label>E-Mail:</label>
+                        <input type="email" id="reg-email" placeholder="E-Mail Adresse">
+                    </div>
+                    <div class="form-group">
+                        <label>Passwort:</label>
+                        <input type="password" id="reg-password" placeholder="Passwort wählen">
+                    </div>
+                    <button class="btn" onclick="customerRegister()">
+                        <i class="fas fa-user-plus"></i> Registrieren
+                    </button>
+                    <button class="btn btn-secondary" onclick="showCustomerLogin()">
+                        <i class="fas fa-arrow-left"></i> Zurück zum Login
+                    </button>
+                </div>
+
+                <div id="customer-dashboard" class="hidden">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h2><i class="fas fa-tachometer-alt"></i> Kunden Dashboard</h2>
+                        <button class="btn btn-secondary" onclick="customerLogout()">
+                            <i class="fas fa-sign-out-alt"></i> Abmelden
+                        </button>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-plus-circle"></i> Neuen Auftrag erstellen
+                            </div>
+                            <div class="form-group">
+                                <label>Straße/Adresse:</label>
+                                <input type="text" id="order-address" placeholder="Straße und Hausnummer">
+                            </div>
+                            <div class="form-group">
+                                <label>Beschreibung:</label>
+                                <textarea id="order-description" placeholder="Beschreibung der Arbeiten" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Priorität:</label>
+                                <select id="order-priority">
+                                    <option value="normal">Normal</option>
+                                    <option value="hoch">Hoch</option>
+                                    <option value="dringend">Dringend</option>
+                                </select>
+                            </div>
+                            <button class="btn" onclick="createOrder()">
+                                <i class="fas fa-paper-plane"></i> Auftrag erstellen
+                            </button>
                         </div>
                     </div>
-                    <div id="custLoginError" class="error-message hidden"></div>
-                    <button type="submit" class="btn">Anmelden</button>
-                </form>
-            </div>
-            
-            <div id="customerRegisterForm" class="form-section">
-                <form onsubmit="customerRegister(event)">
-                    <div class="form-group">
-                        <label>Firma / Name</label>
-                        <input type="text" id="custRegName" placeholder="Ihre Firma oder Name" required>
-                    </div>
-                    <div class="form-group">
-                        <label>E-Mail</label>
-                        <input type="email" id="custRegEmail" placeholder="ihre@email.de" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Telefon</label>
-                        <input type="tel" id="custRegPhone" placeholder="0221 / 12345678" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Adresse</label>
-                        <input type="text" id="custRegAddress" placeholder="Straße, PLZ Ort" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Passwort</label>
-                        <div class="password-container">
-                            <input type="password" id="custRegPassword" placeholder="Neues Passwort" required>
-                            <button type="button" class="password-toggle" onclick="togglePassword('custRegPassword', this)">👁</button>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-list"></i> Meine Aufträge
+                        </div>
+                        <div class="table-container">
+                            <table id="customer-orders-table">
+                                <thead>
+                                    <tr>
+                                        <th>Auftrag-Nr.</th>
+                                        <th>Datum</th>
+                                        <th>Straße</th>
+                                        <th>Beschreibung</th>
+                                        <th>Status</th>
+                                        <th>Mitarbeiter</th>
+                                        <th>Aktionen</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
                         </div>
                     </div>
-                    <div id="custRegError" class="error-message hidden"></div>
-                    <button type="submit" class="btn">Registrieren</button>
-                </form>
+                </div>
             </div>
-        </div>
-    </div>
 
-    <div id="employeeAuth" class="auth-container hidden">
-        <div class="auth-modal">
-            <button class="close-btn" onclick="closeAuth()">&times;</button>
-            <div class="auth-header">
-                <h2>Mitarbeiter-Bereich</h2>
-                <p>Anmelden für Mitarbeiter</p>
-            </div>
-            
-            <div class="form-section active">
-                <form onsubmit="employeeLogin(event)">
+            <div id="employee-page" class="page-content hidden">
+                <div id="employee-login" class="login-form">
+                    <h2><i class="fas fa-hard-hat"></i> Mitarbeiter Login</h2>
                     <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" id="empLoginName" placeholder="Ihr Name" required>
+                        <label>Mitarbeiter-ID:</label>
+                        <input type="text" id="employee-id" placeholder="Mitarbeiter-ID">
                     </div>
                     <div class="form-group">
-                        <label>Passwort</label>
-                        <div class="password-container">
-                            <input type="password" id="empLoginPassword" placeholder="Vom Admin erhalten" required>
-                            <button type="button" class="password-toggle" onclick="togglePassword('empLoginPassword', this)">👁</button>
+                        <label>PIN:</label>
+                        <input type="password" id="employee-pin" placeholder="PIN">
+                    </div>
+                    <button class="btn" onclick="employeeLogin()">
+                        <i class="fas fa-sign-in-alt"></i> Anmelden
+                    </button>
+                </div>
+
+                <div id="employee-dashboard" class="hidden">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h2><i class="fas fa-user-hard-hat"></i> Mitarbeiter Dashboard</h2>
+                        <button class="btn btn-secondary" onclick="employeeLogout()">
+                            <i class="fas fa-sign-out-alt"></i> Abmelden
+                        </button>
+                    </div>
+
+                    <div class="time-tracker">
+                        <div class="time-display" id="current-time">--:--:--</div>
+                        <div id="work-status" style="margin-bottom: 15px;">Status: Nicht eingestempelt</div>
+                        <button class="btn btn-success" id="clock-in-btn" onclick="clockIn()">
+                            <i class="fas fa-clock"></i> Einstempeln
+                        </button>
+                        <button class="btn btn-danger hidden" id="clock-out-btn" onclick="clockOut()">
+                            <i class="fas fa-clock"></i> Ausstempeln
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-tasks"></i> Zugewiesene Aufträge
+                        </div>
+                        <div id="employee-orders"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="admin-panel" class="hidden">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2><i class="fas fa-shield-alt"></i> Administrator Panel</h2>
+                    <button class="btn btn-secondary" onclick="adminLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Abmelden
+                    </button>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-users"></i> Kundenverwaltung
+                        </div>
+                        <button class="btn" onclick="showCustomerManagement()">
+                            <i class="fas fa-edit"></i> Kunden verwalten
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-user-hard-hat"></i> Mitarbeiterverwaltung
+                        </div>
+                        <button class="btn" onclick="showEmployeeManagement()">
+                            <i class="fas fa-edit"></i> Mitarbeiter verwalten
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-clipboard-list"></i> Auftragsverwaltung
+                        </div>
+                        <button class="btn" onclick="showOrderManagement()">
+                            <i class="fas fa-tasks"></i> Aufträge verwalten
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-images"></i> Bilderverwaltung
+                        </div>
+                        <button class="btn" onclick="showMessage('Bilderverwaltung wird geladen...', 'success')">
+                            <i class="fas fa-folder-open"></i> Bilder verwalten
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-cog"></i> Einstellungen
+                        </div>
+                        <button class="btn" onclick="showMessage('Einstellungen werden geladen...', 'success')">
+                            <i class="fas fa-wrench"></i> System-Einstellungen
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-map-marker-alt"></i> GPS-Tracking
+                        </div>
+                        <button class="btn" onclick="showEmployeeLocations()">
+                            <i class="fas fa-location-dot"></i> Mitarbeiter-Standorte
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><script>
+        let systemData = {
+            customers: [
+                { id: 1, username: 'demo', password: 'demo', company: 'Demo GmbH', email: 'demo@example.com' }
+            ],
+            employees: [
+                { id: 'E001', name: 'Max Mustermann', pin: '1234', isWorking: false, clockInTime: null, workLog: [] }
+            ],
+            orders: [
+                { 
+                    id: 1001, 
+                    customerId: 1, 
+                    address: 'Musterstraße 123', 
+                    description: 'Demo Auftrag', 
+                    status: 'offen', 
+                    priority: 'normal',
+                    created: '2024-01-15',
+                    assignedTo: null,
+                    notes: '',
+                    images: []
+                }
+            ],
+            admin: {
+                password: 'admin123'
+            },
+            streets: ['Musterstraße', 'Hauptstraße', 'Bahnhofstraße'],
+            images: {}
+        };
+
+        let currentUser = null;
+        let currentUserType = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateClock();
+            setInterval(updateClock, 1000);
+            loadCustomerOrders();
+        });
+
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('de-DE');
+            const timeDisplay = document.getElementById('current-time');
+            if (timeDisplay) {
+                timeDisplay.textContent = timeString;
+            }
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.add('hidden');
+            });
+            
+            document.getElementById('admin-panel').classList.add('hidden');
+            document.getElementById(pageId + '-page').classList.remove('hidden');
+            
+            document.querySelectorAll('.page-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function toggleAdminLogin() {
+            showMessage('Admin-Login ist bereits sichtbar', 'success');
+        }
+
+        function adminLogin() {
+            const password = document.getElementById('admin-password').value;
+            
+            if (password === systemData.admin.password) {
+                document.getElementById('admin-login').classList.add('hidden');
+                document.getElementById('admin-panel').classList.remove('hidden');
+                currentUser = 'admin';
+                currentUserType = 'admin';
+                showMessage('Admin erfolgreich angemeldet!', 'success');
+            } else {
+                showMessage('Falsches Passwort!', 'error');
+            }
+        }
+
+        function adminLogout() {
+            document.getElementById('admin-panel').classList.add('hidden');
+            document.getElementById('admin-login').classList.remove('hidden');
+            currentUser = null;
+            currentUserType = null;
+            document.getElementById('admin-password').value = '';
+            showMessage('Admin abgemeldet.', 'success');
+        }
+
+        // KUNDENVERWALTUNG
+        function showCustomerManagement() {
+            const panel = document.getElementById('admin-panel');
+            panel.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2><i class="fas fa-users"></i> Kundenverwaltung</h2>
+                    <button class="btn btn-secondary" onclick="backToAdminDashboard()">
+                        <i class="fas fa-arrow-left"></i> Zurück
+                    </button>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">Neuen Kunden hinzufügen</div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                        <div class="form-group">
+                            <label>Firmenname:</label>
+                            <input type="text" id="new-customer-company" placeholder="Firmenname">
+                        </div>
+                        <div class="form-group">
+                            <label>Benutzername:</label>
+                            <input type="text" id="new-customer-username" placeholder="Benutzername">
+                        </div>
+                        <div class="form-group">
+                            <label>E-Mail:</label>
+                            <input type="email" id="new-customer-email" placeholder="E-Mail">
+                        </div>
+                        <div class="form-group">
+                            <label>Passwort:</label>
+                            <input type="password" id="new-customer-password" placeholder="Passwort">
                         </div>
                     </div>
-                    <div id="empLoginError" class="error-message hidden"></div>
-                    <button type="submit" class="btn">Anmelden</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div id="customerView" class="view">
-        <div class="container">
-            <button class="btn back-btn" onclick="showView('homeView')">Zurück</button>
-            
-            <div class="dashboard">
-                <div class="dashboard-header">
-                    <h2 class="dashboard-title">Willkommen, <span id="customerName"></span></h2>
-                    <button class="btn logout-btn" onclick="logout()">Abmelden</button>
+                    <button class="btn" onclick="addCustomer()">
+                        <i class="fas fa-plus"></i> Kunde hinzufügen
+                    </button>
                 </div>
                 
-                <div class="dashboard-actions" style="margin-bottom: 30px;">
-                    <button class="btn" onclick="showNewJobForm()">Neuen Auftrag erstellen</button>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Firmenname</th>
+                                <th>Benutzername</th>
+                                <th>E-Mail</th>
+                                <th>Aktionen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${systemData.customers.map(customer => `
+                                <tr>
+                                    <td>${customer.id}</td>
+                                    <td>${customer.company}</td>
+                                    <td>${customer.username}</td>
+                                    <td>${customer.email}</td>
+                                    <td>
+                                        <button class="btn btn-danger" onclick="deleteCustomer(${customer.id})">
+                                            <i class="fas fa-trash"></i> Löschen
+                                        </button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function addCustomer() {
+            const company = document.getElementById('new-customer-company').value;
+            const username = document.getElementById('new-customer-username').value;
+            const email = document.getElementById('new-customer-email').value;
+            const password = document.getElementById('new-customer-password').value;
+            
+            if (!company || !username || !email || !password) {
+                showMessage('Alle Felder müssen ausgefüllt werden!', 'error');
+                return;
+            }
+            
+            if (systemData.customers.find(c => c.username === username)) {
+                showMessage('Benutzername bereits vergeben!', 'error');
+                return;
+            }
+            
+            const newCustomer = {
+                id: Math.max(...systemData.customers.map(c => c.id)) + 1,
+                company,
+                username,
+                email,
+                password
+            };
+            
+            systemData.customers.push(newCustomer);
+            showMessage('Kunde erfolgreich hinzugefügt!', 'success');
+            showCustomerManagement();
+        }
+
+        function deleteCustomer(customerId) {
+            if (confirm('Kunde wirklich löschen?')) {
+                systemData.customers = systemData.customers.filter(c => c.id !== customerId);
+                showMessage('Kunde gelöscht!', 'success');
+                showCustomerManagement();
+            }
+        }
+
+        // MITARBEITERVERWALTUNG
+        function showEmployeeManagement() {
+            const panel = document.getElementById('admin-panel');
+            panel.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2><i class="fas fa-user-hard-hat"></i> Mitarbeiterverwaltung</h2>
+                    <button class="btn btn-secondary" onclick="backToAdminDashboard()">
+                        <i class="fas fa-arrow-left"></i> Zurück
+                    </button>
                 </div>
                 
-                <h3 style="margin-bottom: 20px;">Ihre Aufträge</h3>
-                <div id="customerJobs" class="job-list"></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="employeeView" class="view">
-        <div class="container">
-            <button class="btn back-btn" onclick="showView('homeView')">Zurück</button>
-            
-            <div class="dashboard">
-                <div class="dashboard-header">
-                    <h2 class="dashboard-title">Mitarbeiter-Portal - <span id="employeeName"></span></h2>
-                    <button class="btn logout-btn" onclick="logout()">Abmelden</button>
-                </div>
-                
-                <h3 style="margin-bottom: 20px;">Zugewiesene Aufträge</h3>
-                <div id="employeeJobs" class="job-list"></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="infoView" class="view">
-        <div class="container">
-            <button class="btn back-btn" onclick="showView('homeView')">Zurück</button>
-            
-            <div class="info-section">
-                <h2 style="margin-bottom: 30px; text-align: center;">Service-Informationen</h2>
-                
-                <div class="contact-info">
-                    <div class="contact-card">
-                        <h3>Kontakt</h3>
-                        <p><strong>E-Mail:</strong> info@koelnrhein.de</p>
-                        <p><strong>Telefon:</strong> 015566988393</p>
+                <div class="card">
+                    <div class="card-header">Neuen Mitarbeiter hinzufügen</div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                        <div class="form-group">
+                            <label>Mitarbeiter-ID:</label>
+                            <input type="text" id="new-employee-id" placeholder="z.B. E002">
+                        </div>
+                        <div class="form-group">
+                            <label>Name:</label>
+                            <input type="text" id="new-employee-name" placeholder="Vollständiger Name">
+                        </div>
+                        <div class="form-group">
+                            <label>PIN:</label>
+                            <input type="password" id="new-employee-pin" placeholder="4-stellige PIN">
+                        </div>
                     </div>
+                    <button class="btn" onclick="addEmployee()">
+                        <i class="fas fa-plus"></i> Mitarbeiter hinzufügen
+                    </button>
+                </div>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mitarbeiter-ID</th>
+                                <th>Name</th>
+                                <th>Status</th>
+                                <th>Aktionen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${systemData.employees.map(employee => `
+                                <tr>
+                                    <td>${employee.id}</td>
+                                    <td>${employee.name}</td>
+                                    <td>
+                                        <span class="status-badge ${employee.isWorking ? 'status-bearbeitung' : 'status-offen'}">
+                                            ${employee.isWorking ? 'Arbeitet' : 'Nicht aktiv'}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger" onclick="deleteEmployee('${employee.id}')">
+                                            <i class="fas fa-trash"></i> Löschen
+                                        </button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function addEmployee() {
+            const employeeId = document.getElementById('new-employee-id').value;
+            const name = document.getElementById('new-employee-name').value;
+            const pin = document.getElementById('new-employee-pin').value;
+            
+            if (!employeeId || !name || !pin) {
+                showMessage('Alle Felder müssen ausgefüllt werden!', 'error');
+                return;
+            }
+            
+            if (systemData.employees.find(e => e.id === employeeId)) {
+                showMessage('Mitarbeiter-ID bereits vergeben!', 'error');
+                return;
+            }
+            
+            if (pin.length !== 4 || !/^\d{4}$/.test(pin)) {
+                showMessage('PIN muss 4 Ziffern haben!', 'error');
+                return;
+            }
+            
+            const newEmployee = {
+                id: employeeId,
+                name,
+                pin,
+                isWorking: false,
+                clockInTime: null,
+                workLog: []
+            };
+            
+            systemData.employees.push(newEmployee);
+            showMessage('Mitarbeiter erfolgreich hinzugefügt!', 'success');
+            showEmployeeManagement();
+        }
+
+        function deleteEmployee(employeeId) {
+            if (confirm('Mitarbeiter wirklich löschen?')) {
+                systemData.employees = systemData.employees.filter(e => e.id !== employeeId);
+                
+                systemData.orders.forEach(order => {
+                    if (order.assignedTo === employeeId) {
+                        order.assignedTo = null;
+                    }
+                });
+                
+                showMessage('Mitarbeiter gelöscht!', 'success');
+                showEmployeeManagement();
+            }
+        }
+
+        // AUFTRAGSVERWALTUNG
+        function showOrderManagement() {
+            const panel = document.getElementById('admin-panel');
+            panel.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2><i class="fas fa-clipboard-list"></i> Auftragsverwaltung</h2>
+                    <button class="btn btn-secondary" onclick="backToAdminDashboard()">
+                        <i class="fas fa-arrow-left"></i> Zurück
+                    </button>
+                </div>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Auftrag-Nr.</th>
+                                <th>Kunde</th>
+                                <th>Adresse</th>
+                                <th>Status</th>
+                                <th>Zugewiesen an</th>
+                                <th>Aktionen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${systemData.orders.map(order => {
+                                const customer = systemData.customers.find(c => c.id === order.customerId);
+                                const employee = systemData.employees.find(e => e.id === order.assignedTo);
+                                return `
+                                    <tr>
+                                        <td>${order.id}</td>
+                                        <td>${customer ? customer.company : 'Unbekannt'}</td>
+                                        <td>${order.address}</td>
+                                        <td><span class="status-badge status-${order.status}">${order.status}</span></td>
+                                        <td>
+                                            <select onchange="assignOrder(${order.id}, this.value)">
+                                                <option value="">Nicht zugewiesen</option>
+                                                ${systemData.employees.map(emp => 
+                                                    `<option value="${emp.id}" ${order.assignedTo === emp.id ? 'selected' : ''}>${emp.name}</option>`
+                                                ).join('')}
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <button class="btn" onclick="viewOrderDetails(${order.id})">
+                                                <i class="fas fa-eye"></i> Details
+                                            </button>
+                                        </td>
+                                    </tr>
+                                `;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function assignOrder(orderId, employeeId) {
+            const order = systemData.orders.find(o => o.id === orderId);
+            if (order) {
+                order.assignedTo = employeeId || null;
+                showMessage('Auftrag zugewiesen!', 'success');
+            }
+        }
+
+        function viewOrderDetails(orderId) {
+            const order = systemData.orders.find(o => o.id === orderId);
+            if (!order) return;
+            
+            const customer = systemData.customers.find(c => c.id === order.customerId);
+            showMessage(`Auftrag ${order.id}: ${order.description} für ${customer ? customer.company : 'Unbekannt'}`, 'success');
+        }
+
+        function backToAdminDashboard() {
+            const panel = document.getElementById('admin-panel');
+            panel.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2><i class="fas fa-shield-alt"></i> Administrator Panel</h2>
+                    <button class="btn btn-secondary" onclick="adminLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Abmelden
+                    </button>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-users"></i> Kundenverwaltung
+                        </div>
+                        <button class="btn" onclick="showCustomerManagement()">
+                            <i class="fas fa-edit"></i> Kunden verwalten
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-user-hard-hat"></i> Mitarbeiterverwaltung
+                        </div>
+                        <button class="btn" onclick="showEmployeeManagement()">
+                            <i class="fas fa-edit"></i> Mitarbeiter verwalten
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-clipboard-list"></i> Auftragsverwaltung
+                        </div>
+                        <button class="btn" onclick="showOrderManagement()">
+                            <i class="fas fa-tasks"></i> Aufträge verwalten
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-images"></i> Bilderverwaltung
+                        </div>
+                        <button class="btn" onclick="showMessage('Bilderverwaltung wird geladen...', 'success')">
+                            <i class="fas fa-folder-open"></i> Bilder verwalten
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-cog"></i> Einstellungen
+                        </div>
+                        <button class="btn" onclick="showMessage('Einstellungen werden geladen...', 'success')">
+                            <i class="fas fa-wrench"></i> System-Einstellungen
+                        </button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-map-marker-alt"></i> GPS-Tracking
+                        </div>
+                        <button class="btn" onclick="showEmployeeLocations()">
+                            <i class="fas fa-location-dot"></i> Mitarbeiter-Standorte
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // KUNDEN-FUNKTIONEN
+        function customerLogin() {
+            const username = document.getElementById('customer-username').value;
+            const password = document.getElementById('customer-password').value;
+            
+            const customer = systemData.customers.find(c => 
+                c.username === username && c.password === password
+            );
+            
+            if (customer) {
+                currentUser = customer;
+                currentUserType = 'customer';
+                document.getElementById('customer-login').classList.add('hidden');
+                document.getElementById('customer-dashboard').classList.remove('hidden');
+                loadCustomerOrders();
+                showMessage('Erfolgreich angemeldet!', 'success');
+            } else {
+                showMessage('Ungültige Anmeldedaten!', 'error');
+            }
+        }
+
+        function showCustomerRegister() {
+            document.getElementById('customer-login').classList.add('hidden');
+            document.getElementById('customer-register').classList.remove('hidden');
+        }
+
+        function showCustomerLogin() {
+            document.getElementById('customer-register').classList.add('hidden');
+            document.getElementById('customer-login').classList.remove('hidden');
+        }
+
+        function customerRegister() {
+            const company = document.getElementById('reg-company').value;
+            const username = document.getElementById('reg-username').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            
+            if (!company || !username || !email || !password) {
+                showMessage('Alle Felder müssen ausgefüllt werden!', 'error');
+                return;
+            }
+            
+            if (systemData.customers.find(c => c.username === username)) {
+                showMessage('Benutzername bereits vergeben!', 'error');
+                return;
+            }
+            
+            const newCustomer = {
+                id: systemData.customers.length + 1,
+                username,
+                password,
+                company,
+                email
+            };
+            
+            systemData.customers.push(newCustomer);
+            showMessage('Registrierung erfolgreich! Sie können sich jetzt anmelden.', 'success');
+            showCustomerLogin();
+        }
+
+        function customerLogout() {
+            document.getElementById('customer-dashboard').classList.add('hidden');
+            document.getElementById('customer-login').classList.remove('hidden');
+            currentUser = null;
+            currentUserType = null;
+            document.getElementById('customer-username').value = '';
+            document.getElementById('customer-password').value = '';
+        }
+
+        function createOrder() {
+            if (!currentUser || currentUserType !== 'customer') {
+                showMessage('Sie müssen als Kunde angemeldet sein!', 'error');
+                return;
+            }
+            
+            const address = document.getElementById('order-address').value;
+            const description = document.getElementById('order-description').value;
+            const priority = document.getElementById('order-priority').value;
+            
+            if (!address || !description) {
+                showMessage('Adresse und Beschreibung sind erforderlich!', 'error');
+                return;
+            }
+            
+            const newOrder = {
+                id: 1000 + systemData.orders.length + 1,
+                customerId: currentUser.id,
+                address,
+                description,
+                status: 'offen',
+                priority,
+                created: new Date().toISOString().split('T')[0],
+                assignedTo: null,
+                notes: '',
+                images: []
+            };
+            
+            systemData.orders.push(newOrder);
+            
+            document.getElementById('order-address').value = '';
+            document.getElementById('order-description').value = '';
+            document.getElementById('order-priority').value = 'normal';
+            
+            loadCustomerOrders();
+            showMessage('Auftrag erfolgreich erstellt!', 'success');
+        }
+
+        function loadCustomerOrders() {
+            if (!currentUser || currentUserType !== 'customer') return;
+            
+            const customerOrders = systemData.orders.filter(order => order.customerId === currentUser.id);
+            const tbody = document.querySelector('#customer-orders-table tbody');
+            
+            if (!tbody) return;
+            
+            tbody.innerHTML = '';
+            
+            customerOrders.forEach(order => {
+                const employee = systemData.employees.find(emp => emp.id === order.assignedTo);
+                const employeeName = employee ? employee.name : 'Nicht zugewiesen';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${order.id}</td>
+                    <td>${order.created}</td>
+                    <td>${order.address}</td>
+                    <td>${order.description}</td>
+                    <td><span class="status-badge status-${order.status}">${order.status}</span></td>
+                    <td>${employeeName}</td>
+                    <td>
+                        ${order.status === 'erledigt' ? 
+                            '<button class="btn btn-secondary">Drucken</button>' : 
+                            'In Bearbeitung'
+                        }
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // MITARBEITER-FUNKTIONEN
+        function employeeLogin() {
+            const employeeId = document.getElementById('employee-id').value;
+            const pin = document.getElementById('employee-pin').value;
+            
+            const employee = systemData.employees.find(emp => 
+                emp.id === employeeId && emp.pin === pin
+            );
+            
+            if (employee) {
+                currentUser = employee;
+                currentUserType = 'employee';
+                document.getElementById('employee-login').classList.add('hidden');
+                document.getElementById('employee-dashboard').classList.remove('hidden');
+                updateWorkStatus();
+                showMessage('Mitarbeiter erfolgreich angemeldet!', 'success');
+            } else {
+                showMessage('Ungültige Anmeldedaten!', 'error');
+            }
+        }
+
+        function employeeLogout() {
+            document.getElementById('employee-dashboard').classList.add('hidden');
+            document.getElementById('employee-login').classList.remove('hidden');
+            currentUser = null;
+            currentUserType = null;
+            document.getElementById('employee-id').value = '';
+            document.getElementById('employee-pin').value = '';
+        }
+
+        function clockIn() {
+            if (currentUser && currentUserType === 'employee') {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        function(position) {
+                            const lat = position.coords.latitude.toFixed(6);
+                            const lon = position.coords.longitude.toFixed(6);
+                            const timestamp = new Date().toLocaleString('de-DE');
+                            
+                            currentUser.isWorking = true;
+                            currentUser.clockInTime = new Date().toISOString();
+                            currentUser.clockInLocation = `${lat}, ${lon}`;
+                            currentUser.clockInTimestamp = timestamp;
+                            
+                            updateWorkStatus();
+                            showMessage(`Erfolgreich eingestempelt! Standort: ${lat}, ${lon}`, 'success');
+                        },
+                        function(error) {
+                            currentUser.isWorking = true;
+                            currentUser.clockInTime = new Date().toISOString();
+                            currentUser.clockInLocation = 'GPS nicht verfügbar';
+                            currentUser.clockInTimestamp = new Date().toLocaleString('de-DE');
+                            
+                            updateWorkStatus();
+                            showMessage('Erfolgreich eingestempelt! (GPS nicht verfügbar)', 'success');
+                        }
+                    );
+                } else {
+                    currentUser.isWorking = true;
+                    currentUser.clockInTime = new Date().toISOString();
+                    currentUser.clockInLocation = 'GPS nicht unterstützt';
+                    currentUser.clockInTimestamp = new Date().toLocaleString('de-DE');
                     
-                    <div class="contact-card">
-                        <h3>Adresse</h3>
-                        <p>Dürenerstr. 206-208<br>50931 Köln</p>
-                    </div>
+                    updateWorkStatus();
+                    showMessage('Erfolgreich eingestempelt! (GPS nicht unterstützt)', 'success');
+                }
+            }
+        }
+
+        function clockOut() {
+            if (currentUser && currentUserType === 'employee') {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        function(position) {
+                            const lat = position.coords.latitude.toFixed(6);
+                            const lon = position.coords.longitude.toFixed(6);
+                            const timestamp = new Date().toLocaleString('de-DE');
+                            
+                            currentUser.isWorking = false;
+                            const clockInTime = new Date(currentUser.clockInTime);
+                            const clockOutTime = new Date();
+                            const workDuration = Math.round((clockOutTime - clockInTime) / 1000 / 60);
+                            
+                            currentUser.clockOutLocation = `${lat}, ${lon}`;
+                            currentUser.clockOutTimestamp = timestamp;
+                            
+                            if (!currentUser.workLog) currentUser.workLog = [];
+                            currentUser.workLog.push({
+                                date: new Date().toISOString().split('T')[0],
+                                clockIn: currentUser.clockInTimestamp,
+                                clockOut: timestamp,
+                                clockInLocation: currentUser.clockInLocation,
+                                clockOutLocation: currentUser.clockOutLocation,
+                                duration: workDuration
+                            });
+                            
+                            showMessage(`Ausgestempelt! Arbeitszeit: ${workDuration} Min. Standort: ${lat}, ${lon}`, 'success');
+                            
+                            currentUser.clockInTime = null;
+                            updateWorkStatus();
+                        },
+                        function(error) {
+                            currentUser.isWorking = false;
+                            const clockInTime = new Date(currentUser.clockInTime);
+                            const clockOutTime = new Date();
+                            const workDuration = Math.round((clockOutTime - clockInTime) / 1000 / 60);
+                            
+                            currentUser.clockOutLocation = 'GPS nicht verfügbar';
+                            currentUser.clockOutTimestamp = new Date().toLocaleString('de-DE');
+                            
+                            showMessage(`Ausgestempelt! Arbeitszeit: ${workDuration} Min. (GPS nicht verfügbar)`, 'success');
+                            currentUser.clockInTime = null;
+                            updateWorkStatus();
+                        }
+                    );
+                } else {
+                    currentUser.isWorking = false;
+                    const clockInTime = new Date(currentUser.clockInTime);
+                    const clockOutTime = new Date();
+                    const workDuration = Math.round((clockOutTime - clockInTime) / 1000 / 60);
                     
-                    <div class="contact-card">
-                        <h3>Öffnungszeiten</h3>
-                        <p>Mo-Fr: 8:00 - 18:00 Uhr<br>Sa: 9:00 - 14:00 Uhr</p>
-                    </div>
-                </div>
+                    currentUser.clockOutLocation = 'GPS nicht unterstützt';
+                    currentUser.clockOutTimestamp = new Date().toLocaleString('de-DE');
+                    
+                    showMessage(`Ausgestempelt! Arbeitszeit: ${workDuration} Min. (GPS nicht unterstützt)`, 'success');
+                    currentUser.clockInTime = null;
+                    updateWorkStatus();
+                }
+            }
+        }
+
+        function updateWorkStatus() {
+            const statusElement = document.getElementById('work-status');
+            const clockInBtn = document.getElementById('clock-in-btn');
+            const clockOutBtn = document.getElementById('clock-out-btn');
+            
+            if (!statusElement || !clockInBtn || !clockOutBtn) return;
+            
+            if (currentUser && currentUser.isWorking) {
+                const locationInfo = currentUser.clockInLocation ? 
+                    `<br><small>Standort: ${currentUser.clockInLocation}</small>` : '';
+                    
+                statusElement.innerHTML = `
+                    Status: <span style="color: green;">Eingestempelt seit ${new Date(currentUser.clockInTime).toLocaleTimeString('de-DE')}</span>
+                    ${locationInfo}
+                `;
+                clockInBtn.classList.add('hidden');
+                clockOutBtn.classList.remove('hidden');
+            } else {
+                statusElement.innerHTML = 'Status: <span style="color: red;">Nicht eingestempelt</span>';
+                clockInBtn.classList.remove('hidden');
+                clockOutBtn.classList.add('hidden');
+            }
+        }
+
+        function showEmployeeLocations() {
+            let locationData = '<h3>Mitarbeiter GPS-Tracking</h3>';
+            
+            systemData.employees.forEach(employee => {
+                locationData += `<div class="card"><div class="card-header">${employee.name} (${employee.id})</div>`;
                 
-                <h3 style="margin-bottom: 20px;">Unsere Dienstleistungen</h3>
-                <div style="display: grid; gap: 15px; margin-bottom: 30px;">
-                    <div class="contact-card">
-                        <h4>Gebäudereinigung</h4>
-                        <p>Professionelle Reinigung von Büros, Praxen und Geschäftsräumen</p>
-                    </div>
-                    <div class="contact-card">
-                        <h4>Facility Management</h4>
-                        <p>Komplette Betreuung Ihrer Immobilie mit allen technischen Services</p>
-                    </div>
-                    <div class="contact-card">
-                        <h4>Wartung & Reparatur</h4>
-                        <p>Zuverlässige Wartung und schnelle Reparaturen für Ihre Einrichtungen</p>
-                    </div>
-                </div>
+                if (employee.workLog && employee.workLog.length > 0) {
+                    employee.workLog.slice(-5).forEach(entry => {
+                        locationData += `
+                            <p><strong>Datum:</strong> ${entry.date}</p>
+                            <p><strong>Eingestempelt:</strong> ${entry.clockIn} - ${entry.clockInLocation}</p>
+                            <p><strong>Ausgestempelt:</strong> ${entry.clockOut} - ${entry.clockOutLocation}</p>
+                            <p><strong>Arbeitszeit:</strong> ${entry.duration} Minuten</p>
+                            <hr>
+                        `;
+                    });
+                } else {
+                    locationData += '<p>Keine GPS-Daten verfügbar</p>';
+                }
                 
-                <div style="text-align: center;">
-                    <button class="btn admin-btn" onclick="openAdminAuth()">Admin-Bereich öffnen</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="adminAuth" class="auth-container hidden">
-        <div class="auth-modal">
-            <button class="close-btn" onclick="closeAuth()">&times;</button>
-            <div class="auth-header">
-                <h2>Admin-Bereich</h2>
-                <p>Administratoren-Zugang</p>
-            </div>
+                locationData += '</div>';
+            });
             
-            <div class="form-section active">
-                <form onsubmit="adminLogin(event)">
-                    <div class="form-group">
-                        <label>Admin-Passwort</label>
-                        <div class="password-container">
-                            <input type="password" id="adminPassword" placeholder="Admin-Passwort eingeben" required>
-                            <button type="button" class="password-toggle" onclick="togglePassword('adminPassword', this)">👁</button>
-                        </div>
-                    </div>
-                    <div id="adminLoginError" class="error-message hidden"></div>
-                    <button type="submit" class="btn">Anmelden</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div id="adminDashboard" class="auth-container hidden">
-        <div class="admin-modal">
-            <button class="close-btn" onclick="closeAuth()">&times;</button>
-            <div class="auth-header">
-                <h2>Admin-Dashboard</h2>
-                <p>Verwaltung des Service-Portals</p>
-            </div>
-            
-            <div class="admin-dashboard">
-                <div class="admin-actions">
-                    <button class="btn" onclick="showAdminJobs()">Aufträge verwalten</button>
-                    <button class="btn" onclick="showAdminCustomers()">Kunden verwalten</button>
-                    <button class="btn" onclick="showAdminEmployees()">Mitarbeiter verwalten</button>
-                    <button class="btn btn-secondary" onclick="exportData()">Daten exportieren</button>
+            const panel = document.getElementById('admin-panel');
+            panel.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2>GPS-Tracking Übersicht</h2>
+                    <button class="btn btn-secondary" onclick="backToAdminDashboard()">Zurück</button>
                 </div>
+                ${locationData}
+            `;
+        }
+
+        function showMessage(message, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = type === 'success' ? 'success-message' : 'error-message';
+            messageDiv.textContent = message;
+            
+            const container = document.querySelector('.content-area');
+            if (container) {
+                container.insertBefore(messageDiv, container.firstChild);
                 
-                <div id="adminJobsSection">
-                    <h3 style="margin-bottom: 20px;">Alle Aufträge</h3>
-                    <div id="adminJobs" class="job-list"></div>
-                </div>
+                setTimeout(() => {
+                    messageDiv.remove();
+                }, 3000);
+            }
+        }
 
-                <div id="adminCustomersSection" class="hidden">
-                    <h3 style="margin-bottom: 20px;">Alle Kunden</h3>
-                    <div id="adminCustomers" class="job-list"></div>
-                </div>
-
-                <div id="adminEmployeesSection" class="hidden">
-                    <h3 style="margin-bottom: 20px;">Alle Mitarbeiter</h3>
-                    <button class="btn" onclick="showAddEmployeeForm()" style="margin-bottom: 20px;">Neuen Mitarbeiter hinzufügen</button>
-                    <div id="adminEmployees" class="job-list"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="newJobModal" class="auth-container hidden">
-        <div class="auth-modal">
-            <button class="close-btn" onclick="closeNewJobModal()">&times;</button>
-            <div class="auth-header">
-                <h2>Neuen Auftrag erstellen</h2>
-            </div>
-            
-            <form onsubmit="createJob(event)">
-                <div class="form-group">
-                    <label>Service-Art</label>
-                    <select id="jobService" required>
-                        <option value="">Bitte wählen...</option>
-                        <option value="Gebäudereinigung">Gebäudereinigung</option>
-                        <option value="Büroreinigung">Büroreinigung</option>
-                        <option value="Facility Management">Facility Management</option>
-                        <option value="Wartung">Wartung & Reparatur</option>
-                        <option value="Sonstige">Sonstige</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Adresse</label>
-                    <input type="text" id="jobAddress" placeholder="Straße, PLZ Ort" required>
-                </div>
-                <div class="form-group">
-                    <label>Priorität</label>
-                    <select id="jobPriority" required>
-                        <option value="normal">Normal</option>
-                        <option value="hoch">Hoch</option>
-                        <option value="dringend">Dringend</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Beschreibung</label>
-                    <textarea id="jobDescription" rows="4" placeholder="Detaillierte Beschreibung des Auftrags..." required></textarea>
-                </div>
-                <button type="submit" class="btn">Auftrag erstellen</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="addEmployeeModal" class="auth-container hidden">
-        <div class="auth-modal">
-            <button class="close-btn" onclick="closeAddEmployeeModal()">&times;</button>
-            <div class="auth-header">
-                <h2>Neuen Mitarbeiter hinzufügen</h2>
-            </div>
-            
-            <form onsubmit="addEmployee(event)">
-                <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" id="newEmpName" placeholder="Vollständiger Name" required>
-                </div>
-                <div class="form-group">
-                    <label>E-Mail</label>
-                    <input type="email" id="newEmpEmail" placeholder="email@koelnrhein.de" required>
-                </div>
-                <div class="form-group">
-                    <label>Passwort</label>
-                    <div class="password-container">
-                        <input type="password" id="newEmpPassword" placeholder="Temporäres Passwort" required>
-                        <button type="button" class="password-toggle" onclick="togglePassword('newEmpPassword', this)">👁</button>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Fähigkeiten</label>
-                    <select id="newEmpSkill" required>
-                        <option value="">Bitte wählen...</option>
-                        <option value="Allround">Allround</option>
-                        <option value="Gebäudereinigung">Gebäudereinigung</option
+        console.log('Auftragsverwaltungssystem geladen!');
+        console.log('Demo-Zugangsdaten:');
+        console.log('Kunde: demo / demo');
+        console.log('Mitarbeiter: E001 / 1234');
+        console.log('Admin: admin123');
+    </script>
+</body>
+</html>
