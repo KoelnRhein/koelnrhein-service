@@ -3,1025 +3,819 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Köln Rhein Immobilien Service - Auftragssystem</title>
+    <title>Service Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root {
-            --primary-color: #000000;
-            --secondary-color: #f39c12;
-            --background-color: #f5f5f5;
-            --card-background: #ffffff;
-            --text-color: #333333;
-            --border-color: #dddddd;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --success-color: #27ae60;
-            --error-color: #e74c3c;
-            --warning-color: #f39c12;
-        }
-
+        /* General Styles */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--background-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            flex-grow: 1;
         }
 
-        .nav-bar {
-            background: var(--card-background);
-            padding: 15px 0;
-            box-shadow: 0 2px 4px var(--shadow-color);
+        .dashboard {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        /* Card & Header Styles */
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
             margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        .nav-content {
-            max-width: 1200px;
-            margin: 0 auto;
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 24px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
         }
 
         .logo {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
-            color: var(--primary-color);
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
         }
 
-        .nav-buttons {
-            display: flex;
-            gap: 10px;
+        /* Form & Button Styles */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .password-container {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #999;
         }
 
         .btn {
             padding: 10px 20px;
-            background: var(--secondary-color);
-            color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
-            font-size: 16px;
+            transition: all 0.3s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #f39c12;
+            color: white;
         }
 
         .btn:hover {
-            background: #d48e10;
+            opacity: 0.8;
             transform: translateY(-2px);
         }
 
-        .btn-green { background: var(--success-color); }
-        .btn-green:hover { background: #1e8449; }
-        .btn-red { background: var(--error-color); }
-        .btn-red:hover { background: #c0392b; }
-        .btn-blue { background: #3498db; }
-        .btn-blue:hover { background: #2980b9; }
-
-        .card {
-            background: var(--card-background);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px var(--shadow-color);
-        }
-
-        .card h2 {
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-        }
-
-        .table-responsive {
-            overflow-x: auto;
-        }
-
+        /* Table Styles */
         .table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
+            margin-top: 20px;
         }
 
         .table th, .table td {
             padding: 12px;
             text-align: left;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid #eee;
         }
 
         .table th {
             background: #f8f9fa;
+            font-weight: bold;
+            color: #555;
         }
 
         .status-badge {
             padding: 5px 10px;
-            border-radius: 12px;
+            border-radius: 20px;
             font-size: 12px;
             font-weight: bold;
-            color: white;
-        }
-        .status-offen { background-color: var(--error-color); }
-        .status-in_bearbeitung { background-color: var(--warning-color); }
-        .status-erledigt { background-color: var(--success-color); }
-        .status-storniert { background-color: #7f8c8d; }
-
-        .page { display: none; }
-        .page.active { display: block; }
-
-        .print-area {
-            display: none;
-            padding: 20px;
-            font-family: 'Times New Roman', serif;
+            text-transform: capitalize;
         }
 
-        @media print {
-            body > *:not(.print-area) {
-                display: none !important;
-            }
-            .print-area {
-                display: block;
-                width: 100%;
-                page-break-before: auto;
-            }
-            @page {
-                margin: 20mm;
-            }
-        }
+        .status-offen { background-color: #fce4ec; color: #c2185b; }
+        .status-zugewiesen { background-color: #e3f2fd; color: #1976d2; }
+        .status-in_bearbeitung { background-color: #fff3e0; color: #ff8f00; }
+        .status-erledigt { background-color: #e8f5e9; color: #388e3c; }
 
-        .footer {
-            text-align: center;
-            padding: 10px;
-            color: #888;
-            font-size: 12px;
-        }
-
-        .filter-buttons {
+        /* Login Screen */
+        .login-container {
             display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
         
+        .login-card {
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .message {
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 8px;
+        }
+        
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Print-specific styles */
+        @media print {
+            body { background: none; }
+            .dashboard, .header, .card, .table { box-shadow: none; border-radius: 0; }
+            .header-actions, .login-container, .btn, #liveLocations, #customersTable, #employeesTable, .btn-group { display: none; }
+            .table { width: 100%; border-collapse: collapse; }
+            .table th, .table td { border: 1px solid #ccc; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="nav-bar">
-        <div class="nav-content">
-            <div class="logo">
-                <i class="fas fa-tools"></i> Köln Rhein Immobilien Service
+<div id="loginScreen" class="active login-container">
+    <div class="login-card">
+        <div class="logo"><i class="fas fa-tools"></i> Service Manager</div>
+        <div class="form-group">
+            <label for="userType">Anmelden als:</label>
+            <select id="userType" class="form-control">
+                <option value="customer">Kunde</option>
+                <option value="employee">Mitarbeiter</option>
+                <option value="admin">Administrator</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="username">E-Mail / ID:</label>
+            <input type="text" id="username" class="form-control" placeholder="Ihre E-Mail oder ID">
+        </div>
+        <div class="form-group">
+            <label for="password">Passwort:</label>
+            <div class="password-container">
+                <input type="password" id="password" class="form-control" placeholder="Ihr Passwort">
+                <span class="password-toggle" onclick="togglePasswordVisibility()"><i class="fas fa-eye"></i></span>
             </div>
-            <div class="nav-buttons">
-                <button class="btn" onclick="showPage('login')"><i class="fas fa-sign-in-alt"></i> Login</button>
-            </div>
+        </div>
+        <button class="btn btn-primary" onclick="login()"><i class="fas fa-sign-in-alt"></i> Anmelden</button>
+        <div id="loginMessage" class="message"></div>
+        <div style="margin-top: 20px; font-size: 12px; color: #777;">
+            <strong>Test-Zugänge:</strong><br>
+            Kunde: user@example.com / pass123<br>
+            Mitarbeiter: emp001 / pin123<br>
+            Admin: admin / admin123
+        </div>
+    </div>
+</div>
+
+<div id="customerDashboard" class="dashboard container">
+    <div class="header">
+        <h1><i class="fas fa-user-circle"></i> Kunden-Dashboard</h1>
+        <div class="header-actions">
+            <button class="btn btn-primary" onclick="showCustomerProfile()"><i class="fas fa-user"></i> Profil</button>
+            <button class="btn btn-primary" onclick="printOrders()"><i class="fas fa-print"></i> Meine Aufträge drucken</button>
+            <button class="btn btn-danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Abmelden</button>
         </div>
     </div>
 
-    <div class="container">
-        <div id="login" class="page active">
-            <div class="card">
-                <h2><i class="fas fa-user-circle"></i> Benutzer-Login</h2>
-                <div class="form-group">
-                    <label for="userType">Benutzer-Typ</label>
-                    <select id="userType" class="form-control">
-                        <option value="customer">Kunde</option>
-                        <option value="employee">Mitarbeiter</option>
-                        <option value="admin">Admin</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="loginId">E-Mail / ID</label>
-                    <input type="text" id="loginId" placeholder="E-Mail oder Mitarbeiter-ID">
-                </div>
-                <div class="form-group">
-                    <label for="loginPass">Passwort / PIN</label>
-                    <input type="password" id="loginPass" placeholder="Passwort oder PIN">
-                </div>
-                <button class="btn btn-green" onclick="login()"><i class="fas fa-check-circle"></i> Anmelden</button>
-                <button class="btn btn-blue" onclick="showRegistration()"><i class="fas fa-user-plus"></i> Registrieren</button>
-                <p id="loginMessage" style="color: red; margin-top: 10px;"></p>
-            </div>
+    <div class="card">
+        <h2>Neuen Auftrag erstellen</h2>
+        <div class="form-group">
+            <label for="orderTitle">Titel:</label>
+            <input type="text" id="orderTitle" class="form-control" placeholder="z.B. Heizungsreparatur">
         </div>
-        
-        <div id="registration" class="page">
-            <div class="card">
-                <h2><i class="fas fa-user-plus"></i> Kunden-Registrierung</h2>
-                <div class="form-group">
-                    <label for="regName">Name / Firma</label>
-                    <input type="text" id="regName">
-                </div>
-                <div class="form-group">
-                    <label for="regEmail">E-Mail</label>
-                    <input type="email" id="regEmail">
-                </div>
-                <div class="form-group">
-                    <label for="regPass">Passwort</label>
-                    <input type="password" id="regPass">
-                </div>
-                <div class="form-group">
-                    <label for="regAddress">Adresse (Straße, PLZ, Ort)</label>
-                    <input type="text" id="regAddress">
-                </div>
-                <button class="btn btn-green" onclick="registerCustomer()"><i class="fas fa-user-plus"></i> Registrieren</button>
-                <button class="btn btn-red" onclick="showLogin()"><i class="fas fa-times-circle"></i> Abbrechen</button>
-                <p id="regMessage" style="color: red; margin-top: 10px;"></p>
-            </div>
+        <div class="form-group">
+            <label for="orderDesc">Beschreibung:</label>
+            <textarea id="orderDesc" class="form-control" rows="4" placeholder="Detaillierte Beschreibung des Problems"></textarea>
         </div>
-
-        <div id="customer" class="page">
-            <div class="card">
-                <h2><i class="fas fa-home"></i> Kunden-Dashboard</h2>
-                <p>Willkommen, <span id="customerName"></span>!</p>
-                <button class="btn btn-red" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Abmelden</button>
-            </div>
-            <div class="card">
-                <h3><i class="fas fa-plus-circle"></i> Neuer Auftrag</h3>
-                <div class="form-group">
-                    <label for="orderTitle">Titel</label>
-                    <input type="text" id="orderTitle" placeholder="z.B. Heizungsreparatur">
-                </div>
-                <div class="form-group">
-                    <label for="orderAddress">Auftragsadresse</label>
-                    <input type="text" id="orderAddress" placeholder="z.B. Musterstraße 10, 50678 Köln">
-                </div>
-                <div class="form-group">
-                    <label for="orderDescription">Beschreibung</label>
-                    <textarea id="orderDescription" placeholder="Detaillierte Beschreibung des Problems"></textarea>
-                </div>
-                <button class="btn btn-green" onclick="createOrder()"><i class="fas fa-plus"></i> Auftrag erstellen</button>
-                <p id="orderMessage" style="color: green; margin-top: 10px;"></p>
-            </div>
-            <div class="card">
-                <h3><i class="fas fa-list"></i> Ihre Aufträge</h3>
-                <div id="customerOrdersList"></div>
-            </div>
-        </div>
-
-        <div id="employee" class="page">
-            <div class="card">
-                <h2><i class="fas fa-user-tie"></i> Mitarbeiter-Dashboard</h2>
-                <p>Willkommen, <span id="employeeName"></span>!</p>
-                <button class="btn btn-red" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Abmelden</button>
-            </div>
-            <div class="card">
-                <h3><i class="fas fa-clock"></i> Zeiterfassung</h3>
-                <div style="text-align: center; margin: 20px 0;">
-                    <h4 id="workStatus">Nicht eingestempelt</h4>
-                    <span id="workDuration" style="font-size: 24px; font-weight: bold;">00:00:00</span>
-                </div>
-                <div style="text-align: center;">
-                    <button id="clockInBtn" class="btn btn-green" onclick="clockIn()"><i class="fas fa-play"></i> Einstempeln</button>
-                    <button id="clockOutBtn" class="btn btn-red" onclick="clockOut()" disabled><i class="fas fa-stop"></i> Ausstempeln</button>
-                </div>
-            </div>
-            <div class="card">
-                <h3><i class="fas fa-clipboard-list"></i> Zugewiesene Aufträge</h3>
-                <div id="employeeOrdersList"></div>
-            </div>
-        </div>
-
-        <div id="admin" class="page">
-            <div class="card">
-                <h2><i class="fas fa-users-cog"></i> Admin-Dashboard</h2>
-                <p>Willkommen, Administrator!</p>
-                <button class="btn btn-red" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Abmelden</button>
-            </div>
-            <div class="card grid">
-                <button class="btn btn-blue" onclick="showCustomerManagement()"><i class="fas fa-users"></i> Kunden</button>
-                <button class="btn btn-blue" onclick="showEmployeeManagement()"><i class="fas fa-user-tie"></i> Mitarbeiter</button>
-                <button class="btn btn-blue" onclick="showOrderManagement()"><i class="fas fa-clipboard-list"></i> Aufträge</button>
-                <button class="btn btn-blue" onclick="showTimesheetManagement()"><i class="fas fa-clock"></i> Stundenzettel</button>
-                <button class="btn btn-blue" onclick="changeAdminPasswordPrompt()"><i class="fas fa-key"></i> Passwort ändern</button>
-            </div>
-        </div>
-
-        <div id="adminCustomers" class="page">
-            <div class="card">
-                <h2><i class="fas fa-users"></i> Kunden-Verwaltung</h2>
-                <button class="btn btn-green" onclick="showPage('admin')"><i class="fas fa-arrow-left"></i> Zurück</button>
-                <div id="customersTable"></div>
-            </div>
-        </div>
-
-        <div id="adminEmployees" class="page">
-            <div class="card">
-                <h2><i class="fas fa-user-tie"></i> Mitarbeiter-Verwaltung</h2>
-                <button class="btn btn-green" onclick="showPage('admin')"><i class="fas fa-arrow-left"></i> Zurück</button>
-                <button class="btn btn-blue" onclick="addEmployeePrompt()"><i class="fas fa-user-plus"></i> Mitarbeiter hinzufügen</button>
-                <div id="employeesTable"></div>
-            </div>
-        </div>
-        
-        <div id="adminOrders" class="page">
-            <div class="card">
-                <h2><i class="fas fa-clipboard-list"></i> Auftrags-Verwaltung</h2>
-                <button class="btn btn-green" onclick="showPage('admin')"><i class="fas fa-arrow-left"></i> Zurück</button>
-                <button class="btn btn-blue" onclick="printAllOrders()"><i class="fas fa-print"></i> Alle Aufträge drucken</button>
-                <div class="filter-buttons" style="margin-top: 20px;">
-                    <button class="btn" onclick="showOrderManagement('alle')">Alle</button>
-                    <button class="btn" onclick="showOrderManagement('offen')">Offen</button>
-                    <button class="btn" onclick="showOrderManagement('in_bearbeitung')">In Bearbeitung</button>
-                    <button class="btn" onclick="showOrderManagement('erledigt')">Erledigt</button>
-                    <button class="btn" onclick="showOrderManagement('storniert')">Storniert</button>
-                </div>
-                <div id="ordersTable"></div>
-            </div>
-        </div>
-
-        <div id="adminTimesheets" class="page">
-            <div class="card">
-                <h2><i class="fas fa-clock"></i> Stundenzettel-Verwaltung</h2>
-                <button class="btn btn-green" onclick="showPage('admin')"><i class="fas fa-arrow-left"></i> Zurück</button>
-                <div id="timesheetsTable"></div>
-            </div>
-        </div>
-
+        <button class="btn btn-success" onclick="createOrder()"><i class="fas fa-plus-circle"></i> Auftrag erstellen</button>
+        <div id="customerOrderMessage" class="message"></div>
     </div>
 
-    <div class="footer">
-        © 2025 Köln Rhein Immobilien Service - Dürenerstr.206-208, 50931 Köln - Tel: 0221 123456
+    <div class="card">
+        <h2>Ihre Aufträge</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Auftrags-ID</th>
+                    <th>Titel</th>
+                    <th>Status</th>
+                    <th>Zugewiesen an</th>
+                    <th>Erstellt am</th>
+                    <th>Erledigt am</th>
+                </tr>
+            </thead>
+            <tbody id="customerOrdersTable">
+                </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="employeeDashboard" class="dashboard container">
+    <div class="header">
+        <h1><i class="fas fa-user-tie"></i> Mitarbeiter-Dashboard</h1>
+        <div class="header-actions">
+            <button class="btn btn-primary" onclick="showEmployeeProfile()"><i class="fas fa-user"></i> Profil</button>
+            <button class="btn btn-danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Abmelden</button>
+        </div>
     </div>
 
-    <div id="print-output" class="print-area"></div>
+    <div class="card">
+        <h2>Zugewiesene Aufträge</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Auftrags-ID</th>
+                    <th>Titel</th>
+                    <th>Kunde</th>
+                    <th>Status</th>
+                    <th>Aktionen</th>
+                </tr>
+            </thead>
+            <tbody id="employeeOrdersTable">
+                </tbody>
+        </table>
+    </div>
+</div>
 
-    <script>
-        // Produktionsdaten - leere Arrays
-        let customers = [];
-        let employees = [];
-        let orders = [];
-        let timeRecords = [];
-        let loggedInUser = null;
-        let loggedInUserType = null;
-        let adminPassword = 'admin123'; // BITTE ÄNDERN SIE DIESES PASSWORT!
-        let isWorking = false;
-        let workInterval = null;
-        let currentOrderWorkingOn = null;
+<div id="adminDashboard" class="dashboard container">
+    <div class="header">
+        <h1><i class="fas fa-users-cog"></i> Administrator-Dashboard</h1>
+        <div class="header-actions">
+            <button class="btn btn-primary" onclick="showAdminReports()"><i class="fas fa-chart-line"></i> Berichte</button>
+            <button class="btn btn-danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Abmelden</button>
+        </div>
+    </div>
 
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => page.style.display = 'none');
-            document.getElementById(pageId).style.display = 'block';
+    <div class="card">
+        <h2>Benutzer verwalten</h2>
+        <button class="btn btn-primary" onclick="showUserManagement()"><i class="fas fa-users-cog"></i> Benutzer verwalten</button>
+        <div id="userManagementSection" class="card" style="display:none; margin-top: 15px;">
+            <h3>Neuen Benutzer anlegen</h3>
+            <div class="form-group">
+                <label for="newUserType">Benutzertyp:</label>
+                <select id="newUserType" class="form-control">
+                    <option value="customer">Kunde</option>
+                    <option value="employee">Mitarbeiter</option>
+                    <option value="admin">Administrator</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="newUserName">Name:</label>
+                <input type="text" id="newUserName" class="form-control">
+            </div>
+            <div id="newUserIdGroup" class="form-group">
+                <label for="newUserId">ID (Mitarbeiter/Admin):</label>
+                <input type="text" id="newUserId" class="form-control">
+            </div>
+            <div id="newUserEmailGroup" class="form-group">
+                <label for="newUserEmail">E-Mail (Kunde):</label>
+                <input type="email" id="newUserEmail" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="newUserPassword">Passwort/PIN:</label>
+                <input type="password" id="newUserPassword" class="form-control">
+            </div>
+            <button class="btn btn-success" onclick="createNewUser()">Benutzer anlegen</button>
+            <div id="userMessage" class="message"></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Passwort ändern</h2>
+        <div class="form-group">
+            <label for="currentPassword">Aktuelles Passwort:</label>
+            <input type="password" id="currentPassword" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="newPassword">Neues Passwort:</label>
+            <input type="password" id="newPassword" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="confirmNewPassword">Neues Passwort bestätigen:</label>
+            <input type="password" id="confirmNewPassword" class="form-control">
+        </div>
+        <button class="btn btn-warning" onclick="changeAdminPassword()">Passwort ändern</button>
+        <div id="passwordMessage" class="message"></div>
+    </div>
+
+    <div class="card">
+        <h2>Aufträge verwalten</h2>
+        <div class="header-actions" style="justify-content: flex-start; margin-bottom: 10px;">
+            <button class="btn btn-primary" onclick="printOrders()"><i class="fas fa-print"></i> Bericht drucken</button>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Titel</th>
+                    <th>Kunde</th>
+                    <th>Status</th>
+                    <th>Notizen</th>
+                    <th>Zugewiesen an</th>
+                    <th>Aktionen</th>
+                </tr>
+            </thead>
+            <tbody id="adminOrdersTable">
+                </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>Live-Standorte</h2>
+        <div id="liveLocations" style="margin-top: 15px;">
+            </div>
+    </div>
+</div>
+
+<script>
+    // In-memory data storage (simulating a database)
+    let customers = [
+        { id: 'cust001', name: 'Max Mustermann', email: 'user@example.com', password: 'pass123' }
+    ];
+    let employees = [
+        { id: 'emp001', name: 'Anna Schmidt', pin: 'pin123', location: null, status: 'verfügbar' }
+    ];
+    let orders = [
+        { 
+            id: 'ord001', 
+            customerId: 'cust001', 
+            title: 'Wasserhahn defekt', 
+            description: 'Der Wasserhahn in der Küche tropft unaufhörlich.', 
+            status: 'offen', 
+            assignedTo: null, 
+            notes: '',
+            createdAt: new Date().toLocaleString()
         }
+    ];
+    let admin = {
+        password: 'admin123'
+    };
 
-        function showLogin() {
-            showPage('login');
+    // Current user state
+    let currentUser = null;
+    let userRole = null;
+    let locationInterval = null;
+
+    // Helper functions
+    function showSection(sectionId) {
+        document.querySelectorAll('div.dashboard, div.login-container').forEach(el => el.classList.remove('active'));
+        document.getElementById(sectionId).classList.add('active');
+    }
+
+    function showMessage(elementId, message, type) {
+        const el = document.getElementById(elementId);
+        el.textContent = message;
+        el.className = `message ${type}`;
+        setTimeout(() => el.textContent = '', 3000);
+    }
+
+    function generateRandomLocation() {
+        return {
+            lat: 50.9375 + (Math.random() - 0.5) * 0.05,
+            lng: 6.9603 + (Math.random() - 0.5) * 0.05
+        };
+    }
+    
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('password');
+        const toggleIcon = document.querySelector('.password-toggle i');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.className = 'fas fa-eye-slash';
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.className = 'fas fa-eye';
         }
+    }
 
-        function showRegistration() {
-            showPage('registration');
-        }
+    // Login/Logout Logic
+    function login() {
+        const userType = document.getElementById('userType').value;
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+        
+        document.getElementById('password').type = 'password';
+        document.querySelector('.password-toggle i').className = 'fas fa-eye';
 
-        function login() {
-            const userType = document.getElementById('userType').value;
-            const loginId = document.getElementById('loginId').value;
-            const loginPass = document.getElementById('loginPass').value;
-            const msgEl = document.getElementById('loginMessage');
-            msgEl.textContent = '';
+        let user = null;
 
-            try {
-                if (userType === 'customer') {
-                    const user = customers.find(c => c.email === loginId && c.password === loginPass);
-                    if (user) {
-                        loggedInUser = user;
-                        loggedInUserType = 'customer';
-                        document.getElementById('customerName').textContent = user.name;
-                        showPage('customer');
-                        showCustomerOrders();
-                    } else {
-                        msgEl.textContent = 'Ungültige E-Mail oder Passwort.';
-                    }
-                } else if (userType === 'employee') {
-                    const user = employees.find(e => e.id === loginId && e.pin === loginPass);
-                    if (user) {
-                        loggedInUser = user;
-                        loggedInUserType = 'employee';
-                        document.getElementById('employeeName').textContent = user.name;
-                        showPage('employee');
-                        showEmployeeOrders();
-                    } else {
-                        msgEl.textContent = 'Ungültige ID oder PIN.';
-                    }
-                } else if (userType === 'admin') {
-                    if (loginId === 'admin' && loginPass === adminPassword) {
-                        loggedInUser = { id: 'admin', name: 'Admin' };
-                        loggedInUserType = 'admin';
-                        showPage('admin');
-                    } else {
-                        msgEl.textContent = 'Ungültiger Admin-Login.';
-                    }
-                }
-            } catch (e) {
-                msgEl.textContent = 'Ein Fehler ist aufgetreten: ' + e.message;
+        if (userType === 'customer') {
+            user = customers.find(c => c.email === username && c.password === password);
+        } else if (userType === 'employee') {
+            user = employees.find(e => e.id === username && e.pin === password);
+        } else if (userType === 'admin') {
+            if (username === 'admin' && password === admin.password) {
+                user = { id: 'admin', name: 'Administrator' };
             }
         }
 
-        function logout() {
-            loggedInUser = null;
-            loggedInUserType = null;
-            isWorking = false;
-            if (workInterval) clearInterval(workInterval);
-            document.getElementById('workStatus').textContent = 'Nicht eingestempelt';
-            document.getElementById('workDuration').textContent = '00:00:00';
-            document.getElementById('clockInBtn').disabled = false;
-            document.getElementById('clockOutBtn').disabled = true;
-            showLogin();
+        if (user) {
+            currentUser = user;
+            userRole = userType;
+            if (userRole === 'customer') {
+                showSection('customerDashboard');
+                loadCustomerOrders();
+            } else if (userRole === 'employee') {
+                showSection('employeeDashboard');
+                loadEmployeeOrders();
+            } else if (userRole === 'admin') {
+                showSection('adminDashboard');
+                loadAdminOrders();
+                startLiveTracking();
+            }
+        } else {
+            showMessage('loginMessage', 'Ungültige Anmeldedaten.', 'error');
+        }
+    }
+
+    function logout() {
+        currentUser = null;
+        userRole = null;
+        clearInterval(locationInterval);
+        showSection('loginScreen');
+    }
+
+    // --- New/Updated Functions ---
+    function showCustomerProfile() {
+        alert('Kundenprofil-Ansicht: Hier würden die persönlichen Daten angezeigt werden.');
+    }
+
+    function showEmployeeProfile() {
+        alert('Mitarbeiterprofil-Ansicht: Hier würden die persönlichen Daten und Arbeitszeiten angezeigt werden.');
+    }
+
+    function showAdminReports() {
+        alert('Berichte-Ansicht: Hier würden Übersichten über Aufträge, Mitarbeiter und Umsätze angezeigt werden.');
+    }
+
+    function printOrders() {
+        window.print();
+    }
+
+    function changeAdminPassword() {
+        const currentPass = document.getElementById('currentPassword').value.trim();
+        const newPass = document.getElementById('newPassword').value.trim();
+        const confirmPass = document.getElementById('confirmNewPassword').value.trim();
+
+        if (currentPass !== admin.password) {
+            showMessage('passwordMessage', 'Aktuelles Passwort ist falsch.', 'error');
+            return;
         }
 
-        function registerCustomer() {
-            const name = document.getElementById('regName').value;
-            const email = document.getElementById('regEmail').value;
-            const pass = document.getElementById('regPass').value;
-            const address = document.getElementById('regAddress').value;
-            const msgEl = document.getElementById('regMessage');
-            msgEl.textContent = '';
+        if (newPass.length < 5) {
+            showMessage('passwordMessage', 'Neues Passwort muss mindestens 5 Zeichen haben.', 'error');
+            return;
+        }
 
-            if (!name || !email || !pass || !address) {
-                msgEl.textContent = 'Bitte alle Felder ausfüllen.';
+        if (newPass !== confirmPass) {
+            showMessage('passwordMessage', 'Neue Passwörter stimmen nicht überein.', 'error');
+            return;
+        }
+
+        admin.password = newPass;
+        document.getElementById('currentPassword').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmNewPassword').value = '';
+        showMessage('passwordMessage', 'Passwort erfolgreich geändert!', 'success');
+    }
+
+    function showUserManagement() {
+        const section = document.getElementById('userManagementSection');
+        section.style.display = section.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function createNewUser() {
+        const userType = document.getElementById('newUserType').value;
+        const name = document.getElementById('newUserName').value.trim();
+        const password = document.getElementById('newUserPassword').value.trim();
+
+        if (userType === 'customer') {
+            const email = document.getElementById('newUserEmail').value.trim();
+            if (!name || !email || !password) {
+                showMessage('userMessage', 'Bitte alle Felder ausfüllen.', 'error');
                 return;
             }
-
-            if (customers.find(c => c.email === email)) {
-                msgEl.textContent = 'E-Mail ist bereits registriert.';
+            const newCustomer = {
+                id: 'cust' + (customers.length + 1).toString().padStart(3, '0'),
+                name: name,
+                email: email,
+                password: password
+            };
+            customers.push(newCustomer);
+            showMessage('userMessage', 'Kunde erfolgreich angelegt!', 'success');
+        } else {
+            const id = document.getElementById('newUserId').value.trim();
+            if (!name || !id || !password) {
+                showMessage('userMessage', 'Bitte alle Felder ausfüllen.', 'error');
                 return;
             }
-
-            const newId = 'C' + String(customers.length + 1).padStart(3, '0');
-            customers.push({ id: newId, name, email, password: pass, address });
-            msgEl.style.color = 'green';
-            msgEl.textContent = 'Registrierung erfolgreich! Sie können sich jetzt anmelden.';
-            setTimeout(() => {
-                msgEl.textContent = '';
-                showLogin();
-            }, 2000);
-        }
-
-        function createOrder() {
-            const title = document.getElementById('orderTitle').value;
-            const address = document.getElementById('orderAddress').value;
-            const description = document.getElementById('orderDescription').value;
-            const msgEl = document.getElementById('orderMessage');
-
-            if (!title || !address || !description) {
-                msgEl.style.color = 'red';
-                msgEl.textContent = 'Bitte alle Felder ausfüllen.';
-                return;
+            if (userType === 'employee') {
+                const newEmployee = {
+                    id: id,
+                    name: name,
+                    pin: password,
+                    location: null,
+                    status: 'verfügbar'
+                };
+                employees.push(newEmployee);
+                showMessage('userMessage', 'Mitarbeiter erfolgreich angelegt!', 'success');
+            } else if (userType === 'admin') {
+                admin = {
+                    id: id,
+                    name: name,
+                    password: password
+                };
+                showMessage('userMessage', 'Administrator erfolgreich angelegt! (Überschreibt alten Admin)', 'success');
             }
-
-            const newId = 'A' + String(orders.length + 1).padStart(3, '0');
-            orders.push({
-                id: newId,
-                customerId: loggedInUser.id,
-                title,
-                address,
-                description,
-                status: 'offen',
-                assignedTo: '',
-                createdAt: new Date().toISOString().split('T')[0]
-            });
-
-            msgEl.style.color = 'green';
-            msgEl.textContent = 'Auftrag erfolgreich erstellt!';
-            document.getElementById('orderTitle').value = '';
-            document.getElementById('orderAddress').value = '';
-            document.getElementById('orderDescription').value = '';
-            showCustomerOrders();
-        }
-
-        function showCustomerOrders() {
-            const tableEl = document.getElementById('customerOrdersList');
-            const userOrders = orders.filter(o => o.customerId === loggedInUser.id);
-            tableEl.innerHTML = userOrders.length === 0 ? '<p>Keine Aufträge vorhanden.</p>' : createOrderTable(userOrders, 'customer');
-        }
-
-        function showEmployeeOrders() {
-            const tableEl = document.getElementById('employeeOrdersList');
-            const userOrders = orders.filter(o => o.assignedTo === loggedInUser.id);
-            tableEl.innerHTML = userOrders.length === 0 ? '<p>Keine Aufträge zugewiesen.</p>' : createOrderTable(userOrders, 'employee');
-        }
-
-        function showOrderManagement(filter = 'alle') {
-            showPage('adminOrders');
-            const tableEl = document.getElementById('ordersTable');
-            let filteredOrders = orders;
-            if (filter !== 'alle') {
-                filteredOrders = orders.filter(o => o.status === filter);
-            }
-            tableEl.innerHTML = filteredOrders.length === 0 ? '<p>Keine Aufträge gefunden.</p>' : createOrderTable(filteredOrders, 'admin');
         }
         
-        function showCustomerManagement() {
-            showPage('adminCustomers');
-            const tableEl = document.getElementById('customersTable');
-            let tableHTML = `<table class="table"><thead><tr><th>ID</th><th>Name</th><th>E-Mail</th><th>Adresse</th><th>Aktion</th></tr></thead><tbody>`;
-            customers.forEach(cust => {
-                tableHTML += `<tr>
-                    <td>${cust.id}</td>
-                    <td>${cust.name}</td>
-                    <td>${cust.email}</td>
-                    <td>${cust.address}</td>
-                    <td><button class="btn btn-red" onclick="deleteCustomer('${cust.id}')"><i class="fas fa-trash-alt"></i> Löschen</button></td>
-                </tr>`;
-            });
-            tableHTML += `</tbody></table>`;
-            tableEl.innerHTML = tableHTML;
+        // Clear inputs
+        document.getElementById('newUserName').value = '';
+        document.getElementById('newUserPassword').value = '';
+        document.getElementById('newUserId').value = '';
+        document.getElementById('newUserEmail').value = '';
+    }
+
+    document.getElementById('newUserType').addEventListener('change', (event) => {
+        const userType = event.target.value;
+        document.getElementById('newUserIdGroup').style.display = userType === 'customer' ? 'none' : 'block';
+        document.getElementById('newUserEmailGroup').style.display = userType === 'customer' ? 'block' : 'none';
+        document.getElementById('newUserPassword').type = userType === 'employee' ? 'text' : 'password';
+    });
+    // Initial state
+    document.getElementById('newUserIdGroup').style.display = 'none';
+
+    // Customer Functions
+    function createOrder() {
+        const title = document.getElementById('orderTitle').value;
+        const description = document.getElementById('orderDesc').value;
+
+        if (!title || !description) {
+            showMessage('customerOrderMessage', 'Bitte alle Felder ausfüllen.', 'error');
+            return;
         }
 
-        function showEmployeeManagement() {
-            showPage('adminEmployees');
-            const tableEl = document.getElementById('employeesTable');
-            let tableHTML = `<table class="table"><thead><tr><th>ID</th><th>Name</th><th>Aktion</th></tr></thead><tbody>`;
+        const newOrder = {
+            id: 'ord' + (orders.length + 1).toString().padStart(3, '0'),
+            customerId: currentUser.id,
+            title,
+            description,
+            status: 'offen',
+            assignedTo: null,
+            notes: '',
+            createdAt: new Date().toLocaleString(),
+            assignedAt: null,
+            startedAt: null,
+            completedAt: null
+        };
+        orders.push(newOrder);
+
+        document.getElementById('orderTitle').value = '';
+        document.getElementById('orderDesc').value = '';
+        showMessage('customerOrderMessage', 'Auftrag erfolgreich erstellt!', 'success');
+        loadCustomerOrders();
+    }
+
+    function loadCustomerOrders() {
+        const tableBody = document.getElementById('customerOrdersTable');
+        tableBody.innerHTML = '';
+        const userOrders = orders.filter(o => o.customerId === currentUser.id);
+
+        userOrders.forEach(order => {
+            const row = document.createElement('tr');
+            const assignedEmployee = employees.find(e => e.id === order.assignedTo);
+            const assignedName = assignedEmployee ? assignedEmployee.name : 'Nicht zugewiesen';
+            const statusClass = `status-${order.status.replace(' ', '_')}`;
+            row.innerHTML = `
+                <td>${order.id}</td>
+                <td>${order.title}</td>
+                <td><span class="status-badge ${statusClass}">${order.status}</span></td>
+                <td>${assignedName}</td>
+                <td>${order.createdAt}</td>
+                <td>${order.completedAt || 'N/A'}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    // Employee Functions
+    function loadEmployeeOrders() {
+        const tableBody = document.getElementById('employeeOrdersTable');
+        tableBody.innerHTML = '';
+        const userOrders = orders.filter(o => o.assignedTo === currentUser.id);
+
+        userOrders.forEach(order => {
+            const customer = customers.find(c => c.id === order.customerId);
+            const statusClass = `status-${order.status.replace(' ', '_')}`;
+            
+            let actions = '';
+            if (order.status === 'zugewiesen') {
+                actions = `<button class="btn btn-success" onclick="updateOrderStatus('${order.id}', 'in_bearbeitung')"><i class="fas fa-play"></i> Starten</button>`;
+            } else if (order.status === 'in_bearbeitung') {
+                actions = `<button class="btn btn-primary" onclick="updateOrderStatus('${order.id}', 'erledigt')"><i class="fas fa-check"></i> Erledigen</button>`;
+            }
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${order.id}</td>
+                <td>${order.title}</td>
+                <td>${customer.name}</td>
+                <td><span class="status-badge ${statusClass}">${order.status}</span></td>
+                <td>${actions}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function updateOrderStatus(orderId, newStatus) {
+        const order = orders.find(o => o.id === orderId);
+        if (order) {
+            order.status = newStatus;
+            if (newStatus === 'in_bearbeitung') {
+                order.startedAt = new Date().toLocaleString();
+            } else if (newStatus === 'erledigt') {
+                order.completedAt = new Date().toLocaleString();
+            }
+            loadEmployeeOrders(); // Refresh table
+            loadAdminOrders(); // Also refresh admin view for live updates
+        }
+    }
+
+    // Admin Functions
+    function loadAdminOrders() {
+        const tableBody = document.getElementById('adminOrdersTable');
+        tableBody.innerHTML = '';
+        orders.forEach(order => {
+            const customer = customers.find(c => c.id === order.customerId);
+            const assignedEmployee = employees.find(e => e.id === order.assignedTo);
+            const statusClass = `status-${order.status.replace(' ', '_')}`;
+            
+            const actions = `
+                <button class="btn btn-warning btn-sm" onclick="editOrderNotes('${order.id}')" title="Notizen bearbeiten">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <select onchange="assignEmployee('${order.id}', this.value)">
+                    <option value="">Zuweisen...</option>
+                    ${employees.map(e => `<option value="${e.id}" ${order.assignedTo === e.id ? 'selected' : ''}>${e.name}</option>`).join('')}
+                </select>
+                ${order.status === 'erledigt' ? `<button class="btn btn-danger btn-sm" onclick="deleteOrder('${order.id}')" title="Auftrag löschen"><i class="fas fa-trash"></i></button>` : ''}
+            `;
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${order.id}</td>
+                <td>${order.title}</td>
+                <td>${customer ? customer.name : 'N/A'}</td>
+                <td><span class="status-badge ${statusClass}">${order.status}</span></td>
+                <td title="${order.notes}">${order.notes.substring(0, 20)}${order.notes.length > 20 ? '...' : ''}</td>
+                <td>${assignedEmployee ? assignedEmployee.name : 'Keiner'}</td>
+                <td>${actions}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function assignEmployee(orderId, employeeId) {
+        const order = orders.find(o => o.id === orderId);
+        if (order) {
+            order.assignedTo = employeeId;
+            order.status = 'zugewiesen';
+            order.assignedAt = new Date().toLocaleString();
+            loadAdminOrders();
+            console.log(`Auftrag ${orderId} wurde Mitarbeiter ${employeeId} zugewiesen.`);
+        }
+    }
+
+    function editOrderNotes(orderId) {
+        const order = orders.find(o => o.id === orderId);
+        if (order) {
+            const newNotes = prompt("Notizen bearbeiten:", order.notes);
+            if (newNotes !== null) {
+                order.notes = newNotes;
+                loadAdminOrders();
+            }
+        }
+    }
+
+    function deleteOrder(orderId) {
+        if (confirm('Sind Sie sicher, dass Sie diesen Auftrag löschen möchten?')) {
+            orders = orders.filter(order => order.id !== orderId);
+            loadAdminOrders();
+        }
+    }
+
+    function startLiveTracking() {
+        if (locationInterval) {
+            clearInterval(locationInterval);
+        }
+        locationInterval = setInterval(() => {
             employees.forEach(emp => {
-                tableHTML += `<tr>
-                    <td>${emp.id}</td>
-                    <td>${emp.name}</td>
-                    <td><button class="btn btn-red" onclick="deleteEmployee('${emp.id}')"><i class="fas fa-trash-alt"></i> Löschen</button></td>
-                </tr>`;
-            });
-            tableHTML += `</tbody></table>`;
-            tableEl.innerHTML = tableHTML;
-        }
-
-        function showTimesheetManagement() {
-            showPage('adminTimesheets');
-            const tableEl = document.getElementById('timesheetsTable');
-            if (timeRecords.length === 0) {
-                tableEl.innerHTML = '<p>Keine Stundenzettel vorhanden.</p>';
-                return;
-            }
-            let tableHTML = `<table class="table"><thead><tr><th>ID</th><th>Mitarbeiter</th><th>Auftrag</th><th>Start</th><th>Ende</th><th>Dauer</th><th>Aktion</th></tr></thead><tbody>`;
-            timeRecords.forEach(record => {
-                const employeeName = employees.find(e => e.id === record.employeeId)?.name || 'Unbekannt';
-                const orderTitle = orders.find(o => o.id === record.orderId)?.title || 'Kein Auftrag';
-                tableHTML += `<tr>
-                    <td>${record.id}</td>
-                    <td>${employeeName}</td>
-                    <td>${orderTitle}</td>
-                    <td>${record.startTime.toLocaleString()}</td>
-                    <td>${record.endTime.toLocaleString()}</td>
-                    <td>${formatDuration(record.duration)}</td>
-                    <td><button class="btn btn-red" onclick="deleteTimeRecord('${record.id}')"><i class="fas fa-trash-alt"></i> Löschen</button></td>
-                </tr>`;
-            });
-            tableHTML += `</tbody></table><button class="btn btn-blue" onclick="printTimesheets()"><i class="fas fa-print"></i> Stundenzettel drucken</button>`;
-            tableEl.innerHTML = tableHTML;
-        }
-
-        function createOrderTable(data, userType) {
-            let tableHTML = `<div class="table-responsive"><table class="table"><thead><tr><th>Auftrag ID</th><th>Titel</th><th>Status</th><th>Zuweisung</th><th>Erstellt am</th><th>Aktionen</th></tr></thead><tbody>`;
-            data.forEach(order => {
-                const statusClass = getStatusClass(order.status);
-                const assignedEmployee = employees.find(e => e.id === order.assignedTo)?.name || 'Nicht zugewiesen';
-                tableHTML += `<tr>
-                    <td>${order.id}</td>
-                    <td>${order.title}</td>
-                    <td><span class="status-badge ${statusClass}">${getStatusText(order.status)}</span></td>
-                    <td>${assignedEmployee}</td>
-                    <td>${order.createdAt}</td>
-                    <td>
-                        <button class="btn btn-blue" onclick="viewOrderDetails('${order.id}')"><i class="fas fa-eye"></i> Details</button>
-                        ${userType === 'admin' ? `
-                            <button class="btn btn-warning" onclick="assignOrderSimple('${order.id}')"><i class="fas fa-user-plus"></i> Zuweisen</button>
-                            <button class="btn btn-red" onclick="deleteOrder('${order.id}')"><i class="fas fa-trash-alt"></i> Löschen</button>
-                        ` : ''}
-                        ${userType === 'employee' ? `
-                            <button class="btn btn-green" onclick="updateOrderStatusPrompt('${order.id}')"><i class="fas fa-sync-alt"></i> Status</button>
-                        ` : ''}
-                        ${userType === 'customer' ? `
-                            <button class="btn btn-blue" onclick="printOrder('${order.id}')"><i class="fas fa-print"></i> Drucken</button>
-                        ` : ''}
-                    </td>
-                </tr>`;
-            });
-            tableHTML += `</tbody></table></div>`;
-            return tableHTML;
-        }
-        
-        function viewOrderDetails(orderId) {
-            const order = orders.find(o => o.id === orderId);
-            if (!order) {
-                alert('Auftrag nicht gefunden.');
-                return;
-            }
-            const customer = customers.find(c => c.id === order.customerId);
-            const assignedEmployee = employees.find(e => e.id === order.assignedTo)?.name || 'Nicht zugewiesen';
-            const details = `
-                Auftrags-ID: ${order.id}
-                Titel: ${order.title}
-                Adresse: ${order.address}
-                Beschreibung: ${order.description}
-                Status: ${getStatusText(order.status)}
-                Zugeordnet zu: ${assignedEmployee}
-                Kunde: ${customer ? customer.name : 'Unbekannt'}
-                Erstellt am: ${order.createdAt}
-            `;
-            alert(details);
-        }
-
-        function assignOrderSimple(orderId) {
-            const employeeOptions = employees.map((emp, index) => `${index + 1} - ${emp.name} (${emp.id})`).join('\n');
-            const choice = prompt(`Auftrag ${orderId} zuweisen an:\n0 - Zuweisung entfernen\n${employeeOptions}\n\nBitte Nummer eingeben:`);
-
-            if (choice === null) return;
-            const choiceNum = parseInt(choice);
-
-            const order = orders.find(o => o.id === orderId);
-            if (!order) return;
-
-            if (choiceNum === 0) {
-                order.assignedTo = '';
-                order.status = 'offen';
-                alert('Zuweisung entfernt.');
-            } else if (choiceNum > 0 && choiceNum <= employees.length) {
-                const assignedEmployee = employees[choiceNum - 1];
-                order.assignedTo = assignedEmployee.id;
-                order.status = 'in_bearbeitung';
-                alert(`Auftrag erfolgreich an ${assignedEmployee.name} zugewiesen.`);
-            } else {
-                alert('Ungültige Eingabe.');
-            }
-            showOrderManagement();
-        }
-
-        function deleteOrder(orderId) {
-            if (confirm('Soll dieser Auftrag wirklich gelöscht werden?')) {
-                const index = orders.findIndex(o => o.id === orderId);
-                if (index !== -1) {
-                    orders.splice(index, 1);
-                    alert('Auftrag gelöscht.');
-                    showOrderManagement();
-                }
-            }
-        }
-
-        function updateOrderStatusPrompt(orderId) {
-            const newStatus = prompt('Neuer Status eingeben:\n1: In Bearbeitung\n2: Erledigt\n3: Storniert');
-            const order = orders.find(o => o.id === orderId);
-            if (!order) return;
-            
-            if (newStatus === '1') {
-                order.status = 'in_bearbeitung';
-                alert('Status auf "In Bearbeitung" geändert.');
-            } else if (newStatus === '2') {
-                order.status = 'erledigt';
-                alert('Status auf "Erledigt" geändert.');
-            } else if (newStatus === '3') {
-                order.status = 'storniert';
-                alert('Status auf "Storniert" geändert.');
-            } else {
-                alert('Ungültige Eingabe.');
-            }
-            showEmployeeOrders();
-        }
-
-        function changeAdminPasswordPrompt() {
-            try {
-                const currentPass = prompt("Bitte aktuelles Admin-Passwort eingeben:");
-                if (currentPass !== adminPassword) {
-                    alert("Falsches Passwort.");
-                    return;
-                }
-                const newPass = prompt("Bitte neues Admin-Passwort eingeben:");
-                if (newPass && newPass.length > 0) {
-                    adminPassword = newPass;
-                    alert("Passwort erfolgreich geändert! Neues Passwort: " + newPass);
+                if (emp.status === 'in_bearbeitung' || emp.status === 'unterwegs') {
+                    emp.location = generateRandomLocation();
                 } else {
-                    alert("Passwortänderung abgebrochen oder ungültig.");
+                    emp.location = null;
                 }
-            } catch (e) {
-                alert("Ein Fehler ist aufgetreten: " + e.message);
-            }
-        }
-
-        function addEmployeePrompt() {
-            try {
-                const name = prompt("Name des neuen Mitarbeiters:");
-                if (!name) {
-                    alert("Hinzufügen abgebrochen.");
-                    return;
-                }
-                const pin = prompt("4-stellige PIN eingeben:");
-                if (!pin || pin.length !== 4) {
-                    alert("Ungültige PIN. Muss 4-stellig sein.");
-                    return;
-                }
-                const newId = 'E' + String(employees.length + 1).padStart(3, '0');
-                employees.push({ id: newId, name: name, pin: pin });
-                alert(`Mitarbeiter ${name} wurde hinzugefügt mit ID: ${newId} und PIN: ${pin}`);
-                showEmployeeManagement();
-            } catch (e) {
-                alert("Ein Fehler ist aufgetreten: " + e.message);
-            }
-        }
-
-        function deleteCustomer(id) {
-            if (confirm('Soll dieser Kunde und alle zugehörigen Aufträge wirklich gelöscht werden?')) {
-                customers = customers.filter(c => c.id !== id);
-                orders = orders.filter(o => o.customerId !== id);
-                alert('Kunde und Aufträge gelöscht.');
-                showCustomerManagement();
-            }
-        }
-
-        function deleteEmployee(id) {
-            if (confirm('Soll dieser Mitarbeiter wirklich gelöscht werden? Alle Zuweisungen werden entfernt.')) {
-                employees = employees.filter(e => e.id !== id);
-                orders.forEach(o => {
-                    if (o.assignedTo === id) o.assignedTo = '';
-                });
-                alert('Mitarbeiter gelöscht.');
-                showEmployeeManagement();
-            }
-        }
-
-        function deleteTimeRecord(id) {
-            if (confirm('Soll dieser Stundenzettel wirklich gelöscht werden?')) {
-                timeRecords = timeRecords.filter(t => t.id !== id);
-                alert('Stundenzettel gelöscht.');
-                showTimesheetManagement();
-            }
-        }
-
-        function getStatusText(status) {
-            switch (status) {
-                case 'offen': return 'Offen';
-                case 'in_bearbeitung': return 'In Bearbeitung';
-                case 'erledigt': return 'Erledigt';
-                case 'storniert': return 'Storniert';
-                default: return status;
-            }
-        }
-
-        function getStatusClass(status) {
-            return `status-${status.replace(/ /g, '_').toLowerCase()}`;
-        }
-        
-        function clockIn() {
-            if (isWorking) return;
-            const orderId = prompt("Bitte Auftrags-ID eingeben:");
-            if (!orderId) {
-                alert("Keine Auftrags-ID eingegeben.");
-                return;
-            }
-            const orderExists = orders.some(o => o.id === orderId);
-            if (!orderExists) {
-                alert("Auftrag nicht gefunden.");
-                return;
-            }
-
-            isWorking = true;
-            currentOrderWorkingOn = orderId;
-            document.getElementById('clockInBtn').disabled = true;
-            document.getElementById('clockOutBtn').disabled = false;
-            document.getElementById('workStatus').textContent = `Eingestempelt für Auftrag ${orderId}`;
-            
-            let startTime = new Date();
-            let duration = 0;
-            workInterval = setInterval(() => {
-                duration = new Date() - startTime;
-                document.getElementById('workDuration').textContent = formatDuration(duration);
-            }, 1000);
-        }
-
-        function clockOut() {
-            if (!isWorking) return;
-            
-            clearInterval(workInterval);
-            isWorking = false;
-            document.getElementById('clockInBtn').disabled = false;
-            document.getElementById('clockOutBtn').disabled = true;
-            document.getElementById('workStatus').textContent = 'Nicht eingestempelt';
-
-            const description = prompt("Was haben Sie gemacht? (z.B. Heizung repariert)");
-            
-            const endTime = new Date();
-            const startTime = endTime - (workInterval.duration || 0);
-            
-            timeRecords.push({
-                id: 'T' + String(timeRecords.length + 1).padStart(3, '0'),
-                employeeId: loggedInUser.id,
-                orderId: currentOrderWorkingOn,
-                startTime: startTime,
-                endTime: endTime,
-                duration: endTime - startTime,
-                description: description || 'Keine Beschreibung'
             });
+            updateLiveLocations();
+        }, 5000); // Update every 5 seconds
+    }
 
-            currentOrderWorkingOn = null;
-            document.getElementById('workDuration').textContent = '00:00:00';
-            alert('Ausgestempelt. Zeit wurde erfasst.');
+    function updateLiveLocations() {
+        const container = document.getElementById('liveLocations');
+        container.innerHTML = '<h4>Aktuelle Mitarbeiter-Standorte:</h4>';
+        const activeEmployees = employees.filter(e => e.location);
+        if (activeEmployees.length === 0) {
+            container.innerHTML += '<p>Derzeit sind keine Mitarbeiter aktiv.</p>';
+            return;
         }
 
-        function formatDuration(ms) {
-            const totalSeconds = Math.floor(ms / 1000);
-            const hours = Math.floor(totalSeconds / 3600);
-            const minutes = Math.floor((totalSeconds % 3600) / 60);
-            const seconds = totalSeconds % 60;
-            return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-        }
-
-        function printOrder(orderId) {
-            const order = orders.find(o => o.id === orderId);
-            const customer = customers.find(c => c.id === order.customerId);
-            const orderTimeRecords = timeRecords.filter(tr => tr.orderId === orderId);
-            const printEl = document.getElementById('print-output');
-            
-            let timeRecordsHTML = '';
-            if (orderTimeRecords.length > 0) {
-                let totalDuration = 0;
-                let timeTableRows = orderTimeRecords.map(tr => {
-                    const employeeName = employees.find(e => e.id === tr.employeeId)?.name || 'Unbekannt';
-                    totalDuration += tr.duration;
-                    const startTime = tr.startTime ? new Date(tr.startTime).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) : 'N/A';
-                    const endTime = tr.endTime ? new Date(tr.endTime).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) : 'N/A';
-                    return `
-                        <tr>
-                            <td>${new Date(tr.startTime).toLocaleDateString('de-DE')}</td>
-                            <td>${startTime}</td>
-                            <td>${endTime}</td>
-                            <td>${formatDuration(tr.duration)}</td>
-                            <td>${employeeName}</td>
-                            <td>${tr.description}</td>
-                        </tr>
-                    `;
-                }).join('');
-                
-                timeRecordsHTML = `
-                    <h3>Arbeitszeiten</h3>
-                    <table style="width:100%; border-collapse: collapse; margin-top: 10px;">
-                        <thead>
-                            <tr style="background-color: #f2f2f2;">
-                                <th style="border: 1px solid #ddd; padding: 8px;">Datum</th>
-                                <th style="border: 1px solid #ddd; padding: 8px;">Von</th>
-                                <th style="border: 1px solid #ddd; padding: 8px;">Bis</th>
-                                <th style="border: 1px solid #ddd; padding: 8px;">Dauer</th>
-                                <th style="border: 1px solid #ddd; padding: 8px;">Mitarbeiter</th>
-                                <th style="border: 1px solid #ddd; padding: 8px;">Tätigkeiten</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${timeTableRows}
-                            <tr>
-                                <td colspan="3" style="border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold;">GESAMT:</td>
-                                <td colspan="3" style="border: 1px solid #ddd; padding: 8px; font-weight: bold;">${formatDuration(totalDuration)}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                `;
-            }
-
-            printEl.innerHTML = `
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <h2>Köln Rhein Immobilien Service</h2>
-                    <p>Dürenerstr.206-208, 50931 Köln</p>
-                    <p>Tel: 0221 123456 | E-Mail: info@koeln-rhein-immobilien.de</p>
-                </div>
-                <h1 style="text-align: center;">Auftragsbestätigung</h1>
-                <div style="border: 1px solid #333; padding: 20px; margin-top: 20px;">
-                    <h3>Auftragsdetails</h3>
-                    <p><strong>Auftrags-Nr:</strong> ${order.id}</p>
-                    <p><strong>Titel:</strong> ${order.title}</p>
-                    <p><strong>Beschreibung:</strong> ${order.description}</p>
-                    <p><strong>Adresse:</strong> ${order.address}</p>
-                    <p><strong>Status:</strong> ${getStatusText(order.status)}</p>
-                    <p><strong>Erstellt am:</strong> ${order.createdAt}</p>
-                </div>
-                <div style="border: 1px solid #333; padding: 20px; margin-top: 20px;">
-                    <h3>Kundendaten</h3>
-                    <p><strong>Kunde:</strong> ${customer.name}</p>
-                    <p><strong>Adresse:</strong> ${customer.address}</p>
-                    <p><strong>E-Mail:</strong> ${customer.email}</p>
-                </div>
-                ${timeRecordsHTML}
-                <div style="margin-top: 50px; display: flex; justify-content: space-around;">
-                    <div style="text-align: center;">
-                        <p>_________________________</p>
-                        <p>Unterschrift Kunde</p>
-                    </div>
-                    <div style="text-align: center;">
-                        <p>_________________________</p>
-                        <p>Unterschrift Mitarbeiter</p>
-                    </div>
-                </div>
-                <div style="text-align: center; font-size: 10px; margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px;">
-                    Köln Rhein Immobilien Service, Dürenerstr.206-208, 50931 Köln | Amtsgericht Köln HRB 98765 | USt-IdNr: DE987654321
+        activeEmployees.forEach(emp => {
+            container.innerHTML += `
+                <div class="card" style="padding: 15px; margin-bottom: 10px;">
+                    <strong>${emp.name}</strong> (${emp.status})<br>
+                    <small>Lat: ${emp.location.lat.toFixed(4)}, Lng: ${emp.location.lng.toFixed(4)}</small>
                 </div>
             `;
-            window.print();
-        }
+        });
+    }
+</script>
 
-        function printTimesheets() {
-            const printEl = document.getElementById('print-output');
-            let totalDurationAll = 0;
-            let timesheetsHTML = timeRecords.map(record => {
-                totalDurationAll += record.duration;
-                const employeeName = employees.find(e => e.id === record.employeeId)?.name || 'Unbekannt';
-                const orderTitle = orders.find(o => o.id === record.orderId)?.title || 'Kein Auftrag';
-                return `
-                    <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;">
-                        <h3>Stundenzettel für ${employeeName}</h3>
-                        <p><strong>Datum:</strong> ${new Date(record.startTime).toLocaleDateString('de-DE')}</p>
-                        <p><strong>Auftrag:</strong> ${orderTitle}</p>
-                        <p><strong>Start:</strong> ${new Date(record.startTime).toLocaleTimeString('de-DE')}</p>
-                        <p><strong>Ende:</strong> ${new Date(record.endTime).toLocaleTimeString('de-DE')}</p>
-                        <p><strong>Dauer:</strong> ${formatDuration(record.duration)}</p>
-                        <p><strong>Tätigkeiten:</strong> ${record.description}</p>
-                    </div>
-                `;
-            }).join('');
-            
-            printEl.innerHTML = `
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <h2>Köln Rhein Immobilien Service</h2>
-                    <p>Dürenerstr.206-208, 50931 Köln</p>
-                    <p>Tel: 0221 123456 | E-Mail: info@koeln-rhein-immobilien.de</p>
-                </div>
-                <h1 style="text-align: center;">Stundenzettel-Übersicht</h1>
-                ${timesheetsHTML}
-                <h3 style="text-align: right; margin-top: 30px;">Gesamtarbeitszeit: ${formatDuration(totalDurationAll)}</h3>
-                <div style="text-align: center; font-size: 10px; margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px;">
-                    Köln Rhein Immobilien Service, Dürenerstr.206-208, 50931 Köln | Amtsgericht Köln HRB 98765 | USt-IdNr: DE987654321
-                </div>
-            `;
-            window.print();
-        }
-
-        function printAllOrders() {
-            const printEl = document.getElementById('print-output');
-            let tableHTML = `<table style="width:100%; border-collapse: collapse;">
-                <thead>
-                    <tr style="background-color: #f2f2f2;">
-                        <th style="border: 1px solid #ddd; padding: 8px;">Auftrag ID</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Titel</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Status</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Zuweisung</th>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Erstellt am</th>
-                    </tr>
-                </thead>
-                <tbody>`;
-            orders.forEach(order => {
-                const assignedEmployee = employees.find(e => e.id === order.assignedTo)?.name || 'Nicht zugewiesen';
-                tableHTML += `
-                    <tr>
-                        <td style="border: 1px solid #ddd; padding: 8px;">${order.id}</td>
-                        <td style="border: 1px solid #ddd; padding: 8px;">${order.title}</td>
-                        <td style="border: 1px solid #ddd; padding: 8px;">${getStatusText(order.status)}</td>
-                        <td style="border: 1px solid #ddd; padding: 8px;">${assignedEmployee}</td>
-                        <td style="border: 1px solid #ddd; padding: 8px;">${order.createdAt}</td>
-                    </tr>`;
-            });
-            tableHTML += `</tbody></table>`;
-            
-            printEl.innerHTML = `
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <h2>Köln Rhein Immobilien Service</h2>
-                    <p>Dürenerstr.206-208, 50931 Köln</p>
-                    <p>Tel: 0221 123456 | E-Mail: info@koeln-rhein-immobilien.de</p>
-                </div>
-                <h1 style="text-align: center;">Auftragsübersicht</h1>
-                ${tableHTML}
-                <div style="text-align: center; font-size: 10px; margin-top: 40px; border-top: 1px solid #ccc; padding-top: 10px;">
-                    Köln Rhein Immobilien Service, Dürenerstr.206-208, 50931 Köln | Amtsgericht Köln HRB 98765 | USt-IdNr: DE987654321
-                </div>
-            `;
-            window.print();
-        }
-
-        // Initialansicht
-        showPage('login');
-
-    </script>
 </body>
 </html>
